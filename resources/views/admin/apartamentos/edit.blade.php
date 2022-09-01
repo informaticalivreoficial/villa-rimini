@@ -60,6 +60,7 @@ $config = [
         </div>
         <form action="{{ route('apartamentos.update', ['id' => $apartamento->id]) }}" method="post" enctype="multipart/form-data" autocomplete="off">
         @csrf
+        @method('PUT')
         <div class="row">            
             <div class="col-12">
                 <div class="card card-teal card-outline card-outline-tabs">
@@ -189,19 +190,19 @@ $config = [
                                         <!-- checkbox -->
                                         <div class="form-group p-3 mb-1">
                                             <div class="form-check mb-2">
-                                                <input id="ar_condicionado" class="form-check-input" type="checkbox" name="ar_condicionado" {{ (old('ar_condicionado') == 'on' || old('ar_condicionado') == true ? 'checked' : '' ) }}>
+                                                <input id="ar_condicionado" class="form-check-input" type="checkbox" name="ar_condicionado" {{ (old('ar_condicionado') == 'on' || old('ar_condicionado') == true ? 'checked' : ($apartamento->ar_condicionado == true ? 'checked' : '')) }}>
                                                 <label for="ar_condicionado" class="form-check-label">Ar Condicionado</label>
                                             </div>
                                             <div class="form-check mb-2">
-                                                <input id="cafe_manha" class="form-check-input" type="checkbox" name="cafe_manha" {{ (old('cafe_manha') == 'on' || old('cafe_manha') == true ? 'checked' : '') }}>
+                                                <input id="cafe_manha" class="form-check-input" type="checkbox" name="cafe_manha" {{ (old('cafe_manha') == 'on' || old('cafe_manha') == true ? 'checked' : ($apartamento->cafe_manha == true ? 'checked' : '')) }}>
                                                 <label for="cafe_manha" class="form-check-label">Café da manhã</label>
                                             </div>                                                                     
                                             <div class="form-check mb-2">
-                                                <input id="cofre_individual" class="form-check-input" type="checkbox" name="cofre_individual" {{ (old('cofre_individual') == 'on' || old('cofre_individual') == true ? 'checked' : '') }}>
+                                                <input id="cofre_individual" class="form-check-input" type="checkbox" name="cofre_individual" {{ (old('cofre_individual') == 'on' || old('cofre_individual') == true ? 'checked' : ($apartamento->cofre_individual == true ? 'checked' : '')) }}>
                                                 <label for="cofre_individual" class="form-check-label">Cofre Individual</label>
                                             </div>                                                                     
                                             <div class="form-check mb-2">
-                                                <input id="frigobar" class="form-check-input" type="checkbox" name="frigobar" {{ (old('frigobar') == 'on' || old('frigobar') == true ? 'checked' : '') }}>
+                                                <input id="frigobar" class="form-check-input" type="checkbox" name="frigobar" {{ (old('frigobar') == 'on' || old('frigobar') == true ? 'checked' : ($apartamento->frigobar == true ? 'checked' : '')) }}>
                                                 <label for="frigobar" class="form-check-label">Frigobar</label>
                                             </div>                                                                     
                                         </div>
@@ -210,19 +211,19 @@ $config = [
                                         <!-- checkbox -->
                                         <div class="form-group p-3 mb-1">  
                                             <div class="form-check mb-2">
-                                                <input id="servico_quarto" class="form-check-input" type="checkbox"  name="servico_quarto" {{ (old('servico_quarto') == 'on' || old('servico_quarto') == true ? 'checked' : '' ) }}>
+                                                <input id="servico_quarto" class="form-check-input" type="checkbox"  name="servico_quarto" {{ (old('servico_quarto') == 'on' || old('servico_quarto') == true ? 'checked' : ($apartamento->servico_quarto == true ? 'checked' : '') ) }}>
                                                 <label for="servico_quarto" class="form-check-label">Serviço de Quarto</label>
                                             </div>
                                             <div class="form-check mb-2">
-                                                <input id="telefone" class="form-check-input" type="checkbox"  name="telefone" {{ (old('telefone') == 'on' || old('telefone') == true ? 'checked' : '' ) }}>
+                                                <input id="telefone" class="form-check-input" type="checkbox"  name="telefone" {{ (old('telefone') == 'on' || old('telefone') == true ? 'checked' : ($apartamento->telefone == true ? 'checked' : '') ) }}>
                                                 <label for="telefone" class="form-check-label">Telefone</label>
                                             </div>                                          
                                             <div class="form-check mb-2">
-                                                <input id="estacionamento" class="form-check-input" type="checkbox"  name="estacionamento" {{ (old('estacionamento') == 'on' || old('estacionamento') == true ? 'checked' : '' ) }}>
+                                                <input id="estacionamento" class="form-check-input" type="checkbox"  name="estacionamento" {{ (old('estacionamento') == 'on' || old('estacionamento') == true ? 'checked' : ($apartamento->estacionamento == true ? 'checked' : '')) }}>
                                                 <label for="estacionamento" class="form-check-label">Estacionamento</label>
                                             </div>                                            
                                             <div class="form-check mb-2">
-                                                <input id="espaco_fitness" class="form-check-input" type="checkbox"  name="espaco_fitness" {{ (old('espaco_fitness') == 'on' || old('espaco_fitness') == true ? 'checked' : '' ) }}>
+                                                <input id="espaco_fitness" class="form-check-input" type="checkbox"  name="espaco_fitness" {{ (old('espaco_fitness') == 'on' || old('espaco_fitness') == true ? 'checked' : ($apartamento->espaco_fitness == true ? 'checked' : '')) }}>
                                                 <label for="espaco_fitness" class="form-check-label">Espaço Fitness</label>
                                             </div>                                            
                                         </div>
@@ -231,15 +232,15 @@ $config = [
                                         <!-- checkbox -->
                                         <div class="form-group p-3 mb-1">                                            
                                             <div class="form-check mb-2">
-                                                <input id="lareira" class="form-check-input" type="checkbox"  name="lareira" {{ (old('lareira') == 'on' || old('lareira') == true ? 'checked' : '') }}>
+                                                <input id="lareira" class="form-check-input" type="checkbox"  name="lareira" {{ (old('lareira') == 'on' || old('lareira') == true ? 'checked' : ($apartamento->lareira == true ? 'checked' : '')) }}>
                                                 <label for="lareira" class="form-check-label">Lareira</label>
                                             </div>
                                             <div class="form-check mb-2">
-                                                <input id="elevador" class="form-check-input" type="checkbox"  name="elevador" {{ (old('elevador') == 'on' || old('elevador') == true ? 'checked' : '') }}>
+                                                <input id="elevador" class="form-check-input" type="checkbox"  name="elevador" {{ (old('elevador') == 'on' || old('elevador') == true ? 'checked' : ($apartamento->elevador == true ? 'checked' : '')) }}>
                                                 <label for="elevador" class="form-check-label">Elevador</label>
                                             </div>
                                             <div class="form-check mb-2">
-                                                <input id="vista_para_mar" class="form-check-input" type="checkbox"  name="vista_para_mar" {{ (old('vista_para_mar') == 'on' || old('vista_para_mar') == true ? 'checked' : '' ) }}>
+                                                <input id="vista_para_mar" class="form-check-input" type="checkbox"  name="vista_para_mar" {{ (old('vista_para_mar') == 'on' || old('vista_para_mar') == true ? 'checked' : ($apartamento->vista_para_mar == true ? 'checked' : '')) }}>
                                                 <label for="vista_para_mar" class="form-check-label">Vista para o Mar</label>
                                             </div>
                                             <div class="form-check mb-2">
@@ -252,7 +253,7 @@ $config = [
                                         <!-- checkbox -->
                                         <div class="form-group p-3 mb-1"> 
                                             <div class="form-check mb-2">
-                                                <input id="wifi" class="form-check-input" type="checkbox"  name="wifi" {{ (old('wifi') == 'on' || old('wifi') == true ? 'checked' : '' ) }}>
+                                                <input id="wifi" class="form-check-input" type="checkbox"  name="wifi" {{ (old('wifi') == 'on' || old('wifi') == true ? 'checked' : ($apartamento->wifi == true ? 'checked' : '') ) }}>
                                                 <label for="wifi" class="form-check-label">Wifi</label>
                                             </div>                                                
                                         </div>
@@ -420,14 +421,26 @@ $config = [
 <script src="{{url(asset('backend/assets/js/jquery.mask.js'))}}"></script>
 <script>
     $(document).ready(function () { 
-        var $zipcode = $(".mask-zipcode");
-        $zipcode.mask('00.000-000', {reverse: true});
         var $money = $(".mask-money");
         $money.mask('R$ 000.000.000.000.000,00', {reverse: true, placeholder: "R$ 0,00"});
     });
 </script> 
 <script>
     $(function () {
+        
+        $('.image-set-cover').click(function (event) {
+            event.preventDefault();
+            var button = $(this);
+            $.post(button.data('action'), {}, function (response) {
+                if (response.success === true) {
+                    $('.property_image').find('a.btn-success').removeClass('btn-success');
+                    button.addClass('btn-success');
+                }
+                if(response.success === false){
+                    button.addClass('btn-default');
+                }
+            }, 'json');
+        });
         
         $('input[name="files[]"]').change(function (files) {
 
@@ -440,7 +453,7 @@ $config = [
                         '<div id="list" class="property_image_item">' +
                         '<div class="embed radius" style="background-image: url(' + value.target.result + '); background-size: cover; background-position: center center;"></div>' +
                         '<div class="property_image_actions">' +
-                            '<a href="javascript:void(0)" class="btn btn-danger btn-xs image-remove px-2"><i class="nav-icon fas fa-times"></i> </a>' +
+                            '<a href="javascript:void(0)" class="btn btn-danger btn-xs image-remove1 px-2"><i class="nav-icon fas fa-times"></i> </a>' +
                         '</div>' +
                         '</div>');
 
@@ -449,6 +462,32 @@ $config = [
                     });
                 };
                 reader.readAsDataURL(value);
+            });
+        });
+        
+        $('.image-remove').click(function(event){
+            event.preventDefault();
+
+            var button = $(this);
+
+            $.ajax({
+                url: button.data('action'),
+                type: 'DELETE',
+                dataType: 'json',
+                success: function(response){
+                    if(response.success === true) {
+                        button.closest('.property_image_item').fadeOut(function(){
+                            $(this).remove();
+                        });
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox({
+            alwaysShowClose: true
             });
         });
         
