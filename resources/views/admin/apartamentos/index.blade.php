@@ -56,7 +56,6 @@
                         <td class="text-center">{{$imovel->views}}</td>
                         <td class="acoes">
                             <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $imovel->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $imovel->status == true ? 'checked' : ''}}>
-                            <button data-toggle="tooltip" data-placement="top" title="Inserir Marca D'agua" type="button" class="btn btn-xs btn-secondary text-white j_marcadagua {{$imovel->id}} @php if($imovel->imagesmarcadagua() >= 1){echo '';}else{echo 'disabled';}  @endphp" id="{{$imovel->id}}" data-id="{{$imovel->id}}"><i class="fas fa-copyright icon{{$imovel->id}}"></i></button>
                             <a target="_blank" data-toggle="tooltip" data-placement="top" title="Visualizar Imóvel" class="btn btn-xs btn-info text-white" href="{{ route('web.apartamento', ['slug' => $imovel->slug]) }}" title="{{$imovel->titulo}}"><i class="fas fa-search"></i></a>                            
                             <a data-toggle="tooltip" data-placement="top" title="Editar Imóvel" href="{{route('apartamentos.edit',$imovel->id)}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                             <button data-placement="top" title="Remover Imóvel" type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$imovel->id}}" data-toggle="modal" data-target="#modal-default"><i class="fas fa-trash"></i></button>
@@ -123,37 +122,6 @@
               $(this).ekkoLightbox({
                 alwaysShowClose: true
               });
-            });
-
-            // FUNÇÃO MARCA DAGUA
-            $('.j_marcadagua').click(function(){
-                var imovel_id = $(this).data('id');
-                $.ajax({
-                    type: 'GET',
-                    dataType: 'JSON',
-                    url: "{{ route('apartamentos.marcadagua') }}",
-                    data: {
-                       'id': imovel_id
-                    },
-                    beforeSend:function(){
-                        $('[data-toggle="tooltip"]').tooltip("hide");
-                        $('.icon'+imovel_id).hide();
-                        $('.'+imovel_id).html("<img style='width:16px;' src='{{url(asset('backend/assets/images/loading.gif'))}}' />");
-                    },
-                    complete: function(){
-                        $('[data-toggle="tooltip"]').tooltip("hide"); 
-                        $('.'+imovel_id).html("<i class='fas fa-copyright icon'></i>");                                  
-                    },
-                    success:function(data){
-                        if(data.success){
-                            toastr.success(data.success);
-                            $('#'+imovel_id).prop('disabled', true);
-                            $('[data-toggle="tooltip"]').tooltip("hide");
-                        }else{
-                            toastr.error(data.error);
-                        }                        
-                    }
-                });
             });
             
             //FUNÇÃO PARA EXCLUIR

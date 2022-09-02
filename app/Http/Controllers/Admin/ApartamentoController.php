@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ApartamentoRequest;
 use App\Models\Apartamento;
 use App\Models\ApartamentoGb;
+use App\Models\Configuracoes;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Image;
 
 class ApartamentoController extends Controller
 {
@@ -157,32 +160,38 @@ class ApartamentoController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function imageWatermark(Request $request)
+    public function delete(Request $request)
     {
-        $apartamento = Apartamento::where('id', $id)->first();
-        $apartamento->fill($request->all());
-        $imagensGallery = ApartamentoGb::where('apartamento', $request->id)->get();        
-        if(!empty($apartamento->marcadagua) && !empty($imagensGallery)){
-            foreach($imagensGallery as $imagem){   
-                $img = Image::make(Storage::get($imagem->path));  
-                /* insert watermark at bottom-right corner with 10px offset */
-                $img->insert(Storage::get($apartamento->marcadagua), 'bottom-right', 10, 10);                
-                $img->save(storage_path('app/public/'.$imagem->path));
-                $img->encode('png');  
-            }
-            $affected = DB::table('apartamento_gbs')
-                    ->where('apartamento', '=', $request->id)
-                    ->update(array('marcadagua' => 1));            
-            unset($affected);
-
-            $apartamento->exibirmarcadagua = 1;
-            $apartamento->save();
-
-            $json = "Marca D´agua inserida com sucesso!";
-            return response()->json(['success' => $json]);
+        $apartamento = Apartamento::find($request->id);
+        $apartamentoGb = ApartamentoGb::where('apartamento', $request->id)->first();
+        $nome = \App\Helpers\Renato::getPrimeiroNome(Auth::user()->name);
+        if(!empty($apartamento) && !empty($apartamentoGb)){
+            $json = "<b>$nome</b> você tem certeza que deseja excluir este apartamento? Ele possui imagens e todas serão excluídas!";
+            return response()->json(['error' => $json,'id' => $apartamento->id]);
+        }elseif(!empty($apartamento) && empty($apartamentoGb)){
+            $json = "<b>$nome</b> você tem certeza que deseja excluir este apartamento?";
+            return response()->json(['error' => $json,'id' => $apartamento->id]);
         }else{
-             $json = "Erro ao inserir a Marca D´agua!";
-             return response()->json(['error' => $json]);
+            return response()->json(['success' => true]);
         }
+    }
+    
+    public function deleteon(Request $request)
+    {
+        $apartamento = Apartamento::find($request->apartamento_id);
+        $imageDelete = ApartamentoGb::where('apartamento', $request->apartamento_id)->get();
+        $apartamentoR = $apartamento->titulo;
+        if(!empty($apartamento)){
+            if(!empty($imageDelete)){
+                foreach($imageDelete as $imgGB){
+                    Storage::delete($imgGB->path);
+                    $imgGB->delete();
+                }                
+                Storage::deleteDirectory('apartamentos/'. $request->apartamento_id);
+                $apartamento->delete();
+            }
+            $apartamento->delete();
+        }
+        return redirect()->route('apartamentos.index')->with(['color' => 'success', 'message' => 'O apartamento '.$apartamentoR.' foi removido com sucesso!']);
     }
 }

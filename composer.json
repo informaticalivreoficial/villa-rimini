@@ -10,6 +10,7 @@
         "coffeecode/optimizer": "^2.0.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "intervention/image": "^2.5",
         "jeroennoten/laravel-adminlte": "^3.7",
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",

@@ -256,21 +256,7 @@ $config = [
                             </div>
                             
                             <div class="tab-pane fade" id="custom-tabs-four-settings" role="tabpanel" aria-labelledby="custom-tabs-four-settings-tab">
-                                <div class="row mb-4">
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6"> 
-                                        <div class="form-group">
-                                            <label class="labelforms"><b>Deseja exibir uma Marca D'agua? </b><small class="text-info">(esta opção permite inserir uma marca em todas as imagens)</small></label>
-                                            <div class="form-check">
-                                                <input id="exibirmarcadaguasim" class="form-check-input" type="radio" value="1" name="exibirmarcadagua" {{(old('exibirmarcadagua') == '1' ? 'checked' : '')}}>
-                                                <label for="exibirmarcadaguasim" class="form-check-label mr-5">Sim</label>
-                                                <input id="exibirmarcadaguanao" class="form-check-input" type="radio" value="0" name="exibirmarcadagua" {{(old('exibirmarcadagua') == '0' ? 'checked' : '')}}>
-                                                <label for="exibirmarcadaguanao" class="form-check-label">Não</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6">   
-                                                                                            
-                                    </div>
+                                <div class="row mb-4">                                   
                                     <div class="col-sm-12">                                        
                                         <div class="form-group">
                                             <div class="custom-file">
