@@ -40,6 +40,7 @@
                         <th>Título</th>
                         <th>Fotos</th>
                         <th>Views</th>
+                        <th>Exibir na Home</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -54,6 +55,7 @@
                         <td>{{$imovel->titulo}}</td>
                         <td class="text-center">{{$imovel->countimages()}}</td>
                         <td class="text-center">{{$imovel->views}}</td>
+                        <td class="text-center">{{($imovel->exibir_home == 1 ? 'Sim' : 'Não')}}</td>
                         <td class="acoes">
                             <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $imovel->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $imovel->status == true ? 'checked' : ''}}>
                             <a target="_blank" data-toggle="tooltip" data-placement="top" title="Visualizar Imóvel" class="btn btn-xs btn-info text-white" href="{{ route('web.apartamento', ['slug' => $imovel->slug]) }}" title="{{$imovel->titulo}}"><i class="fas fa-search"></i></a>                            
@@ -108,6 +110,35 @@
 @endsection
 
 @section('css')
+<style>
+    .pagination-custom{
+            margin: 0;
+            display: -ms-flexbox;
+            display: flex;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
+        }
+        .pagination-custom li a {
+            border-radius: 30px;
+            margin-right: 8px;
+            color:#7c7c7c;
+            border: 1px solid #ddd;
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            line-height: 25px;
+            font-weight: 600;
+        }
+        .pagination-custom>.active>a, .pagination-custom>.active>a:hover, .pagination-custom>li>a:hover {
+            color: #fff;
+            background: #007bff;
+            border: 1px solid transparent;
+        }
+</style>
 <link href="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.css'))}}" rel="stylesheet">
 @stop
  

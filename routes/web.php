@@ -32,6 +32,10 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
     Route::get('/blog', [WebController::class, 'artigos'])->name('blog.artigos');
     Route::match(['get', 'post'],'/blog/pesquisar', [WebController::class, 'searchBlog'])->name('blog.searchBlog');
 
+    //*************************************** Acomodações *******************************************/
+    Route::get('/acomodacoes', [WebController::class, 'acomodacoes'])->name('acomodacoes');
+    Route::get('/acomodacao/{slug}', [WebController::class, 'acomodacao'])->name('acomodacao');
+
     //*************************************** Páginas *******************************************/
     Route::get('/pagina/{slug}', [WebController::class, 'pagina'])->name('pagina');
     Route::get('/noticia/{slug}', [WebController::class, 'noticia'])->name('noticia');
@@ -48,10 +52,7 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
     Route::get('/sendEmailParceiro', [SendEmailController::class, 'sendEmailParceiro'])->name('sendEmailParceiro');
     Route::get('/parceiro/{slug}', [WebController::class, 'parceiro'])->name('parceiro');
     Route::get('/parceiros', [WebController::class, 'parceiros'])->name('parceiros');
-
-    //****************************** Apartamentos *********************************************/
-    Route::get('/apartamento/{slug}', [WebController::class, 'apartamento'])->name('apartamento');
-
+    
 });
 
 Route::prefix('admin')->middleware('auth')->group( function(){

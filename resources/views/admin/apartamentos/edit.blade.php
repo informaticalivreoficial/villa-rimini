@@ -85,19 +85,29 @@ $config = [
                         <div class="tab-content" id="custom-tabs-four-tabContent">
                             <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
                                 <div class="row mb-2 text-muted">                                   
-                                    <div class="col-12 col-md-6 col-lg-6">   
+                                    <div class="col-12 col-md-4 col-lg-4">   
                                         <div class="form-group">
                                             <label class="labelforms"><b>*Título</b></label>
                                             <input type="text" class="form-control" name="titulo" value="{{old('titulo') ?? $apartamento->titulo}}">
                                         </div>                                                    
                                     </div>
-                                    <div class="col-12 col-md-6 col-lg-6">   
+                                    <div class="col-12 col-md-4 col-lg-4">   
                                         <div class="form-group">
                                             <label class="labelforms"><b>Leitos</b></label>
                                             <input type="text" class="form-control" name="dormitorios" value="{{old('dormitorios') ?? $apartamento->dormitorios}}">
                                         </div>                                                    
                                     </div>                                                                      
-                                    
+                                    <div class="col-12 col-md-4 col-lg-4"> 
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>Deseja exibir na Home?</b></label>
+                                            <div class="form-check">
+                                                <input id="exibir_homesim" class="form-check-input" type="radio" value="1" name="exibir_home" {{(old('exibir_home') == '1' ? 'checked' : ($apartamento->exibir_home == '1' ? 'checked' : ''))}}>
+                                                <label for="exibir_homesim" class="form-check-label mr-5">Sim</label>
+                                                <input id="exibir_homenao" class="form-check-input" type="radio" value="0" name="exibir_home" {{(old('exibir_home') == '0' ? 'checked' : ($apartamento->exibir_home == '0' ? 'checked' : ''))}}>
+                                                <label for="exibir_homenao" class="form-check-label">Não</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>                              
                                 <div id="accordion">
                                     <!-- we are adding the .class so bootstrap.js collapse plugin detects it -->

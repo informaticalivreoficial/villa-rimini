@@ -124,14 +124,14 @@
                             </div>                            
                             <div class="navbar-collapse collapse" id="navbar">
                                 <ul class="nav navbar-nav">								
-                                    <li><a href="" title="Acomodações">Acomodações</a></li> 
+                                    <li><a href="{{route('web.acomodacoes')}}" title="Acomodações">Acomodações</a></li> 
                                     @if (!empty($viewPaginas) && $viewPaginas->count() > 0)
                                         @foreach($viewPaginas as $paginas)
-                                            <li><a href="" title="Acomodações">{{$paginas->titulo}}</a></li>
+                                            <li><a href="{{route('web.pagina', ['slug' => $paginas->slug])}}" title="Acomodações">{{$paginas->titulo}}</a></li>
                                         @endforeach
                                     @endif                                   
                                     <li class="dropdown active">
-                                        <a href="" title="Atendimento" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Atendimento</a>									
+                                        <a href="{{route('web.atendimento')}}" title="Atendimento" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Atendimento</a>									
                                     </li>
                                 </ul>
                             </div>                            

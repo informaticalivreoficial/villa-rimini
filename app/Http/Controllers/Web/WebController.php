@@ -10,6 +10,7 @@ use App\Mail\Web\AtendimentoRetorno;
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\{
+    Apartamento,
     Post,
     CatPost,
     Estados,
@@ -35,22 +36,27 @@ class WebController extends Controller
 
     public function home()
     {
-        $noticiasMain = Post::orderBy('created_at', 'DESC')->where('tipo', 'noticia')
-                        ->postson()
-                        ->limit(6)
-                        ->get();
-        $noticiasSidebar = Post::orderBy('created_at', 'DESC')->where('tipo', 'noticia')
-                        ->postson()
-                        ->skip(5)
-                        ->take(7)
-                        ->get();
-        $noticiasVistos = Post::where('created_at', '>', Carbon::now()->subMonths(6))
-                        ->where('tipo', 'noticia')
-                        ->postson()
-                        ->limit(3)
-                        ->get(); 
+        $apartamento = Apartamento::available()
+                    ->where('exibir_home', 1)
+                    ->inRandomOrder()
+                    ->limit(1)
+                    ->get();
+        $paginas = Post::orderBy('created_at', 'DESC')->where('tipo', 'pagina')
+                    ->where('menu', 1)
+                    ->postson()
+                    ->limit(2)
+                    ->inRandomOrder()
+                    ->get();
+        $paginasFull = Post::orderBy('created_at', 'DESC')->where('tipo', 'pagina')
+                    ->where('menu', 1)
+                    ->postson()
+                    ->skip(2)->limit(1)->inRandomOrder()
+                    ->get();
 
-        $slides = Slide::orderBy('created_at', 'DESC')->available()->where('expira', '>=', Carbon::now())->get();       
+        $slides = Slide::orderBy('created_at', 'DESC')
+                    ->available()
+                    ->where('expira', '>=', Carbon::now())
+                    ->get();       
         
         $head = $this->seo->render($this->configService->getConfig()->nomedosite ?? 'Informática Livre',
             $this->configService->getConfig()->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
@@ -59,11 +65,11 @@ class WebController extends Controller
         ); 
 
 		return view('web.home',[
-            'head' => $head,
-            'noticiasMain' => $noticiasMain,
-            'noticiasSidebar' => $noticiasSidebar,
-            'noticiasVistos' => $noticiasVistos,
-            'slides' => $slides
+            'head' => $head,            
+            'slides' => $slides,
+            'apartamento' => $apartamento,
+            'paginasFull' => $paginasFull,
+            'paginas' => $paginas
 		]);
     }
 
@@ -94,101 +100,7 @@ class WebController extends Controller
         ]);
     }
 
-    public function artigos()
-    {
-        $posts = Post::orderBy('created_at', 'DESC')->where('tipo', '=', 'artigo')->postson()->paginate(10);
-        $categorias = CatPost::orderBy('titulo', 'ASC')->where('tipo', 'artigo')->get();
-        $head = $this->seo->render('Blog - ' . $this->configService->getConfig()->nomedosite ?? 'Informática Livre',
-            'Blog - ' . $this->configService->getConfig()->nomedosite,
-            route('web.blog.artigos'),
-            $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
-        );
-        return view('web.blog.artigos', [
-            'head' => $head,
-            'posts' => $posts,
-            'categorias' => $categorias
-        ]);
-    }
-
-    public function artigo(Request $request)
-    {
-        $post = Post::where('slug', $request->slug)->postson()->first();
-        
-        $categorias = CatPost::orderBy('titulo', 'ASC')
-            ->where('tipo', 'artigo')
-            ->get();
-        $postsMais = Post::orderBy('views', 'DESC')
-            ->where('id', '!=', $post->id)
-            ->where('tipo', 'artigo')
-            ->limit(4)
-            ->postson()
-            ->get();
-        
-        $post->views = $post->views + 1;
-        $post->save();
-
-        $head = $this->seo->render($post->titulo ?? 'Informática Livre',
-            $post->titulo,
-            route('web.blog.artigo', ['slug' => $post->slug]),
-            $post->cover() ?? $this->configService->getMetaImg()
-        );
-
-        return view('web.blog.artigo', [
-            'head' => $head,
-            'post' => $post,
-            'postsMais' => $postsMais,
-            'categorias' => $categorias
-        ]);
-    }
-
-    public function noticia($slug)
-    {
-        $post = Post::where('slug', $slug)->where('tipo', 'noticia')->postson()->first();
-
-        $parceiros = Parceiro::orderBy('views', 'DESC')->available()->limit(6)->get();
-        
-        $postsMais = Post::orderBy('views', 'DESC')
-            ->where('id', '!=', $post->id)
-            ->where('tipo', 'noticia')
-            ->limit(6)
-            ->postson()
-            ->get();        
-        
-        $post->views = $post->views + 1;
-        $post->save();        
-        
-        $head = $this->seo->render($post->titulo ?? 'Informática Livre',
-            $post->titulo,
-            route('web.noticia', ['slug' => $post->slug]),
-            $post->cover() ?? $this->configService->getMetaImg()
-        );
-
-        return view('web.blog.artigo', [
-            'head' => $head,
-            'post' => $post,
-            'parceiros' => $parceiros,
-            'postsMais' => $postsMais
-        ]);
-    }
-
-    public function categoria(Request $request)
-    {
-        $categoria = CatPost::where('slug', '=', $request->slug)->first();
-        $posts = Post::orderBy('created_at', 'DESC')->where('categoria', '=', $categoria->id)->postson()->paginate(10);
-        $type = ($categoria->tipo == 'noticia' ? 'Notícias' : 'Artigos');
-        $head = $this->seo->render($categoria->titulo . ' - ' . $type . ' - ' . $this->configService->getConfig()->nomedosite ?? 'Informática Livre',
-            $categoria->titulo . ' - Blog - ' . $this->configService->getConfig()->nomedosite,
-            route('web.blog.categoria', ['slug' => $request->slug]),
-            $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
-        );
-        
-        return view('web.blog.categoria', [
-            'head' => $head,
-            'posts' => $posts,
-            'categoria' => $categoria,
-            'type' => $type,
-        ]);
-    }
+    
 
     public function pesquisa(Request $request)
     {
@@ -243,8 +155,7 @@ class WebController extends Controller
             'post' => $post,
             'clientesCount' => $clientesCount
         ]);
-    }
-    
+    }    
     
     public function atendimento()
     {
@@ -259,31 +170,45 @@ class WebController extends Controller
         ]);
     }
 
-    
+    public function acomodacoes()
+    {
+        $acomodacoes = Apartamento::available()->get();
+        $head = $this->seo->render('Acomodações - ' . $this->configService->getConfig()->nomedosite,
+            $this->configService->getConfig()->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
+            route('web.acomodacoes'),
+            $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
+        );
+        return view('web.acomodacoes.index',[
+            'head' => $head,
+            'acomodacoes' => $acomodacoes
+        ]);
+    }
 
-    
+    public function acomodacao($slug)
+    {
+        $acomodacao = Apartamento::where('slug', $slug)->available()->first();
+        $acomodacoes = Apartamento::where('id', '!=', $acomodacao->id)->available()->get();
 
-    // public function sendNewsletter(Request $request)
-    // {
-    //     if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
-    //         $json = "O campo <strong>Email</strong> está vazio ou não tem um formato válido!";
-    //         return response()->json(['error' => $json]);
-    //     }
-    //     if(!empty($request->bairro) || !empty($request->cidade)){
-    //         $json = "<strong>ERRO</strong> Você está praticando SPAM!"; 
-    //         return response()->json(['error' => $json]);
-    //     }else{   
-    //         $validaNews = Newsletter::where('email', $request->email)->first();            
-    //         if(!empty($validaNews)){
-    //             Newsletter::where('email', $request->email)->update(['status' => 1]);
-    //             $json = "Seu e-mail já está cadastrado!"; 
-    //             return response()->json(['sucess' => $json]);
-    //         }else{
-    //             $NewsletterCreate = Newsletter::create($request->all());
-    //             $NewsletterCreate->save();
-    //             $json = "Obrigado Cadastrado com sucesso!"; 
-    //             return response()->json(['sucess' => $json]);
-    //         }            
-    //     }
-    // }
+        $postsTags = Post::orderBy('views', 'DESC')
+            ->where('tags', '!=', '')
+            ->where('id', '!=', $acomodacao->id)
+            ->postson()
+            ->limit(11)
+            ->get();
+
+        $acomodacao->views = $acomodacao->views + 1;
+        $acomodacao->save();
+
+        $head = $this->seo->render($acomodacao->titulo . ' - ' . $this->configService->getConfig()->nomedosite,
+            $acomodacao->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
+            route('web.acomodacao', ['slug' => $acomodacao->slug]),
+            $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
+        );
+        return view('web.acomodacoes.acomodacao',[
+            'head' => $head,
+            'acomodacao' => $acomodacao,
+            'acomodacoes' => $acomodacoes,
+            'postsTags' => $postsTags,
+        ]);
+    }
 }

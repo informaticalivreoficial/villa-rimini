@@ -108,73 +108,45 @@
         <!-- container -->
         <div class="container">				
             <div class="offer-list">
-                <?php
-                //    $readApartament = read('apartamentos',"WHERE status = '1' AND exibir_home = '1' ORDER BY visitas ASC LIMIT 1");
-                //    foreach($readApartament as $apartament);
-                //    if(!$apartament){
-                //         echo '';
-                //    }else{
-                //     echo '<a href="'.BASE.'/pagina/acomodacoes" title="'.$apartament['apart_nome'].'">';    
-                //     echo '<div class="offer-box tall" style="height: auto;">';
-                //     if($apartament['capa_da_home'] == ''):
-                //         echo '<img src="'.BASE.'/tim.php?src='.BASE.'/admin/images/image.jpg&w=385&h=599&q=100&zc=1" alt="'.$apartament['apart_nome'].'" />';
-                //     else:
-                //         echo '<img style="offer-box1" src="'.BASE.'/tim.php?src='.BASE.'/uploads/apartamentos/'.$apartament['capa_da_home'].'&w=385&h=599&q=100&zc=1" alt="'.$apartament['apart_nome'].'" />';
-                //     endif;                
-                //     //echo '<div class="offer-detail">';
-                //     //echo '<h3>Acomodações</h3><br />';
-                //     //echo '<div class="price-detail">';
-                //     //echo '<a title="'.$apartament['apart_nome'].'" href="'.BASE.'/pagina/acomodacoes">Ver Tudo <i class="fa fa-long-arrow-right"></i></a>';
-                //     echo '</div>';
-                //     //echo '</div>';
-                //     //echo '</div>';
-                //     echo '</a>';    
-                //    }
-                ?>
+                @if (!empty($apartamento) && $apartamento->count() > 0)                    
+                    <a href="{{route('web.acomodacao', ['slug' => $apartamento[0]->slug])}}" title="{{$apartamento[0]->titulo}}">
+                        <div class="offer-box tall" style="height: auto;">
+                            <img style="min-height:599px;" style="offer-box1" src="{{$apartamento[0]->cover()}}" alt="{{$apartamento[0]->titulo}}">
+                        </div>
+                    </a>                                        
+                @endif
                 
-                <?php
-                //    $readPaginas = read('posts',"WHERE status = '1' AND tipo = 'pagina' AND secao = '0' ORDER BY visitas DESC LIMIT 2");
-                //    foreach($readPaginas as $pagina1);
-                //    if(!$pagina1){
-                //         echo '';
-                //    }else{
-                //         foreach($readPaginas as $pagina):
-                //         echo '<a title="'.$pagina['titulo'].'" href="'.BASE.'/sessao/'.$pagina['url'].'">';
-                //         echo '<div class="offer-box wide">';
-                //         echo '<img src="'.BASE.'/tim.php?src='.BASE.'/uploads/paginas/capas/'.$pagina['thumb'].'&w=777&h=296&q=100&zc=1" alt="'.$pagina['titulo'].'" />';
-                //         //echo '<div class="offer-detail">';
-                //         //echo '<h3>'.$pagina['titulo'].'</h3>';
-                //         //echo '<div class="price-detail">								';
-                //         //echo '<a class="read-more" title="'.$pagina['titulo'].'" href="'.BASE.'/sessao/'.$pagina['url'].'">+ Detalhes <i class="fa fa-long-arrow-right"></i></a>';
-                //         //echo '</div>';
-                //         //echo '</div>';
-                //         echo '</div>';
-                //         echo '</a>';
-                //         endforeach;
-                //    }
-                ?>
-                
-                <?php
-                //    $readPagina = read('posts',"WHERE status = '1' AND tipo = 'pagina' AND secao = '0' ORDER BY visitas DESC LIMIT 2,1");
-                //    foreach($readPagina as $pagina11);
-                //    if(!$pagina11){
-                //         echo '';
-                //    }else{
-                        
-                //         echo '<a title="'.$pagina11['titulo'].'" href="'.BASE.'/sessao/'.$pagina11['url'].'">';
-                //         echo '<div class="offer-box full">';
-                //         echo '<img src="'.BASE.'/tim.php?src='.BASE.'/uploads/paginas/capas/'.$pagina11['thumb'].'&w=1170&h=300&q=100&zc=1" alt="'.$pagina11['titulo'].'" />';
-                //         //echo '<div class="offer-detail">';
-                //         //echo '<h3>'.$pagina11['titulo'].'</h3>';
-                //         //echo '<div class="price-detail">								';
-                //         //echo '<a class="read-more" title="'.$pagina11['titulo'].'" href="'.BASE.'/sessao/'.$pagina11['url'].'">+ Detalhes <i class="fa fa-long-arrow-right"></i></a>';
-                //         //echo '</div>';
-                //         //echo '</div>';
-                //         echo '</div>';
-                //         echo '</a>';
-                        
-                //    }
-                ?>
+                @if (!empty($paginas) && $paginas->count() > 0)
+                    @foreach($paginas as $pagina)
+                        <a title="{{$pagina->titulo}}" href="{{route('web.pagina', ['slug' => $pagina->slug])}}">
+                            <div class="offer-box wide">
+                                <img class="imful1" src="{{$pagina->cover()}}" alt="{{$pagina->titulo}}" />
+                                <div class="offer-detail">
+                                    {{--<h3>{{$pagina->titulo}}</h3>
+                                    <div class="price-detail">								
+                                        <a class="read-more" title="{{$pagina->titulo}}" href="">+ Detalhes <i class="fa fa-long-arrow-right"></i></a>
+                                    </div>--}}
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                @endif
+
+                @if (!empty($paginasFull) && $paginas->count() > 0)
+                    @foreach($paginasFull as $pagina)
+                        <a title="{{$pagina->titulo}}" href="{{route('web.pagina', ['slug' => $pagina->slug])}}">
+                            <div class="offer-box full">
+                                <img class="imful" src="{{$pagina->cover()}}" alt="{{$pagina->titulo}}" />
+                                <div class="offer-detail">
+                                    {{--<h3>{{$pagina->titulo}}</h3>
+                                    <div class="price-detail">								
+                                        <a class="read-more" title="{{$pagina->titulo}}" href="">+ Detalhes <i class="fa fa-long-arrow-right"></i></a>
+                                    </div>--}}
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                @endif
                 
             </div>
         </div><!-- container /- -->
@@ -314,128 +286,6 @@
     
     
     </main>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="mainWrapper">
-    <div class="container">
-        <div class="pageContentArea clearfix">            
-            <main>    
-                @if (!empty($noticiasMain) && $noticiasMain->count() > 0)
-                    @foreach ($noticiasMain as $noticia)
-                        <article itemscope itemtype="https://schema.org/Article">
-                            <figure>
-                                <img itemprop="image" title="{{ $noticia->titulo }}" alt="{{ $noticia->titulo }}" src="{{ $noticia->cover() }}">
-                            </figure>
-                            <header>
-                                <h1>
-                                    <a itemprop="mainEntytiOfPage" href="{{route('web.noticia', ['slug' => $noticia->slug ])}}">
-                                        <span itemprop="headline">{{ $noticia->titulo }}</span>
-                                    </a>
-                                </h1>
-                                <time datetime="{{ Carbon\Carbon::parse($noticia->created_at)->format('Y-m-d') }}" itemprop="datePublished">{{ Carbon\Carbon::parse($noticia->created_at)->formatLocalized('%d, %B %Y') }}</time>
-                                <time class="ds_none" datetime="{{ Carbon\Carbon::parse($noticia->updated_at)->format('Y-m-d') }}" itemprop="dateModified">{{ Carbon\Carbon::parse($noticia->updated_at)->format('d/m/Y') }}</time>
-                                <span class="ds_none" itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">{{$noticia->user->name}}</span></span>
-                                <span class="ds_none" itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
-                                    <span itemprop="name">{{$configuracoes->nomedosite}}</span>
-                                    <span itemprop="Logo" itemscope itemtype="https://schema.org/ImageObject">
-                                        <img itemprop="contentUrl" src="{{ $noticia->cover() }}"/>
-                                    </span>
-                                </span>
-                                <div class="specialContent">
-                                    <div class="shareWrapper">
-                                        <a href="{{route('web.noticia', ['slug' => $noticia->slug ])}}"></a>
-                                    </div>
-                                    <a class="cat-tag" href="{{route('web.blog.categoria', [ 'slug' => $noticia->categoriaObject->slug ])}}">{{$noticia->categoriaObject->titulo}}</a>
-                                </div>
-                            </header>
-                        </article>
-                    @endforeach
-                @endif 
-                </main>
-        
-            <aside class="sidebar">                    
-                <div class="widget widget_timeline">
-                    <div class="timeline-wrap">
-                        @if (!empty($noticiasSidebar) && $noticiasSidebar->count() > 0)
-                            @foreach ($noticiasSidebar as $noticia)
-                            <article itemscope itemtype="https://schema.org/Article">
-                                <figure>
-                                    <img itemprop="image" title="{{ $noticia->titulo }}" alt="{{ $noticia->titulo }}" src="{{ $noticia->cover() }}">
-                                </figure>
-                                <header>
-                                    <h3>
-                                        <a itemprop="mainEntytiOfPage" href="{{route('web.noticia', ['slug' => $noticia->slug ])}}">
-                                            <span itemprop="headline">{{ $noticia->titulo }}</span>
-                                        </a>
-                                    </h3>
-                                    <time itemprop="datePublished" datetime="{{ Carbon\Carbon::parse($noticia->created_at)->format('Y-m-d') }}">{{ Carbon\Carbon::parse($noticia->created_at)->formatLocalized('%d, %B %Y') }}</time>                                
-                                    <time class="ds_none" datetime="{{ Carbon\Carbon::parse($noticia->updated_at)->format('Y-m-d') }}" itemprop="dateModified">{{ Carbon\Carbon::parse($noticia->updated_at)->format('d/m/Y') }}</time>
-                                    <span class="ds_none" itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">{{$noticia->user->name}}</span></span>
-                                    <span class="ds_none" itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
-                                        <span itemprop="name">{{$configuracoes->nomedosite}}</span>
-                                        <span itemprop="Logo" itemscope itemtype="https://schema.org/ImageObject">
-                                            <img itemprop="url" src="{{ $noticia->cover() }}"/>
-                                        </span>
-                                    </span>
-                                </header>
-                                <p>{!! $noticia->content_web !!}</p>
-                            </article>
-                            @endforeach
-                        @endif                                             
-                        <a href="{{route('web.noticias')}}" class="loadTimeline">Ver Mais</a>
-                    </div>
-                </div>
-            </aside>
-        
-        </div>
-    </div>   
-</div>
-
-<div class="container">   
-    @if (!empty($noticiasVistos) && $noticiasVistos->count() > 0)
-        <section class="most_visited">
-            <header><h2>Mais Visualizados</h2></header>
-            <div class="row">
-                @foreach ($noticiasVistos as $noticia)
-                    <div class="col-xs-12 col-sm-4">
-                        <article>
-                            <figure>
-                                <img itemprop="image" title="{{ $noticia->titulo }}" alt="{{ $noticia->titulo }}" src="{{ $noticia->cover() }}">
-                            </figure>
-                            <header>
-                                <h3>
-                                    <a href="{{route('web.noticia', ['slug' => $noticia->slug ])}}">
-                                        {{ $noticia->titulo }}
-                                    </a>
-                                </h3>
-                                <time datetime="{{ Carbon\Carbon::parse($noticia->created_at)->format('Y-m-d') }}">{{ Carbon\Carbon::parse($noticia->created_at)->formatLocalized('%d, %B %Y') }}</time>                                
-                            </header>
-                            <div class="article_content">
-                                <p>{!! $noticia->content_web !!}</p>
-                            </div>
-                            <footer>
-                            <a href="{{route('web.noticia', ['slug' => $noticia->slug ])}}" class="readMore">Leia Mais</a> 
-                            </footer>
-                        </article>
-                    </div>
-                @endforeach 
-            </div>
-        </section>
-    @endif
-</div>
 
 @endsection
     
