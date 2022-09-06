@@ -509,18 +509,18 @@
 //			}
 //		});
 		
-		$('#calendar').datepicker({
-			inline: true,
-			firstDay: 1,
-			showOtherMonths: true,
-			dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
-		});
+		// $('#calendar').datepicker({
+		// 	inline: true,
+		// 	firstDay: 1,
+		// 	showOtherMonths: true,
+		// 	dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+		// });
 		
-		$( "#datepicker1,#datepicker2" ).datepicker({
-		  dateFormat: 'dd/mm/yy',
-          monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-		  dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
-		});
+		// $( "#datepicker1,#datepicker2" ).datepicker({
+		//   dateFormat: 'dd/mm/yy',
+        //   monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		//   dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+		// });
 		
 		/* -- Map Initialization */
 		if( $( "#map-canvas-contact").length == 1 ){
@@ -578,15 +578,15 @@
 	});
 	
 	/* ## Window Load - Handler for .load() called */
-	$(window).load(function() {
-		/* - Site Loader */
-		if ( !$("html").is(" .ie6, .ie7, .ie8 ") ) {
-			$("#site-loader").delay(1000).fadeOut("slow");
-		}
-		else {
-			$("#site-loader").css("display","none");
-		}
-	});
+	// $(window).load(function() {
+	// 	/* - Site Loader */
+	// 	if ( !$("html").is(" .ie6, .ie7, .ie8 ") ) {
+	// 		$("#site-loader").delay(1000).fadeOut("slow");
+	// 	}
+	// 	else {
+	// 		$("#site-loader").css("display","none");
+	// 	}
+	// });
 	
 })(jQuery);
 

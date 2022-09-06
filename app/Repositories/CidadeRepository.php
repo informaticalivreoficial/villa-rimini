@@ -24,4 +24,16 @@ class CidadeRepository
         $cidade = $this->model->where('cidade_id', $id)->first();
         return $cidade;
     }
+
+    public function getCidadeById(int $id)
+    {
+        $cidade = $this->model->where('cidade_id', $id)->first();
+        return $cidade;
+    }
+
+    public function getCidadesByUfId(int $id)
+    {
+        $cidades = $this->model->where('estado_id', $id)->get(["cidade_nome", "cidade_id"]);
+        return $cidades;
+    }
 }

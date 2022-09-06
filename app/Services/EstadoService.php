@@ -18,4 +18,10 @@ class EstadoService
         $estados = $this->estadoRepository->getEstados();
         return $estados;
     }
+
+    public function getEstado($id)
+    {
+        $estados = $this->estadoRepository->getEstadoById($id);
+        return $estados;
+    }
 }

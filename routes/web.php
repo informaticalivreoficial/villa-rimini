@@ -19,13 +19,14 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
 
     /** Página Inicial */
     Route::get('/', [WebController::class, 'home'])->name('home');
+    Route::match(['post', 'get'], '/fetchCity', [WebController::class, 'fetchCity'])->name('fetchCity');
 
     //**************************** Emails ********************************************/
     Route::get('/atendimento', [WebController::class, 'atendimento'])->name('atendimento');
     Route::get('/sendEmail', [SendEmailController::class, 'sendEmail'])->name('sendEmail');
     Route::get('/sendNewsletter', [SendEmailController::class, 'sendNewsletter'])->name('sendNewsletter');
-    Route::get('/sendFormCaptacao', [SendEmailController::class, 'sendFormCaptacao'])->name('sendFormCaptacao');
-
+    Route::get('/acomodacaoSend', [SendEmailController::class, 'acomodacaoSend'])->name('acomodacaoSend');
+    
     //****************************** Blog ***********************************************/
     Route::get('/blog/artigo/{slug}', [WebController::class, 'artigo'])->name('blog.artigo');
     Route::get('/blog/categoria/{slug}', [WebController::class, 'categoria'])->name('blog.categoria');
@@ -48,11 +49,6 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
     /** FEED */
     Route::get('feed', [RssFeedController::class, 'feed'])->name('feed');
 
-    //****************************** Parceiros *********************************************/
-    Route::get('/sendEmailParceiro', [SendEmailController::class, 'sendEmailParceiro'])->name('sendEmailParceiro');
-    Route::get('/parceiro/{slug}', [WebController::class, 'parceiro'])->name('parceiro');
-    Route::get('/parceiros', [WebController::class, 'parceiros'])->name('parceiros');
-    
 });
 
 Route::prefix('admin')->middleware('auth')->group( function(){
