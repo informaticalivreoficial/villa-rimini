@@ -31,11 +31,12 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
     Route::get('/blog/artigo/{slug}', [WebController::class, 'artigo'])->name('blog.artigo');
     Route::get('/blog/categoria/{slug}', [WebController::class, 'categoria'])->name('blog.categoria');
     Route::get('/blog', [WebController::class, 'artigos'])->name('blog.artigos');
-    Route::match(['get', 'post'],'/blog/pesquisar', [WebController::class, 'searchBlog'])->name('blog.searchBlog');
+    Route::match(['post', 'get'], '/blog/pesquisar', [WebController::class, 'searchBlog'])->name('blog.searchBlog');
 
     //*************************************** Acomodações *******************************************/
     Route::get('/acomodacoes', [WebController::class, 'acomodacoes'])->name('acomodacoes');
     Route::get('/acomodacao/{slug}', [WebController::class, 'acomodacao'])->name('acomodacao');
+    Route::match(['post', 'get'], '/reservar', [WebController::class, 'reservar'])->name('reservar');
 
     //*************************************** Páginas *******************************************/
     Route::get('/pagina/{slug}', [WebController::class, 'pagina'])->name('pagina');

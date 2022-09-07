@@ -46,7 +46,8 @@ class ReservaSend extends Mailable
                 'adultos' => $this->data['adultos'],
                 'criancas' => $this->data['criancas'],
                 'mensagem' => $this->data['mensagem'],
-                'codigo' => $this->data['codigo']
+                'codigo' => $this->data['codigo'],
+                'apartamento' => $this->data['apartamento']
         ]);
     }
 }

@@ -2,89 +2,52 @@
 
 @section('content')
 <main class="site-main page-spacing">
+	
+	<div class="container-fluid page-banner about-banner" style="background-color:#3B4C76 !important;">
+		<div class="container">
+			<h3 style="color: #fff;">Pré-reserva</h3>
+			<ol class="breadcrumb">
+				<li><a style="color: #fff;" href="{{route('web.home')}}">Início</a></li>
+				<li class="active">Pré-reserva</li>
+			</ol>
+		</div>
+	</div>
     
-    <div class="container-fluid page-banner about-banner" style="background-image: url({{$acomodacao->cover()}});">
-        <div class="container">
-            <h3 style="color: #fff;">{{$acomodacao->titulo}}</h3>
-            <ol class="breadcrumb">
-                <li><a style="color: #fff;" href="{{route('web.home')}}">Início</a></li>
-                <li class="active">{{$acomodacao->titulo}}</li>
-            </ol>
-        </div>
-    </div>
-    
-    <div class="section-padding"></div>    
-    
-    <div class="container">
-        <div class="row">
-            <!-- Contenta Area -->
-            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-8 content-area">
-                <div id="booking-carousel" class="carousel slide booking-carousel" data-ride="carousel">
-                    @if ($acomodacao->images()->get()->count())
-                        <div class="carousel-inner" role="listbox">
-                            @foreach ($acomodacao->images()->get() as $key => $image)
-                                <div class="item{{($key == 1 ? ' active' : '')}}">
-                                    <img style="max-height: 430px;" src="{{ $image->url_image }}" alt="{{$acomodacao->titulo}}" />
-                                </div>
-                            @endforeach			
-                        </div>
-                    @endif
-                    
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#booking-carousel" role="button" data-slide="prev">
-                        <span class="fa fa-caret-left" aria-hidden="true"></span>
-                    </a>
-                    <a class="right carousel-control" href="#booking-carousel" role="button" data-slide="next">
-                        <span class="fa fa-caret-right" aria-hidden="true"></span>
-                    </a>
-                </div>
+    <div class="section-padding"></div>
+    <div id="booking-section" class="booking-section2 container-fluid no-padding">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="booking-form2 col-md-12 col-sm-12 pull-right">
+                    <br />
+                    <!--
+<div class="img-block">
+    					<div class="col-md-6 col-sm-12 col-xs-6 no-padding"><h4>15<sup>%</sup><sub>Off</sub><span>Somente pelo site</span></h4></div>
+    					<div class="col-md-6 col-sm-12 col-xs-6 no-padding"><img src="<?php //echo PATCH;?>/images/booking-ic.png" alt="Booking"/></div>
+    				</div> 
+-->                   
+					<h3><strong>Efetuar uma Pré-Reserva</strong></h3>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        @if ($acomodacao->descricao)
-                        <h3 class="widget-title">Informações</h3>
-                        {!!$acomodacao->descricao!!}
-                        @endif
-                        
-                        @if(!empty($postsTags) && $postsTags->count() > 0)
-                            <ul class="tags">
-                                @foreach($postsTags as $posttags) 
-                                    @php
-                                        $array = explode(",", $posttags->tags);
-                                        foreach($array as $tags){
-                                            $tag = trim($tags);                                                       
-                                            echo '<li>';
-                                            echo '<img src="{{url(frontend/assets/images/bullet-apartamento.png)}}" alt="'.$ass['ass_nome'].'" />';
-                                            echo $tag;
-                                            echo '</a></li>';
-                                        }
-                                    @endphp                                                     
-                                @endforeach              
-                            </ul>                        
-                        @endif
-
-                        @if ($acomodacao->notasadicionais)
-                            <aside class="widget widget_features" style="margin-bottom: 10px;">
-                                <h5 class="widget-title">{{$acomodacao->notasadicionais}}</h5>   
-                            </aside>
-                        @endif
-                    </div>                    
-                </div>
-                
-                <!-- Form -->
-                <div class="booking-form2">
-                    <h3>Efetuar uma Pré-Reserva</h3>
-                    <form class="j_formsubmit" action="" method="post" autocomplete="off">
+					<form class="col-md-12 col-sm-12 col-xs-12 no-padding j_formsubmit" action="" method="post" autocomplete="off">
                         @csrf
                         <div class="form-group col-12">
                             <div id="js-contact-result"></div>
-                            <input class="noclear" type="hidden" name="apart_id" value="{{$acomodacao->id}}" />
                             <!-- HONEYPOT -->
                             <input type="hidden" class="noclear" name="bairro" value="" />
                             <input type="text" class="noclear" style="display: none;" name="cidade1" value="" />    
                         </div>
-                        
+						
                         <div class="form_hide">
+                            <div class="form-group col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                                <label>Selecione o Apartamento</label>
+                                <select name="apart_id" class="form-control">
+                                    @if(!empty($acomodacoes) && $acomodacoes->count() > 0)
+                                        <option value="">Selecione</option>
+                                        @foreach($acomodacoes as $apartamento)
+                                            <option value="{{$apartamento->id}}" {{(!empty($dadosForm) && $dadosForm['apart_id'] == $apartamento->id ? 'selected' : '')}}>{{$apartamento->titulo}}</option>
+                                        @endforeach                                                                        
+                                    @endif                                
+                                 </select>
+                            </div>
+
                             <div class="form-group col-md-6 col-sm-6 col-xs-12 col-lg-6">
                                 <label>Nome</label>
                                 <input type="text" name="nome" value="" class="form-control"/>
@@ -118,36 +81,35 @@
                                 </select>
                             </div>
     
-                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                 <label>Check-in</label>
                                 <i class="fa fa-calendar-minus-o"></i>
-                                <input type="text" name="checkin" class="form-control datepicker-here" value="" data-language='pt-BR'/>
+                                <input type="text" name="checkin" class="form-control datepicker-here" value="{{(!empty($dadosForm['checkin']) ? $dadosForm['checkin'] : '')}}" data-language='pt-BR'/>
                             </div>
-                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                 <label>Check-out</label>
                                 <i class="fa fa-calendar-minus-o"></i>
-                                <input type="text" class="form-control datepicker-here" name="checkout" value="" data-language='pt-BR'/>
+                                <input type="text" class="form-control datepicker-here" name="checkout" value="{{(!empty($dadosForm['checkin']) ? $dadosForm['checkout'] : '')}}" data-language='pt-BR'/>
                             </div>
                             
-                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                 <label>Adultos</label>
                                 <select name="num_adultos" class="selectpicker">
-                                    <option value="1" selected>1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option> 
+                                    @for($i = 1; $i <= 5; $i++)
+                                        <option value="{{$i}}" {{(!empty($dadosForm['adultos']) && $i == $dadosForm['adultos'] ? 'selected' : ($i == 1 ? 'selected' : ''))}}>
+                                            {{ $i }}
+                                        </option>
+                                    @endfor
                                 </select>
                             </div>
-                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                 <label>Crianças de 0 a 5</label>
                                 <select name="num_cri_0_5" class="selectpicker">
-                                    <option value="0" selected>0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    @for($i = 0; $i <= 5; $i++)
+                                        <option value="{{$i}}" {{(!empty($dadosForm['cri_0_5']) && $i == $dadosForm['cri_0_5'] ? 'selected' : ($i == 0 ? 'selected' : ''))}}>
+                                            {{ $i }}
+                                        </option>
+                                    @endfor
                                 </select>
                             </div>	
                             
@@ -159,39 +121,18 @@
                                 <button class="read-more" id="js-contact-btn" type="submit" title="Efetuar Pré-Reserva">Efetuar Pré-Reserva <i class="fa fa-long-arrow-right"></i></button>
                             </div>
                         </div>
-                    
-                        
-                    </form>
-                </div>
-            </div>
+					</form>
+				</div>
+			</div>
             
-            <!-- Widget Area -->
-            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-4 widget-area">
-                
-                @if (!empty($acomodacoes) && $acomodacoes->count() > 0)
-                    <aside class="widget widget_room">
-                        <h3 class="widget-title">Veja Também</h3>
-                        @foreach($acomodacoes as $aparts)
-                            <div class="single-room">
-                                <a href="{{route('web.acomodacao',['slug' => $aparts->slug])}}" tilte="{{$aparts->titulo}}">
-                                    <img style="max-width: 100px;max-height:100px;" src="{{$aparts->cover()}}" alt="{{$aparts->titulo}}">
-                                </a>
-                                <h4>{{$aparts->titulo}} 
-                                    @if ($aparts->exibir_valor == 1)
-                                    <b> R${{(number_format($aparts->valor_cafe, 2 , ',' , '.'))}}</b>
-                                    @endif                                                      
-                                <a href="{{route('web.acomodacao',['slug' => $aparts->slug])}}" tilte="{{$aparts->titulo}}"><span style="margin-top: 10px;">+ Detalhes</span></a>
-                                </h4>
-                            </div>
-                        @endforeach
-                    </aside>
-                @endif
-               
-            </div>
-        </div>
-    </div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+                <br />
+				{!! $paginareserva->content !!}                
+			</div>
+            
+            <div class="section-padding"></div>
+		</div>
     
-    <div class="section-padding"></div>
 </main>
 @endsection
 
@@ -209,15 +150,15 @@
         $celularmask.mask('(99) 99999-9999', {reverse: false});
     });
 
-    $(function(){
-         
-        $('.datepicker-here').datepicker({
-            autoClose: true,            
-            minDate: new Date(),
-            position: "bottom right", //'right center', 'right bottom', 'right top', 'top center', 'bottom center'
-            
-        });  
+    $picker = $('.datepicker-here').datepicker({
+        autoClose: true,            
+        minDate: new Date(),
+        dateFormat: 'yyyy-mm-dd',
+        position: "bottom right", //'right center', 'right bottom', 'right top', 'top center', 'bottom center'
+        
+    });
 
+    $(function(){
         $("#city-dd").attr("disabled", true);
         $('#state-dd').on('change', function () {
             var idState = this.value;
@@ -289,6 +230,8 @@
 
             return false;
         });
+        
     });
+    
 </script>   
 @endsection

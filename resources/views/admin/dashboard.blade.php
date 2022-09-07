@@ -170,7 +170,7 @@
                     <td class="text-center">
                       <span class="badge bg-success">{{$apartamentotop->views}}</span>
                       <a data-toggle="tooltip" data-placement="top" title="Editar Apartamento" href="{{route('posts.edit', ['id' => $apartamentotop->id])}}" class="btn btn-xs btn-default ml-2"><i class="fas fa-pen"></i></a>
-                      <a target="_blank" href="{{route('web.apartamento',['slug' => $apartamentotop->slug])}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
+                      <a target="_blank" href="{{route('web.acomodacao',['slug' => $apartamentotop->slug])}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
                     </td>
                 </tr>
                 @endforeach                            

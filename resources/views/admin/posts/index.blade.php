@@ -58,13 +58,15 @@
                             <td class="text-center">{{$post->views}}</td>
                             <td class="text-center">{{$post->countimages()}}</td>
                             <td class="text-center">
+                                @if ($post->id != 5)
                                 <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-menu" data-id="{{ $post->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $post->menu == true ? 'checked' : ''}}>
+                                @endif                                
                             </td>
                             <td>
                                 <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $post->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $post->status == true ? 'checked' : ''}}>
                                 <a href="{{ route('posts.edit', [ 'id' => $post->id ]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                                 <a target="_blank" href="{{route('web.'.$linkView,['slug' => $post->slug])}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
-                                <button type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$post->id}}" data-toggle="modal" data-target="#modal-default"><i class="fas fa-trash"></i></button>
+                                <button type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$post->id}}" data-toggle="modal" data-target="#modal-default" {{($post->id == 5 ? 'disabled' : '')}}><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>                            
                         @endforeach

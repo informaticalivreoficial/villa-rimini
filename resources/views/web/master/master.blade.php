@@ -138,7 +138,7 @@
                         </nav>
                     </div>
                     <div class="col-md-2 book-now">
-                        <a href="" title="Pré-reserva">Pré-reserva</a>
+                        <a href="{{route('web.reservar')}}" title="Pré-reserva">Pré-reserva</a>
                     </div>
                 </div>
             </div>

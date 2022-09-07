@@ -40,36 +40,25 @@
     <!-- container -->
     <div class="container">
         <div class="booking-form container-fluid">
-            <?php
-            if(isset($_POST['SendReserva'])){        
-        
-            $f['adultos']      =  $_POST['adultos'];
-            $f['cri_0_5']      =  $_POST['cri_0_5'];
-            $f['url']          =  $_POST['apartamento'];
-            $f['checkini']     =  $_POST['checkini'];
-            $f['checkouti']    =  $_POST['checkouti'];    
-        
-            if(in_array('',$f)){
-                echo '<div class="alert alert-danger">
-                       <strong>Atenção!</strong> Por favor, Selecione todos os campos!
-                      </div>';
-            }else{
-                header('Location: pagina/reservas&checkouti='.$f['checkouti'].'&checkini='.$f['checkini'].'&adultos='.$f['adultos'].'&criancas='.$f['cri_0_5'].'&apartamento='.$f['url'].'');
-            }
-          }
-        ?>
-            <form class="col-md-12 col-sm-12 col-xs-12" action="" method="post">
+            
+            <form class="col-md-12 col-sm-12 col-xs-12" action="{{route('web.reservar')}}" method="post" autocomplete="off">
+                @csrf
                 <div class="form-group">
                     <i class="fa fa-calendar-minus-o"></i>
-                    <input type="text" class="form-control" id="datepicker1" name="checkini" value="" placeholder="Check In" />
+                    <input type="text" class="form-control datepicker-here" name="checkin" value="" data-language='pt-BR' placeholder="Check In" />
                 </div>
                 <div class="form-group">
                     <i class="fa fa-calendar-minus-o"></i>
-                    <input type="text" class="form-control" id="datepicker2" name="checkouti" value="" placeholder="Check Out" />
+                    <input type="text" class="form-control datepicker-here" name="checkout" value="" data-language='pt-BR' placeholder="Check Out" />
                 </div>
                 <div class="form-group">
-                    <select class="selectpicker" name="apartamento">
-                        <option value="'.$apartSelect['url'].'">'.$apartSelect['apart_nome'].'</option>
+                    <select class="selectpicker" name="apart_id">
+                        @if(!empty($acomodacoes) && $acomodacoes->count() > 0)
+                            <option value="">Selecione</option>
+                            @foreach($acomodacoes as $apart)
+                                <option value="{{$apart->id}}">{{$apart->titulo}}</option>
+                            @endforeach                                                                        
+                        @endif
                     </select>
                 </div>
                 <div class="form-group">
@@ -94,7 +83,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input type="submit" name="SendReserva" value="Pré-reserva" title="Pré-reserva" />
+                    <input type="submit" value="Pré-reserva" title="Pré-reserva" />
                 </div>
             </form>
         </div>		
@@ -287,6 +276,28 @@
     
     </main>
 
+@endsection
+
+@section('css')
+<link href="{{url(asset('backend/plugins/airdatepicker/css/datepicker.min.css'))}}" rel="stylesheet" type="text/css">
+@endsection
+
+@section('js')
+<script src="{{url(asset('backend/plugins/airdatepicker/js/datepicker.min.js'))}}"></script>
+<script src="{{url(asset('backend/plugins/airdatepicker/js/i18n/datepicker.pt-BR.js'))}}"></script>
+<script src="{{url(asset('backend/assets/js/jquery.mask.js'))}}"></script>
+<script>
+    $(function(){
+
+        $('.datepicker-here').datepicker({
+            autoClose: true,            
+            minDate: new Date(),
+            position: "bottom right", //'right center', 'right bottom', 'right top', 'top center', 'bottom center'
+            
+        });
+        
+    });
+</script>   
 @endsection
     
      

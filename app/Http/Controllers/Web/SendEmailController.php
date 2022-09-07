@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Web\Atendimento;
 use App\Mail\Web\AtendimentoRetorno;
+use App\Mail\Web\ReservaRetorno;
 use App\Mail\Web\ReservaSend;
+use App\Models\Apartamento;
 use App\Models\Newsletter;
 use App\Models\NewsletterCat;
 use App\Services\CidadeService;
@@ -100,6 +102,12 @@ class SendEmailController extends Controller
 
     public function acomodacaoSend(Request $request)
     {
+        $apartamento = Apartamento::where('id', $request->apart_id)->first();
+
+        if($request->apart_id == ''){
+            $json = "Por favor escolha um <strong>apartamento</strong>";
+            return response()->json(['error' => $json]);
+        }
         if($request->nome == ''){
             $json = "Por favor preencha o campo <strong>Nome</strong>";
             return response()->json(['error' => $json]);
@@ -131,9 +139,10 @@ class SendEmailController extends Controller
             'adultos' => $request->num_adultos,
             'criancas' => $request->num_cri_0_5,
             'mensagem' => $request->mensagem,
-            'codigo' => '00'.rand(1,100000)
+            'codigo' => '00'.rand(1,100000),
+            'apartamento' => $apartamento->titulo
         ];
-        dd($data);
+        
         $retorno = [
             'sitename' => $this->configService->getConfig()->nomedosite,
             'siteemail' => $this->configService->getConfig()->email,
@@ -141,8 +150,8 @@ class SendEmailController extends Controller
             'reply_email' => $request->email
         ];
 
-        //Mail::send(new ReservaSend($data));
-        //Mail::send(new OrcamentoRetorno($retorno));   
+        Mail::send(new ReservaSend($data));
+        Mail::send(new ReservaRetorno($retorno));   
         
         $json = "Obrigado {$request->nome} sua solicitação de pré-reserva foi enviada com sucesso!"; 
         return response()->json(['sucess' => $json]);

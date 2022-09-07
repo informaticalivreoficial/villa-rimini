@@ -48,6 +48,7 @@ class WebController extends Controller
 
     public function home()
     {
+        $acomodacoes = Apartamento::available()->get();
         $apartamento = Apartamento::available()
                     ->where('exibir_home', 1)
                     ->inRandomOrder()
@@ -81,7 +82,8 @@ class WebController extends Controller
             'slides' => $slides,
             'apartamento' => $apartamento,
             'paginasFull' => $paginasFull,
-            'paginas' => $paginas
+            'paginas' => $paginas,
+            'acomodacoes' => $acomodacoes
 		]);
     }
 
@@ -193,6 +195,30 @@ class WebController extends Controller
         return view('web.acomodacoes.index',[
             'head' => $head,
             'acomodacoes' => $acomodacoes
+        ]);
+    }
+
+    public function reservar(Request $request)
+    {
+        $dadosForm = $request->all();
+        $acomodacoes = Apartamento::available()->get();
+
+        $paginareserva = Post::where('id', 5)->first();
+        $paginareserva->views = $paginareserva->views + 1;
+        $paginareserva->save();
+
+        $head = $this->seo->render('Pré-reserva - ' . $this->configService->getConfig()->nomedosite,
+            'Pré-reserva - ' . $this->configService->getConfig()->nomedosite,
+            route('web.reservar'),
+            $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
+        );
+        
+        return view('web.acomodacoes.reservar',[
+            'head' => $head,
+            'dadosForm' => $dadosForm,
+            'acomodacoes' => $acomodacoes,
+            'paginareserva' => $paginareserva,
+            'estados' => $this->estadoService->getEstados()
         ]);
     }
 
