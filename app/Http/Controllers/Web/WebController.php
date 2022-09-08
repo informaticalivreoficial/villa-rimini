@@ -237,6 +237,10 @@ class WebController extends Controller
         $acomodacao->views = $acomodacao->views + 1;
         $acomodacao->save();
 
+        $paginareserva = Post::where('id', 5)->first();
+        $paginareserva->views = $paginareserva->views + 1;
+        $paginareserva->save();
+
         $head = $this->seo->render($acomodacao->titulo . ' - ' . $this->configService->getConfig()->nomedosite,
             $acomodacao->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
             route('web.acomodacao', ['slug' => $acomodacao->slug]),

@@ -20,6 +20,18 @@
 <div class="row">
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         <div class="info-box">
+            <span class="info-box-icon bg-info"><a href="" title="Reservas"><i class="fa far fa-store"></i></a></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text"><b>Reservas</b></span>
+                <span class="info-box-text">Pendentes: </span>
+                <span class="info-box-text">Finalizada: </span>
+                <span class="info-box-text">Total: </span>
+            </div>            
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="info-box">
             <span class="info-box-icon bg-info"><a href="{{ route('apartamentos.index') }}" title="Apartamentos"><i class="fa far fa-building"></i></a></span>
 
             <div class="info-box-content">
@@ -32,12 +44,12 @@
     </div>
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         <div class="info-box">
-            <span class="info-box-icon bg-teal"><a href="{{ route('posts.artigos') }}" title="Artigos"><i class="fa far fa-pen"></i></a></span>
+            <span class="info-box-icon bg-teal"><a href="{{ route('posts.artigos') }}" title="Artigos"><i class="fa far fa-users"></i></a></span>
 
             <div class="info-box-content">
-                <span class="info-box-text"><b>Artigos</b></span>
-                <span class="info-box-text">Publicado: {{ $artigosAvailable }}</span>
-                <span class="info-box-text">Rascunho: {{ $artigosUnavailable }}</span>
+                <span class="info-box-text"><b>Clientes</b></span>
+                <span class="info-box-text">Ativos: {{ $artigosAvailable }}</span>
+                <span class="info-box-text">Inativos: {{ $artigosUnavailable }}</span>
                 <span class="info-box-text">Total: {{ $artigosAvailable + $artigosUnavailable }}</span>
             </div>
         </div>

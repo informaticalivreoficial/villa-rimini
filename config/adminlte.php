@@ -257,6 +257,20 @@ return [
             ]
         ],
         [
+            'text' => 'Reservas',            
+            'icon' => 'fas fa-store',
+            'submenu' => [
+                [
+                    'text' => 'Pendentes',
+                    'url'  => 'admin/reservas-pendentes',
+                ],
+                [
+                    'text' => 'Finalizadas',
+                    'url'  => 'admin/reservas-finalizadas',
+                ]
+            ]
+        ],
+        [
             'text' => 'Usuários',            
             'icon' => 'fas fa-fw fa-users',
             'submenu' => [

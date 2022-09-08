@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\CatPostController;
 use App\Http\Controllers\Admin\ConfigController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\ParceiroController;
+use App\Http\Controllers\Admin\ReservaController;
 use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Web\SendEmailController;
 use App\Http\Controllers\Web\WebController;
@@ -148,6 +149,15 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     Route::get('usuarios/create', [UserController::class, 'create'])->name('users.create');
     Route::post('usuarios/store', [UserController::class, 'store'])->name('users.store');
     Route::get('usuarios', [UserController::class, 'index'])->name('users.index');
+
+    /** Reservas */
+    Route::get('reservas/delete', [ReservaController::class, 'delete'])->name('reservas.delete');
+    Route::delete('reservas/deleteon', [ReservaController::class, 'deleteon'])->name('reservas.deleteon');
+    Route::put('reservas/{id}', [ReservaController::class, 'update'])->name('reservas.update');
+    Route::get('reservas/{id}/edit', [ReservaController::class, 'edit'])->name('reservas.edit');
+    Route::get('reservas/create', [ReservaController::class, 'create'])->name('reservas.create');
+    Route::get('reservas-pendentes', [ReservaController::class, 'pendentes'])->name('reservas.pendentes');
+    Route::get('reservas-finalizadas', [ReservaController::class, 'finalizadas'])->name('reservas.finalizadas');
 
     /** Apartamentos */
     Route::get('apartamentos/marcadagua', [ApartamentoController::class, 'imageWatermark'])->name('apartamentos.marcadagua');

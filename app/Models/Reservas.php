@@ -40,14 +40,24 @@ class Reservas extends Model
     /**
      * Relacionamentos
     */
-    public function cliente()
+    public function user()
     {
         return $this->belongsTo(User::class, 'cliente', 'id');
+    }
+
+    public function userObject()
+    {
+        return $this->hasOne(User::class, 'id', 'cliente');
     }
 
     public function apartamento()
     {
         return $this->belongsTo(Apartamento::class, 'apartamento', 'id');
+    }
+
+    public function apartamentoObject()
+    {
+        return $this->hasOne(Apartamento::class, 'id', 'apartamento');
     }
 
     /**
@@ -70,5 +80,51 @@ class Reservas extends Model
         }
 
         return number_format($value, 2, ',', '.');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return date('d/m/Y', strtotime($value));
+    }
+
+    public function setCheckinAttribute($value)
+    {
+        $this->attributes['checkin'] = (!empty($value) ? $this->convertStringToDate($value) : null);
+    }
+    
+    public function getCheckinAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return date('d/m/Y', strtotime($value));
+    }
+
+    public function setCheckoutAttribute($value)
+    {
+        $this->attributes['checkout'] = (!empty($value) ? $this->convertStringToDate($value) : null);
+    }
+    
+    public function getCheckoutAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return date('d/m/Y', strtotime($value));
+    }
+
+    private function convertStringToDate(?string $param)
+    {
+        if (empty($param)) {
+            return null;
+        }
+        list($day, $month, $year) = explode('/', $param);
+        return (new \DateTime($year . '-' . $month . '-' . $day))->format('Y-m-d');
     }
 }

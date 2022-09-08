@@ -12,6 +12,7 @@ use App\Mail\Web\ReservaSend;
 use App\Models\Apartamento;
 use App\Models\Newsletter;
 use App\Models\NewsletterCat;
+use App\Models\Reservas;
 use App\Models\User;
 use App\Services\CidadeService;
 use App\Services\ConfigService;
@@ -178,10 +179,13 @@ class SendEmailController extends Controller
             'criancas_0_5' => $request->num_cri_0_5,
             'codigo' => $data['codigo'],
             'checkin' => Carbon::parse($request->checkin)->format('Y-m-d'),
-            'checkin' => Carbon::parse($request->checkout)->format('Y-m-d'),
+            'checkout' => Carbon::parse($request->checkout)->format('Y-m-d'),
+            'notasadicionais' => $request->mensagem
         ];
-        
-        dd($reserva);
+
+        $reservaCreate = Reservas::create($reserva);
+        $reservaCreate->save();
+
         Mail::send(new ReservaSend($data));
         Mail::send(new ReservaRetorno($retorno));   
         
