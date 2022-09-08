@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ApartamentoController;
+use App\Http\Controllers\Admin\AvaliacaoController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\EmailController;
 use App\Http\Controllers\Admin\PostController;
@@ -149,6 +150,15 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     Route::get('usuarios/create', [UserController::class, 'create'])->name('users.create');
     Route::post('usuarios/store', [UserController::class, 'store'])->name('users.store');
     Route::get('usuarios', [UserController::class, 'index'])->name('users.index');
+
+    /** Avaliações */
+    Route::get('avaliacoes/set-status', [AvaliacaoController::class, 'avaliacoesSetStatus'])->name('avaliacoes.avaliacoesSetStatus');
+    Route::get('avaliacoes/delete', [AvaliacaoController::class, 'delete'])->name('avaliacoes.delete');
+    Route::delete('avaliacoes/deleteon', [AvaliacaoController::class, 'deleteon'])->name('avaliacoes.deleteon');
+    Route::put('avaliacoes/{id}', [AvaliacaoController::class, 'update'])->name('avaliacoes.update');
+    Route::get('avaliacoes/{id}/edit', [AvaliacaoController::class, 'edit'])->name('avaliacoes.edit');
+    Route::get('avaliacoes/create', [AvaliacaoController::class, 'create'])->name('avaliacoes.create');
+    Route::get('avaliacoes', [AvaliacaoController::class, 'index'])->name('avaliacoes.index');
 
     /** Reservas */
     Route::get('reservas/delete', [ReservaController::class, 'delete'])->name('reservas.delete');

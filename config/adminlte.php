@@ -307,9 +307,9 @@ return [
             ]
         ],
         [
-            'text' => 'Parceiros',
-            'url'  => 'admin/parceiros',
-            'icon' => 'fas fa-puzzle-piece',
+            'text' => 'Avaliações',
+            'url'  => 'admin/avaliacoes',
+            'icon' => 'fas fa-bullhorn',
         ], 
         [
             'text' => 'Banner Slides',
