@@ -62,6 +62,10 @@ class Apartamento extends Model
     /**
      * Relacionamentos
     */    
+    public function reservas()
+    {
+        return $this->hasMany(Reservas::class, 'apartamento', 'id');
+    }
 
     public function images()
     {

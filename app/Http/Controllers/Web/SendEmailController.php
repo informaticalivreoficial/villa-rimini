@@ -12,9 +12,12 @@ use App\Mail\Web\ReservaSend;
 use App\Models\Apartamento;
 use App\Models\Newsletter;
 use App\Models\NewsletterCat;
+use App\Models\User;
 use App\Services\CidadeService;
 use App\Services\ConfigService;
 use App\Services\EstadoService;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class SendEmailController extends Controller
 {
@@ -150,6 +153,35 @@ class SendEmailController extends Controller
             'reply_email' => $request->email
         ];
 
+        $user = [
+            'name' => $request->nome,
+            'email' => $request->email,
+            'telefone' => $request->telefone,
+            'email_verified_at' => Carbon::now(),
+            'password' => bcrypt(Carbon::now()),
+            'senha' => Str::random(20),
+            'remember_token' => Str::random(20),
+            'created_at' => Carbon::now(),
+            'client' => true,
+            'status' => 1,
+            'notasadicionais' => 'Cliente cadastrado pelo site'
+        ];
+
+        $userCreate = User::create($user);
+        $userCreate->save();
+
+        $reserva = [
+            'cliente' => $userCreate->id,
+            'apartamento' => $apartamento->id,
+            'status' => 1,
+            'adultos' => $request->num_adultos,
+            'criancas_0_5' => $request->num_cri_0_5,
+            'codigo' => $data['codigo'],
+            'checkin' => Carbon::parse($request->checkin)->format('Y-m-d'),
+            'checkin' => Carbon::parse($request->checkout)->format('Y-m-d'),
+        ];
+        
+        dd($reserva);
         Mail::send(new ReservaSend($data));
         Mail::send(new ReservaRetorno($retorno));   
         

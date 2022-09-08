@@ -153,7 +153,7 @@
     $picker = $('.datepicker-here').datepicker({
         autoClose: true,            
         minDate: new Date(),
-        dateFormat: 'yyyy-mm-dd',
+        dateFormat: 'dd/mm/yyyy',
         position: "bottom right", //'right center', 'right bottom', 'right top', 'top center', 'bottom center'
         
     });
