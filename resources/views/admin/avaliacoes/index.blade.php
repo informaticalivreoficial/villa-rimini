@@ -38,7 +38,8 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Criado em</th>
+                            <th>Check out</th>
+                            <th>Avaliado em</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -47,6 +48,7 @@
                         <tr style="{{ ($avaliacao->status == '1' ? '' : 'background: #fffed8 !important;')  }}">
                             
                             <td>{{$avaliacao->name}}</td>
+                            <td>{{$avaliacao->checkout}}</td>
                             <td>{{$avaliacao->created_at}}</td>
                             <td>
                                 <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $avaliacao->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $avaliacao->status == true ? 'checked' : ''}}>

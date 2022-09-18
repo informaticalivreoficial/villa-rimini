@@ -636,16 +636,14 @@
 	width: 100%;
 }
 .booking-form2 h3 {
-	text-align: center;
 	text-transform: uppercase;
 	font-family: 'montserratsemi_bold';
 	font-size: 18px;
 	letter-spacing: 0.72px;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 .booking-form2 .form-group {
 	margin-bottom: 30px;
-	position: relative;
 }
 .booking-form2 .form-group > i {
 	position: absolute;
@@ -673,7 +671,6 @@
 	color: #222;
 }
 .booking-form2 .form-group:last-child {
-	text-align: center;
 	margin-bottom: 0;
 }
 .booking-form2 .form-group button.read-more {

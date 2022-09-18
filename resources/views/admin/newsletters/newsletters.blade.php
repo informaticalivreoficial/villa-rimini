@@ -89,7 +89,7 @@
             @method('DELETE')
             <input id="id_email" name="email_id" type="hidden" value=""/>
                 <div class="modal-header">
-                    <h4 class="modal-title">Remover Lista!</h4>
+                    <h4 class="modal-title">Remover Email!</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -114,42 +114,19 @@
 {{-- @section('plugins.Toastr', true) --}}
 
 @section('css')
-<style>
-    .pagination-custom{
-            margin: 0;
-            display: -ms-flexbox;
-            display: flex;
-            padding-left: 0;
-            list-style: none;
-            border-radius: 0.25rem;
-        }
-        .pagination-custom li a {
-            border-radius: 30px;
-            margin-right: 8px;
-            color:#7c7c7c;
-            border: 1px solid #ddd;
-            position: relative;
-            float: left;
-            padding: 6px 12px;
-            width: 50px;
-            height: 40px;
-            text-align: center;
-            line-height: 25px;
-            font-weight: 600;
-        }
-        .pagination-custom>.active>a, .pagination-custom>.active>a:hover, .pagination-custom>li>a:hover {
-            color: #fff;
-            background: #007bff;
-            border: 1px solid transparent;
-        }
-</style>
 <link href="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.css'))}}" rel="stylesheet">
 @stop
 
 @section('js')
     <script src="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.js'))}}"></script>
     <script>
-       $(function () {  
+       $(function () {           
+           
+           $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
            
             //FUNÇÃO PARA EXCLUIR
             $('.j_modal_btn').click(function() {

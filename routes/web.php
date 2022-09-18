@@ -2,18 +2,21 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\ApartamentoController;
-use App\Http\Controllers\Admin\AvaliacaoController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\EmailController;
-use App\Http\Controllers\Admin\PostController;
-use App\Http\Controllers\Admin\CatPostController;
-use App\Http\Controllers\Admin\ConfigController;
-use App\Http\Controllers\Admin\NewsletterController;
-use App\Http\Controllers\Admin\ParceiroController;
-use App\Http\Controllers\Admin\ReservaController;
-use App\Http\Controllers\Admin\SlideController;
+use App\Http\Controllers\Admin\{
+    AdminController,
+    ApartamentoController,
+    AvaliacaoController,
+    UserController,
+    EmailController,
+    PostController,
+    CatPostController,
+    ConfigController,
+    NewsletterController,
+    ParceiroController,
+    ReservaController,
+    SlideController
+};
+use App\Http\Controllers\Web\RssFeedController;
 use App\Http\Controllers\Web\SendEmailController;
 use App\Http\Controllers\Web\WebController;
 
@@ -24,6 +27,8 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
     Route::match(['post', 'get'], '/fetchCity', [WebController::class, 'fetchCity'])->name('fetchCity');
 
     //**************************** Emails ********************************************/
+    Route::match(['post', 'get'], '/avaliacao', [WebController::class, 'avaliacaoCliente'])->name('avaliacao');
+    Route::get('/avaliacaoSend', [SendEmailController::class, 'avaliacaoSend'])->name('avaliacaoSend');
     Route::get('/atendimento', [WebController::class, 'atendimento'])->name('atendimento');
     Route::get('/sendEmail', [SendEmailController::class, 'sendEmail'])->name('sendEmail');
     Route::get('/sendNewsletter', [SendEmailController::class, 'sendNewsletter'])->name('sendNewsletter');

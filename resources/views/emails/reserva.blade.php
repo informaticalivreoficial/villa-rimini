@@ -64,7 +64,10 @@
             <br />
             <strong>Observações: </strong> 
             </p>   
-            <p style="padding-left:10px;font:20px Trebuchet MS, Arial, Helvetica, sans-serif; color:#09F;">@php echo nl2br($mensagem); @endphp</p>     
+            <p style="padding-left:10px;font:20px Trebuchet MS, Arial, Helvetica, sans-serif; color:#09F;">@php echo nl2br($mensagem); @endphp</p> 
+            <p style="padding-left:10px;">
+                <a href="{{route('login')}}">Clique aqui para gerenciar as reservas! </a>
+            </p>    
         </div> 
     </div>
 {{-- Footer --}}

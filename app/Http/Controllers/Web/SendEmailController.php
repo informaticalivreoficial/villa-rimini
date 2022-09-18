@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Admin\AvaliacaoCriada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Web\Atendimento;
@@ -10,6 +11,7 @@ use App\Mail\Web\AtendimentoRetorno;
 use App\Mail\Web\ReservaRetorno;
 use App\Mail\Web\ReservaSend;
 use App\Models\Apartamento;
+use App\Models\Avaliacoes;
 use App\Models\Newsletter;
 use App\Models\NewsletterCat;
 use App\Models\Reservas;
@@ -178,8 +180,8 @@ class SendEmailController extends Controller
             'adultos' => $request->num_adultos,
             'criancas_0_5' => $request->num_cri_0_5,
             'codigo' => $data['codigo'],
-            'checkin' => Carbon::parse($request->checkin)->format('Y-m-d'),
-            'checkout' => Carbon::parse($request->checkout)->format('Y-m-d'),
+            'checkin' => $request->checkin,
+            'checkout' => $request->checkout,
             'notasadicionais' => $request->mensagem
         ];
 
@@ -191,6 +193,31 @@ class SendEmailController extends Controller
         
         $json = "Obrigado {$request->nome} sua solicitação de pré-reserva foi enviada com sucesso!"; 
         return response()->json(['sucess' => $json]);
-    }
+    }   
     
+    public function avaliacaoSend(Request $request)
+    {
+        if($request->name == ''){
+            $json = "Por favor preencha o campo <strong>Nome</strong>";
+            return response()->json(['error' => $json]);
+        }
+        if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
+            $json = "O campo <strong>Email</strong> está vazio ou não tem um formato válido!";
+            return response()->json(['error' => $json]);
+        }
+        if($request->checkout == ''){
+            $json = "Por favor selecione a <strong>Data</strong> do seu Check out!";
+            return response()->json(['error' => $json]);
+        }
+
+        $data = $request->except(['_token', 'bairro', 'cidade']);
+        
+        //$createAvaliacao = Avaliacoes::create($data);
+        //$createAvaliacao->save();
+
+        Mail::send(new AvaliacaoCriada($data, $this->configService->getConfig()));
+
+        //$json = "Obrigado {$request->name} sua avaliação foi enviada com sucesso!"; 
+        //return response()->json(['sucess' => $json]);        
+    }
 }

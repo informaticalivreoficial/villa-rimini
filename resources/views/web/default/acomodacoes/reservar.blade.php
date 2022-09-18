@@ -150,13 +150,7 @@
         $celularmask.mask('(99) 99999-9999', {reverse: false});
     });
 
-    $picker = $('.datepicker-here').datepicker({
-        autoClose: true,            
-        minDate: new Date(),
-        dateFormat: 'dd/mm/yyyy',
-        position: "bottom right", //'right center', 'right bottom', 'right top', 'top center', 'bottom center'
-        
-    });
+    
 
     $(function(){
         $("#city-dd").attr("disabled", true);

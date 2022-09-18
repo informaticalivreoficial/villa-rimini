@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use App\Support\Cropper;
 
 class Avaliacoes extends Model
 {
@@ -16,6 +14,7 @@ class Avaliacoes extends Model
     protected $fillable = [
         'name',
         'email',
+        'checkout',
         'questao_1',
         'questao_2',
         'questao_3',
@@ -55,5 +54,28 @@ class Avaliacoes extends Model
         }
 
         return date('d/m/Y', strtotime($value));
+    }
+
+    public function setCheckoutAttribute($value)
+    {
+        $this->attributes['checkout'] = (!empty($value) ? $this->convertStringToDate($value) : null);
+    }
+    
+    public function getCheckoutAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return date('d/m/Y', strtotime($value));
+    }
+
+    private function convertStringToDate(?string $param)
+    {
+        if (empty($param)) {
+            return null;
+        }
+        list($day, $month, $year) = explode('/', $param);
+        return (new \DateTime($year . '-' . $month . '-' . $day))->format('Y-m-d');
     }
 }

@@ -21,6 +21,7 @@ class CreateAvaliacoesTable extends Migration
             // 5. A equipe - Simpatia
             // 6. A equipe - Cortesia
             // 7. Estava tudo em bom funcionamento no seu quarto?
+            // 7.1. Se colocou “Não”, explique o que precisava ser reparado.
             // 8. O responsável da manutenção foi eficiente?
             // 9. Ficaria novamente no hotel?
             // 10. Recomendaria o nosso hotel?
@@ -31,8 +32,9 @@ class CreateAvaliacoesTable extends Migration
             // Mau = 1
             // Péssimo = 0
             $table->increments('id');
-            $table->integer('status')->nullable();
+            $table->integer('status')->default('0');
             $table->string('name');
+            $table->date('checkout')->nullable();
             $table->string('email')->nullable();
             $table->string('cidade')->nullable();
             $table->integer('questao_1')->default('0');
@@ -46,7 +48,7 @@ class CreateAvaliacoesTable extends Migration
             $table->integer('questao_8')->default('0');
             $table->integer('questao_9')->default('0');
             $table->integer('questao_10')->default('0');
-            $table->integer('questao_11')->default('0');
+            $table->string('questao_11')->nullable();
             $table->text('content')->nullable();            
 
             $table->timestamps();

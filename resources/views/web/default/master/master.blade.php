@@ -40,8 +40,7 @@
 
     <!-- Library - Bootstrap v3.3.5 -->
     <link rel="stylesheet" type="text/css" href="{{url('frontend/assets/libraries/lib.css')}}"/>
-    <link rel="stylesheet" type="text/css" href="{{url('frontend/assets/libraries/calender/calendar.css')}}"/>
-
+    
     <!-- Custom - Common CSS -->
     <link rel="stylesheet" type="text/css" href="{{url('frontend/assets/css/plugins.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{url('frontend/assets/css/navigation-menu.css')}}"/>
@@ -223,7 +222,6 @@
 
     <!-- Library JS -->
     <script src="{{url('frontend/assets/libraries/lib.js')}}"></script>
-    <script src="{{url('frontend/assets/libraries/calender/jquery-ui-datepicker.min.js')}}"></script>
     <script src="{{url('frontend/assets/js/jquery-migrate-1.0.0.js')}}"></script>
         
     <!-- Library - Theme JS -->	

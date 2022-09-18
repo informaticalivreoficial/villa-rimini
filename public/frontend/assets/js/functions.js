@@ -494,33 +494,8 @@
 				}
 			});
 		}
-		//$('.gallery-box , .portfolio-list .portfolio-box').magnificPopup({
-//			delegate: 'a',
-//			type: 'image',
-//			tLoading: 'Loading image #%curr%...',
-//			mainClass: 'mfp-img-mobile',
-//			gallery: {
-//				enabled: true,
-//				navigateByImgClick: true,
-//				preload: [0,1] // Will preload 0 - before current, and 1 after the current image
-//			},
-//			image: {
-//				tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',				
-//			}
-//		});
 		
-		// $('#calendar').datepicker({
-		// 	inline: true,
-		// 	firstDay: 1,
-		// 	showOtherMonths: true,
-		// 	dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
-		// });
 		
-		// $( "#datepicker1,#datepicker2" ).datepicker({
-		//   dateFormat: 'dd/mm/yy',
-        //   monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-		//   dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
-		// });
 		
 		/* -- Map Initialization */
 		if( $( "#map-canvas-contact").length == 1 ){
@@ -577,16 +552,7 @@
 		
 	});
 	
-	/* ## Window Load - Handler for .load() called */
-	// $(window).load(function() {
-	// 	/* - Site Loader */
-	// 	if ( !$("html").is(" .ie6, .ie7, .ie8 ") ) {
-	// 		$("#site-loader").delay(1000).fadeOut("slow");
-	// 	}
-	// 	else {
-	// 		$("#site-loader").css("display","none");
-	// 	}
-	// });
+	
 	
 })(jQuery);
 

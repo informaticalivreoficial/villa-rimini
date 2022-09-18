@@ -254,4 +254,17 @@ class WebController extends Controller
             'estados' => $this->estadoService->getEstados()
         ]);
     }
+
+    public function avaliacaoCliente(Request $request)
+    {
+        $head = $this->seo->render('Questionário de avaliação - ' . $this->configService->getConfig()->nomedosite,
+            'Questionário de avaliação',
+            route('web.avaliacao'),
+            $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
+        );
+
+        return view('web.cliente.avaliacao',[
+            'head' => $head
+        ]);
+    }
 }
