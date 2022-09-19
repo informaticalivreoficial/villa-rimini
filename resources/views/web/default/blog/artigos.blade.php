@@ -1,4 +1,4 @@
-@extends('web.master.master')
+@extends("web.{$configuracoes->template}.master.master")
 
 @section('content')
 <div class="container">

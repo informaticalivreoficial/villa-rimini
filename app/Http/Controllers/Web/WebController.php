@@ -77,7 +77,7 @@ class WebController extends Controller
             $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
         ); 
 
-		return view('web.home',[
+		return view('web.'.$this->configService->getConfig()->template.'.home',[
             'head' => $head,            
             'slides' => $slides,
             'apartamento' => $apartamento,
@@ -95,7 +95,7 @@ class WebController extends Controller
             route('web.quemsomos'),
             $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
         );
-        return view('web.quem-somos',[
+        return view('web.'.$this->configService->getConfig()->template.'.quem-somos',[
             'head' => $head,
             'paginaQuemSomos' => $paginaQuemSomos
         ]);
@@ -109,7 +109,7 @@ class WebController extends Controller
             $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
         );
 
-        return view('web.politica',[
+        return view('web.'.$this->configService->getConfig()->template.'.politica',[
             'head' => $head
         ]);
     }
@@ -144,7 +144,7 @@ class WebController extends Controller
             $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
         );
         
-        return view('web.pesquisa',[
+        return view('web.'.$this->configService->getConfig()->template.'.pesquisa',[
             'head' => $head,
             'paginas' => $paginas,
             'artigos' => $artigos
@@ -164,7 +164,7 @@ class WebController extends Controller
             $post->cover() ?? $this->configService->getMetaImg()
         );
 
-        return view('web.pagina', [
+        return view('web.'.$this->configService->getConfig()->template.'.pagina', [
             'head' => $head,
             'post' => $post,
             'clientesCount' => $clientesCount
@@ -179,7 +179,7 @@ class WebController extends Controller
             $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
         );        
 
-        return view('web.atendimento', [
+        return view('web.'.$this->configService->getConfig()->template.'.atendimento', [
             'head' => $head            
         ]);
     }
@@ -192,7 +192,7 @@ class WebController extends Controller
             route('web.acomodacoes'),
             $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
         );
-        return view('web.acomodacoes.index',[
+        return view('web.'.$this->configService->getConfig()->template.'.acomodacoes.index',[
             'head' => $head,
             'acomodacoes' => $acomodacoes
         ]);
@@ -213,7 +213,7 @@ class WebController extends Controller
             $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
         );
         
-        return view('web.acomodacoes.reservar',[
+        return view('web.'.$this->configService->getConfig()->template.'.acomodacoes.reservar',[
             'head' => $head,
             'dadosForm' => $dadosForm,
             'acomodacoes' => $acomodacoes,
@@ -246,7 +246,7 @@ class WebController extends Controller
             route('web.acomodacao', ['slug' => $acomodacao->slug]),
             $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
         );
-        return view('web.acomodacoes.acomodacao',[
+        return view('web.'.$this->configService->getConfig()->template.'.acomodacoes.acomodacao',[
             'head' => $head,
             'acomodacao' => $acomodacao,
             'acomodacoes' => $acomodacoes,
@@ -263,7 +263,7 @@ class WebController extends Controller
             $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
         );
 
-        return view('web.cliente.avaliacao',[
+        return view('web.'.$this->configService->getConfig()->template.'.cliente.avaliacao',[
             'head' => $head
         ]);
     }
