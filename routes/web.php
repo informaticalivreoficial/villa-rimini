@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\{
     NewsletterController,
     ParceiroController,
     ReservaController,
+    SitemapController,
     SlideController
 };
 use App\Http\Controllers\Web\RssFeedController;
@@ -56,6 +57,8 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
 
     /** FEED */
     Route::get('feed', [RssFeedController::class, 'feed'])->name('feed');
+    Route::get('/politica-de-privacidade', [WebController::class, 'politica'])->name('politica');
+    Route::get('/sitemap', [WebController::class, 'sitemap'])->name('sitemap');
 
 });
 
@@ -158,11 +161,13 @@ Route::prefix('admin')->middleware('auth')->group( function(){
 
     /** Avaliações */
     Route::get('avaliacoes/set-status', [AvaliacaoController::class, 'avaliacoesSetStatus'])->name('avaliacoes.avaliacoesSetStatus');
+    Route::match(['post', 'get'], 'avaliacoes/fetchCity', [AvaliacaoController::class, 'fetchCity'])->name('avaliacoes.fetchCity');
     Route::get('avaliacoes/delete', [AvaliacaoController::class, 'delete'])->name('avaliacoes.delete');
     Route::delete('avaliacoes/deleteon', [AvaliacaoController::class, 'deleteon'])->name('avaliacoes.deleteon');
     Route::put('avaliacoes/{id}', [AvaliacaoController::class, 'update'])->name('avaliacoes.update');
     Route::get('avaliacoes/{id}/edit', [AvaliacaoController::class, 'edit'])->name('avaliacoes.edit');
     Route::get('avaliacoes/create', [AvaliacaoController::class, 'create'])->name('avaliacoes.create');
+    Route::post('avaliacoes/store', [AvaliacaoController::class, 'store'])->name('avaliacoes.store');
     Route::get('avaliacoes', [AvaliacaoController::class, 'index'])->name('avaliacoes.index');
 
     /** Reservas */
@@ -186,6 +191,9 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     Route::get('apartamentos/create', [ApartamentoController::class, 'create'])->name('apartamentos.create');
     Route::post('apartamentos/store', [ApartamentoController::class, 'store'])->name('apartamentos.store');
     Route::get('apartamentos', [ApartamentoController::class, 'index'])->name('apartamentos.index');
+
+    //******************** Sitemap *********************************************/
+    Route::get('gerarxml', [SitemapController::class, 'gerarxml'])->name('gerarxml');
 
     Route::get('/', [AdminController::class, 'home'])->name('home');
 });

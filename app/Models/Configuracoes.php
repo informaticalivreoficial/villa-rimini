@@ -67,7 +67,9 @@ class Configuracoes extends Model
         'rss',
         'rss_data',
         'sitemap',
-        'sitemap_data'
+        'sitemap_data',
+        'analytics_view',
+        'tagmanager_id'
     ];
 
     /**

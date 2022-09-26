@@ -35,8 +35,10 @@ class CreateAvaliacoesTable extends Migration
             $table->integer('status')->default('0');
             $table->string('name');
             $table->date('checkout')->nullable();
+            $table->string('regiao')->nullable();
             $table->string('email')->nullable();
-            $table->string('cidade')->nullable();
+            $table->integer('uf')->nullable();
+            $table->integer('cidade')->nullable();
             $table->integer('questao_1')->default('0');
             $table->integer('questao_2')->default('0');
             $table->integer('questao_3')->default('0');

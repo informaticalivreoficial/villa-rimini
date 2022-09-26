@@ -267,4 +267,11 @@ class WebController extends Controller
             'head' => $head
         ]);
     }
+
+    public function sitemap()
+    {
+        $url = $this->configService->getConfig()->sitemap;
+        $data = file_get_contents($url);
+        return response($data, 200, ['Content-Type' => 'application/xml']);
+    }
 }

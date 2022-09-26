@@ -38,8 +38,9 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Check out</th>
-                            <th>Avaliado em</th>
+                            <th class="text-center">Região</th>
+                            <th class="text-center">Check out</th>
+                            <th class="text-center">Avaliado em</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -48,11 +49,17 @@
                         <tr style="{{ ($avaliacao->status == '1' ? '' : 'background: #fffed8 !important;')  }}">
                             
                             <td>{{$avaliacao->name}}</td>
-                            <td>{{$avaliacao->checkout}}</td>
-                            <td>{{$avaliacao->created_at}}</td>
+                            <td class="text-center">{{$avaliacao->regiao}}</td>
+                            <td class="text-center">{{$avaliacao->checkout ?? '--------'}}</td>
+                            <td class="text-center">{{$avaliacao->created_at}}</td>
                             <td>
                                 <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $avaliacao->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $avaliacao->status == true ? 'checked' : ''}}>
-                                <a href="{{route('email.send',['id' => $avaliacao->id, 'id' => 'user'] )}}" class="btn btn-xs text-white bg-teal"><i class="fas fa-envelope"></i></a>                           
+                                <form class="btn btn-xs" action="{{route('email.send')}}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="nome" value="{{ $avaliacao->name }}">
+                                    <input type="hidden" name="email" value="{{ $avaliacao->email }}">
+                                    <button title="Enviar Email" type="submit" class="btn btn-xs text-white bg-teal"><i class="fas fa-envelope"></i></button>
+                                </form>
                                 <a href="{{route('avaliacoes.edit',['id' => $avaliacao->id])}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                                 <button type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$avaliacao->id}}" data-toggle="modal" data-target="#modal-default">
                                     <i class="fas fa-trash"></i>

@@ -48,9 +48,9 @@
 
             <div class="info-box-content">
                 <span class="info-box-text"><b>Clientes</b></span>
-                <span class="info-box-text">Ativos: {{ $artigosAvailable }}</span>
-                <span class="info-box-text">Inativos: {{ $artigosUnavailable }}</span>
-                <span class="info-box-text">Total: {{ $artigosAvailable + $artigosUnavailable }}</span>
+                <span class="info-box-text">Ativos: {{ $clientesAvailable }}</span>
+                <span class="info-box-text">Inativos: {{ $clientesUnavailable }}</span>
+                <span class="info-box-text">Total: {{ $clientesAvailable + $clientesUnavailable }}</span>
             </div>
         </div>
     </div> 

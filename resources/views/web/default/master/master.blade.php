@@ -210,6 +210,7 @@
             </div>
         </div>
         <div class="bottom-footer container-fluid">
+            <p><a style="color:#fff;" href="{{route('web.politica')}}">Política de privacidade</a> - <a style="color:#fff;" href="{{route('web.atendimento')}}">Atendimento</a></p>
             <p>© {{$configuracoes->ano_de_inicio}} - {{date('Y')}} {{$configuracoes->nomedosite}} - Todos os direitos reservados.</p>
             <p class="font-accent">
                 <span class="small text-silver-dark">Feito com <i style="color:red;" class="fa fa-heart"></i> por <a style="color:#fff;" target="_blank" href="{{env('DESENVOLVEDOR_URL')}}">{{env('DESENVOLVEDOR')}}</a></span>
@@ -286,13 +287,13 @@
     @endif    
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3G7VHNB0RY"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{$configuracoes->tagmanager_id}}"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
     
-      gtag('config', 'G-3G7VHNB0RY');
+        gtag('config', '{{$configuracoes->tagmanager_id}}');
     </script>
 </body>
 </html>

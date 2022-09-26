@@ -23,6 +23,9 @@ class AdminController extends Controller
         $time = User::where('admin', 1)->orWhere('editor', 1)->count();
         $usersAvailable = User::where('client', 1)->available()->count();
         $usersUnavailable = User::where('client', 1)->unavailable()->count();
+        //Clientes
+        $clientesAvailable = User::where('client', 1)->available()->count();
+        $clientesUnavailable = User::where('client', 1)->unavailable()->count();
         //Newsletter
         $listas = NewsletterCat::count();
         $emails = Newsletter::count();
@@ -106,6 +109,9 @@ class AdminController extends Controller
             'paginastotalviews' => $totalViewsPaginas,
             'usersAvailable' => $usersAvailable,
             'usersUnavailable' => $usersUnavailable,
+            //Clientes
+            'clientesAvailable' => $clientesAvailable,
+            'clientesUnavailable' => $clientesUnavailable,
             'postsArtigos' => $postsArtigos,
             'postsNoticias' => $postsNoticias,
             'postsPaginas' => $postsPaginas,

@@ -77,6 +77,8 @@ class CreateConfiguracoesTable extends Migration
             $table->date('rss_data')->nullable();
             $table->string('sitemap');
             $table->date('sitemap_data')->nullable();
+            $table->string('analytics_view')->nullable();
+            $table->string('tagmanager_id')->nullable();
             
             $table->timestamps();
             

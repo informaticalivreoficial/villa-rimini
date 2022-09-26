@@ -28,6 +28,9 @@ class Avaliacoes extends Model
         'questao_10',
         'questao_11',
         'content',
+        'regiao',
+        'cidade',
+        'uf',
         'status'
     ];
 

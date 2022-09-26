@@ -464,8 +464,24 @@ $config1 = [
                                         <h5><b>Configurações SEO</b></h5>  
                                         <p>Aqui você pode configurar a otimização para as aplicações de Buscas</p>                                          
                                     </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <h5><b>Sitemap</b></h5>  
+                                        <p>Caminho: <a target="_blank" href="{{$config->sitemap}}">{{url(asset(\Str::slug($config->nomedosite)))}}_sitemap.xml</a></p>                                          
+                                        <h5><b>Feed/RSS</b></h5>  
+                                        <p>Caminho: <a target="_blank" href="{{route('web.feed')}}">{{route('web.feed')}}</a></p>                                          
+                                    </div>
                                 </div>                                        
-                                <div class="col-12 mb-1 acoes text-right py-2"> 
+                                <div class="col-4 mb-1 py-2"> 
+                                    <label class="labelforms"><b>Google Analytics (vista da propriedade):</b></label>
+                                    <input type="text" class="form-control text-muted" name="analytics_view" value="{{old('analytics_view') ?? $config->analytics_view}}">
+                                </div>
+                                <div class="col-4 mb-1 py-2"> 
+                                    <label class="labelforms"><b>Google Analytics (Tag Mananger Id):</b></label>
+                                    <input type="text" class="form-control text-muted" name="tagmanager_id" value="{{old('tagmanager_id') ?? $config->tagmanager_id}}">
+                                </div>
+                                <div class="col-4 mb-1 acoes text-right py-2"> 
                                     <a data-id="{{$config->id}}" href="javascript:void(0)" class="btn {{ ($diferenca >= 30 ? 'btn-warning' : 'btn-success disabled') }} btn-flat btn_sitemap">{!! ($diferenca >= 30 ? '<i class="fas fa-exclamation-triangle"></i> Sitemap Desatualizado' : '<i class="fas fa-check"></i> Sitemap Atualizado') !!}</a>
                                 </div>
                                 <div class="col-12 mb-1"> 
@@ -623,7 +639,7 @@ $config1 = [
             $.ajax({
                 type: 'GET',
                 dataType: 'JSON',
-                url: "{{ route('admin.gerarxml') }}",
+                url: "{{ route('gerarxml') }}",
                 data: {
                    'id': conf_id
                 },
