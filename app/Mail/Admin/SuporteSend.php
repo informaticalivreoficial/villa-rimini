@@ -37,6 +37,6 @@ class SuporteSend extends Mailable
         $this->markdown('admin.email.sendsuporte', [
             'mensagem' => $this->data['mensagem']
         ]);
-        return $this;        
+        return $this;         
     }
 }

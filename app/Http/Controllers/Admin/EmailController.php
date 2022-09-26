@@ -86,4 +86,5 @@ class EmailController extends Controller
             return response()->json(['success' => $json]);            
         }
     }
+    
 }
