@@ -33,7 +33,7 @@ class WebController extends Controller
 
     public function __construct(
         ConfigService $configService, 
-        EstadoService $estadoService,)
+        EstadoService $estadoService)
     {
         $this->configService = $configService;
         $this->estadoService = $estadoService;
