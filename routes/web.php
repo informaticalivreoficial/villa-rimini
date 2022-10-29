@@ -20,6 +20,9 @@ use App\Http\Controllers\Admin\{
 use App\Http\Controllers\Web\RssFeedController;
 use App\Http\Controllers\Web\SendEmailController;
 use App\Http\Controllers\Web\WebController;
+use Illuminate\Support\Facades\Redirect;
+
+return Redirect::to('https://informaticalivre.com.br');
 
 Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
 
