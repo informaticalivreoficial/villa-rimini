@@ -169,22 +169,22 @@ class PostController extends Controller
 
     public function categoriaList(Request $request)
     {   
-        $allData = array();
+        $allData = [];
         $categorias = CatPost::where('tipo', '=', $request->categoria_tipo)->where('id_pai', null)->get();     
         foreach($categorias as $key => $categoria){
             $allData[$key]['catTitulo'] = $categoria->titulo;
             $allData[$key]['catId'] = $categoria->id;
 
-            $subCat = array();
+            $subCat = [];
             if($categoria->children){
                 foreach($categoria->children as $k => $subcategoria){
-                    $subCat['id'] = $subcategoria->id; 
-                    $subCat['titulo'] = $subcategoria->titulo; 
+                    $subCat[$k]['id'] = $subcategoria->id; 
+                    $subCat[$k]['titulo'] = $subcategoria->titulo;                                       
                 }
             }
-            $allData[$key]['subcategory'] = $subCat;       
-        }       
-        return response()->json(['data' => $allData]);
+            $allData[$key]['subcategory'] = $subCat;
+        }         
+        return response()->json($allData);
     }
 
     public function imageRemove(Request $request)

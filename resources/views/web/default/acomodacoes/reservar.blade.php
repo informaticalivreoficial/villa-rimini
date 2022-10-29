@@ -89,7 +89,7 @@
                             <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                 <label>Check-out</label>
                                 <i class="fa fa-calendar-minus-o"></i>
-                                <input type="text" class="form-control datepicker-here" name="checkout" value="{{(!empty($dadosForm['checkin']) ? $dadosForm['checkout'] : '')}}" data-language='pt-BR'/>
+                                <input type="text" class="form-control datepicker-here" name="checkout" value="{{(!empty($dadosForm['checkout']) ? $dadosForm['checkout'] : '')}}" data-language='pt-BR'/>
                             </div>
                             
                             <div class="form-group col-md-6 col-sm-6 col-xs-12">
