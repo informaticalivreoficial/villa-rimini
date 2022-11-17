@@ -78,9 +78,9 @@ class Configuracoes extends Model
     
     public function getmetaimg()
     {
-        // if(empty($this->metaimg) || !Storage::disk()->exists($this->metaimg)) {
-        //     return url(asset('backend/assets/images/image.jpg'));
-        // } 
+        if(empty($this->metaimg) || !Storage::disk()->exists($this->metaimg)) {
+            return url(asset('backend/assets/images/image.jpg'));
+        } 
         return Storage::url($this->metaimg);
     }
     
