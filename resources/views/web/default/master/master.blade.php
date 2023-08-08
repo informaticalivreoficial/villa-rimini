@@ -137,7 +137,7 @@
                         </nav>
                     </div>
                     <div class="col-md-2 book-now">
-                        <a href="{{route('web.reservar')}}" title="Pré-reserva">Pré-reserva</a>
+                        <a target="_blank" href="https://hbook.hsystem.com.br/Booking?companyId=64c7f03434483c2f17b5ae20" title="Pré-reserva">Pré-reserva</a>
                     </div>
                 </div>
             </div>
