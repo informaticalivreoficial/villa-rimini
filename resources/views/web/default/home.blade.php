@@ -36,7 +36,7 @@
     </div>
     @endif
     <!-- Slider Section /- -->
-    
+    {{--
     <!-- container -->
     <div class="container">
         <div class="booking-form container-fluid">
@@ -89,7 +89,7 @@
         </div>		
         
     </div><!-- container /- -->
-    
+    --}}
     <div class="section-padding"></div>
     
     <!-- Offer Section -->
