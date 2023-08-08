@@ -286,6 +286,8 @@
         @yield('js')
     @endif    
 
+    <script async src='https://s3-sa-east-1.amazonaws.com/hbook-universal-js/js/64c7f03434483c2f17b5ae20.js'></script>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{$configuracoes->tagmanager_id}}"></script>
     <script>
