@@ -158,6 +158,10 @@
                     <aside class="col-md-4 col-sm-12 col-xs-12 widget text_widget">
                         <h4 class="widget_title">{{$configuracoes->nomedosite}}</h4>
                         <p>{{$configuracoes->descricao}}</p>
+                        <p>Email: {{$configuracoes->email}}
+                        <br>
+                        CNPJ: {{$configuracoes->cnpj}}
+                        </p>
                         <ul class="social_widget">
                             @if ($configuracoes->facebook)
                                 <li><a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook"><i class="fa fa-facebook"></i></a></li>
