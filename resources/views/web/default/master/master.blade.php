@@ -206,9 +206,9 @@
                     <h4 class="widget_title">Instagram</h4>                         
                                                
                     <!-- Galeria /- -->
-                    <div style="width: 100%; height: auto; display: table;" >
-                        
-                    <!-- LightWidget WIDGET --><script src="//lightwidget.com/widgets/lightwidget.js"></script><iframe src="//lightwidget.com/widgets/bbdd12f62db7558e83498c362b13ad7f.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width: 100%; border: 0; overflow: hidden;"></iframe></div>
+                    
+                        <div id="widbox" style="width: 100%; height: 100%;" data-widbox-widget-id="1IjpikLpqEXD1fKFtJAa"></div><script src="https://widbox.sfo3.cdn.digitaloceanspaces.com/scripts/widbox.min.js" defer></script>
+                    
                     </aside>
                     
                 </div>
