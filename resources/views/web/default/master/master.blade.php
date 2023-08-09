@@ -290,12 +290,11 @@
         @yield('js')
     @endif   
     
-    <script>
+    <script> 
         $(function () {
             setTimeout(function() {
                 $(".widbox-copyright-logo").hide();
-                console.log('olá'); 
-            }, 4000)
+            }, 10000)
         });
     </script>
 
