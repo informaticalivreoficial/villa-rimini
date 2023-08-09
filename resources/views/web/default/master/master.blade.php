@@ -293,6 +293,7 @@
     <script>
         setTimeout(function() {
             document.getElementsByClassName("widbox-copyright-logo").style.display = "none";
+            console.log('olá'); 
         }, 4000)
     </script>
 
