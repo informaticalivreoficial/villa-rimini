@@ -60,7 +60,11 @@
         @yield('css')
     @endif
 
-    
+    <style>
+        .widbox-button-container{
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body data-offset="200" data-spy="scroll" data-target=".ow-navigation">  
