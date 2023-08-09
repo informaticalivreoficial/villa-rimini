@@ -213,7 +213,7 @@
                 
             </div>
         </div>
-        <div class="bottom-footer container-fluid">
+        <div class="bottom-footer container-fluid" style="padding-bottom: 30px;">
             <p><a style="color:#fff;" href="{{route('web.politica')}}">Política de privacidade</a> - <a style="color:#fff;" href="{{route('web.atendimento')}}">Atendimento</a></p>
             <p>© {{$configuracoes->ano_de_inicio}} - {{date('Y')}} {{$configuracoes->nomedosite}} - Todos os direitos reservados.</p>
             <p class="font-accent">
