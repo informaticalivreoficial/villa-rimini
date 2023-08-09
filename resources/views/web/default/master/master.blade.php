@@ -59,6 +59,12 @@
     @hasSection('css')
         @yield('css')
     @endif
+
+    <style>
+        #HSystemSearchBoxInline {
+            bottom: 40px !important;
+        }
+    </style>
 </head>
 
 <body data-offset="200" data-spy="scroll" data-target=".ow-navigation">  
