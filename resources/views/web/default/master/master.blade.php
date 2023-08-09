@@ -293,7 +293,7 @@
     <script>
         $(function () {
             setTimeout(function() {
-                document.getElementsByClassName("widbox-copyright-logo").style.display = "none";
+                $(".widbox-copyright-logo").hide();
                 console.log('olá'); 
             }, 4000)
         });
