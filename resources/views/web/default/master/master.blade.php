@@ -64,6 +64,9 @@
         .widbox-button-container{
             display: none !important;
         }
+        .widbox-copyright-logo {
+            display: none !important;
+        }
     </style>
 </head>
 
