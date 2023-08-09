@@ -291,10 +291,12 @@
     @endif   
     
     <script>
-        setTimeout(function() {
-            document.getElementsByClassName("widbox-copyright-logo").style.display = "none";
-            console.log('olá'); 
-        }, 4000)
+        $(function () {
+            setTimeout(function() {
+                document.getElementsByClassName("widbox-copyright-logo").style.display = "none";
+                console.log('olá'); 
+            }, 4000)
+        });
     </script>
 
     <script async src='https://s3-sa-east-1.amazonaws.com/hbook-universal-js/js/64c7f03434483c2f17b5ae20.js'></script>
