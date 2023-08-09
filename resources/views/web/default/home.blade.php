@@ -143,13 +143,10 @@
     
     <div class="section-padding" style="padding-top: 100px;"></div>
     
-    <div class="container-fluid no-padding" style="background: #ddd;">
-    
-    <div class="container" id="video">
-    
-    <iframe src="https://player.vimeo.com/video/243223682?portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-    
-    </div>
+    <div class="container-fluid no-padding" style="background: #ddd;">    
+        <div class="container">
+            {!!$configuracoes->mapa_google!!}
+        </div>
     </div>
     
     
