@@ -4,7 +4,7 @@
 <main class="site-main page-spacing">
     <!-- Page Banner -->
     <div class="container-fluid page-banner about-banner" style="background-image: url({{$post->cover()}});">
-        <div class="container" style="margin-top: -20px !important;">
+        <div class="container" style="margin-top: -40px !important;">
             <h3 style="color: #fff;">{{$post->titulo}}</h3>
             <ol class="breadcrumb">
                 <li><a style="color: #fff;" href="{{route('web.home')}}">Início</a></li>
