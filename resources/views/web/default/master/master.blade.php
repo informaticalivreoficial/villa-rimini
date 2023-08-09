@@ -213,7 +213,7 @@
                 
             </div>
         </div>
-        <div class="bottom-footer container-fluid" style="padding-bottom: 30px;">
+        <div class="bottom-footer container-fluid" style="padding-bottom: 60px !important;">
             <p><a style="color:#fff;" href="{{route('web.politica')}}">Política de privacidade</a> - <a style="color:#fff;" href="{{route('web.atendimento')}}">Atendimento</a></p>
             <p>© {{$configuracoes->ano_de_inicio}} - {{date('Y')}} {{$configuracoes->nomedosite}} - Todos os direitos reservados.</p>
             <p class="font-accent">
@@ -294,7 +294,7 @@
         $(function () {
             setTimeout(function() {
                 $(".widbox-copyright-logo").hide();
-            }, 10000)
+            }, 9000)
         });
     </script>
 
