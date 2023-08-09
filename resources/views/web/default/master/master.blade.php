@@ -58,16 +58,7 @@
     
     @hasSection('css')
         @yield('css')
-    @endif
-
-    <style>
-        .widbox-button-container{
-            display: none !important;
-        }
-        .widbox-copyright-logo {
-            display: none !important;
-        }
-    </style>
+    @endif    
 </head>
 
 <body data-offset="200" data-spy="scroll" data-target=".ow-navigation">  
@@ -297,7 +288,13 @@
 
     @hasSection('js')
         @yield('js')
-    @endif    
+    @endif   
+    
+    <script>
+        setTimeout(function() {
+            document.getElementsByClassName("widbox-copyright-logo").style.display = "none";
+        }, 4000)
+    </script>
 
     <script async src='https://s3-sa-east-1.amazonaws.com/hbook-universal-js/js/64c7f03434483c2f17b5ae20.js'></script>
 
