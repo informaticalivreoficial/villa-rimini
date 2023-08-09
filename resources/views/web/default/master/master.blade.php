@@ -294,7 +294,7 @@
         $(function () {
             setTimeout(function() {
                 $(".widbox-copyright-logo").hide();
-            }, 9000)
+            }, 8000)
         });
     </script>
 
