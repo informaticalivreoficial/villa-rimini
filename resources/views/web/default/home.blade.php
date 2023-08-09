@@ -145,7 +145,9 @@
     
     <div class="container-fluid no-padding" style="background: #ddd;">    
         <div class="container">
-            {!!$configuracoes->mapa_google!!}
+            <div style="width: 100%">
+                {!!$configuracoes->mapa_google!!}
+            </div>
         </div>
     </div>
     
