@@ -35,6 +35,14 @@
         </div>
     </div>
     @endif
+
+    {{--
+    <div class="container">
+        <div style="width: 100%">
+            Botão
+        </div>
+    </div>
+--}}
     <!-- Slider Section /- -->
     {{--
     <!-- container -->
