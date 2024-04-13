@@ -39,11 +39,21 @@
     {{--
     <div class="container">
         <div style="width: 100%">
-            Botão
+            <a target="_blank" href="https://hbook.hsystem.com.br/Booking?companyId=64c7f03434483c2f17b5ae20" class="btn btn-primary btn-lg btn-block" style="margin-top: 30px">
+            <span style="font-weight: bold;font-size:22px;">Clique aqui e faça sua reserva</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div style="width: 100%">
+            <a target="_blank" href="https://hbook.hsystem.com.br/Booking?companyId=64c7f03434483c2f17b5ae20" class="btn btn-primary btn-lg btn-block" style="margin-top: 30px;border-radius:0px !important;">
+            <span style="font-weight: bold;font-size:22px;">Clique Aqui e Faça Sua Reserva</span>
+            </a>
         </div>
     </div>
 --}}
-    <!-- Slider Section /- -->
+     
     {{--
     <!-- container -->
     <div class="container">
