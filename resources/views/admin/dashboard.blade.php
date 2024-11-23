@@ -328,47 +328,45 @@
             });
         }); 
 
-        
-            var areaChartData = {
-                labels  : [
+        var areaChartData = {
+            labels  : [
                 @foreach($analyticsData as $analitics)                
                     'Mês/{{$analitics['month']}}',                                 
                 @endforeach
-                ],
-                datasets: [
-                    {
-                    label               : 'Visitas Únicas',
-                    backgroundColor     : 'rgba(60,141,188,0.9)',
-                    borderColor         : 'rgba(60,141,188,0.8)',
-                    pointRadius          : false,
-                    pointColor          : '#3b8bba',
-                    pointStrokeColor    : 'rgba(60,141,188,1)',
-                    pointHighlightFill  : '#fff',
-                    pointHighlightStroke: 'rgba(60,141,188,1)',
-                    data                : [
+            ],
+            datasets: [
+                {
+                label               : 'Visitas Únicas',
+                backgroundColor     : 'rgba(60,141,188,0.9)',
+                borderColor         : 'rgba(60,141,188,0.8)',
+                pointRadius          : false,
+                pointColor          : '#3b8bba',
+                pointStrokeColor    : 'rgba(60,141,188,1)',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data                : [
                                         @foreach($analyticsData as $analitics)                
                                             '{{$analitics['totalUsers']}}',                                 
                                         @endforeach
-                                        ]
-                    },
-                    {
-                    label               : 'Visitas',
-                    backgroundColor     : 'rgba(210, 214, 222, 1)',
-                    borderColor         : 'rgba(210, 214, 222, 1)',
-                    pointRadius         : false,
-                    pointColor          : 'rgba(210, 214, 222, 1)',
-                    pointStrokeColor    : '#c1c7d1',
-                    pointHighlightFill  : '#fff',
-                    pointHighlightStroke: 'rgba(220,220,220,1)',
-                    data                : [
+                                    ]
+                },
+                {
+                label               : 'Visitas',
+                backgroundColor     : 'rgba(210, 214, 222, 1)',
+                borderColor         : 'rgba(210, 214, 222, 1)',
+                pointRadius         : false,
+                pointColor          : 'rgba(210, 214, 222, 1)',
+                pointStrokeColor    : '#c1c7d1',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: 'rgba(220,220,220,1)',
+                data                : [
                                         @foreach($analyticsData as $analitics)                
                                             '{{$analitics['sessions']}}',                                 
                                         @endforeach
-                                        ]
-                    },
-                ]
-            }
-        
+                                    ]
+                },
+            ]
+        }
 
         //-------------
         //- BAR CHART -
@@ -405,7 +403,7 @@
         // Get context with jQuery - using jQuery's .get() method.
         var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
         var donutData        = {
-            labels: [
+          labels: [
             @if(!empty($top_browser))
                 @foreach($top_browser as $browser)
                   '{{$browser['browser']}}',
@@ -485,13 +483,12 @@
         var donutDataposts        = {
             labels: [ 
                 'Artigos', 
-                'Páginas',
-                'Notícias'             
+                'Páginas'             
             ],
             datasets: [
                 {
-                data: [{{ $postsArtigos }}, {{ $postsPaginas }}, {{ $postsNoticias }}],
-                    backgroundColor : ['#8EC63D', '#60BA47', '#69BD63'],
+                data: [{{ $postsArtigos }}, {{ $postsPaginas }}],
+                    backgroundColor : ['#018577', '#BAC431'],
                 }
             ]
             }
