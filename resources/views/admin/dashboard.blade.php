@@ -328,9 +328,7 @@
             });
         }); 
 
-        @php
-        if($analyticsData->rows != null){
-        @endphp
+        
             var areaChartData = {
                 labels  : [
                 @foreach($analyticsData as $analitics)                
@@ -370,9 +368,6 @@
                     },
                 ]
             }
-        @php    
-        }
-        @endphp
         
 
         //-------------
