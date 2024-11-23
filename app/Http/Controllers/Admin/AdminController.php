@@ -74,7 +74,7 @@ class AdminController extends Controller
                 ->sum('views');
 
         //Analitcs
-        $visitasHoje = Analytics::fetchMostVisitedPages(Period::days(1));
+        //$visitasHoje = Analytics::fetchMostVisitedPages(Period::days(1));
         
         $visitas365 = Analytics::fetchTotalVisitorsAndPageViews(Period::months(5));
         
@@ -115,7 +115,7 @@ class AdminController extends Controller
             'postsNoticias' => $postsNoticias,
             'postsPaginas' => $postsPaginas,
             //Analytics
-            'visitasHoje' => $visitasHoje,
+            //'visitasHoje' => $visitasHoje,
             //'visitas365' => $visitas365,
             'analyticsData' => $sortedData,
             'top_browser' => $top_browser
