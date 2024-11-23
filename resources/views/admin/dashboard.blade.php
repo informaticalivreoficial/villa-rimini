@@ -333,8 +333,8 @@
         @endphp
             var areaChartData = {
                 labels  : [
-                @foreach($analyticsData->rows as $dataMonth)                
-                    'Mês/{{substr($dataMonth[0], -2)}}',                                 
+                @foreach($analyticsData as $analitics)                
+                    'Mês/{{$analitics['month']}}',                                 
                 @endforeach
                 ],
                 datasets: [
@@ -348,8 +348,8 @@
                     pointHighlightFill  : '#fff',
                     pointHighlightStroke: 'rgba(60,141,188,1)',
                     data                : [
-                                        @foreach($analyticsData->rows as $dataMonth)                
-                                            '{{$dataMonth[2]}}',                                 
+                                        @foreach($analyticsData as $analitics)                
+                                            '{{$analitics['totalUsers']}}',                                 
                                         @endforeach
                                         ]
                     },
@@ -363,8 +363,8 @@
                     pointHighlightFill  : '#fff',
                     pointHighlightStroke: 'rgba(220,220,220,1)',
                     data                : [
-                                        @foreach($analyticsData->rows as $dataMonth)                
-                                            '{{$dataMonth[1]}}',                                 
+                                        @foreach($analyticsData as $analitics)                
+                                            '{{$analitics['sessions']}}',                                 
                                         @endforeach
                                         ]
                     },
@@ -410,26 +410,26 @@
         // Get context with jQuery - using jQuery's .get() method.
         var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
         var donutData        = {
-          labels: [
-              @if(!empty($top_browser))
+            labels: [
+            @if(!empty($top_browser))
                 @foreach($top_browser as $browser)
                   '{{$browser['browser']}}',
                 @endforeach
-              @else
+            @else
                 'Chrome', 
                 'IE',
                 'FireFox', 
                 'Safari', 
                 'Opera', 
                 'Navigator',
-              @endif               
+            @endif                
           ],
           datasets: [
             {
               data: [
                 @if(!empty($top_browser))
                   @foreach($top_browser as $key => $browser)
-                    {{$browser['sessions']}},
+                    {{$browser['screenPageViews']}},
                   @endforeach
                 @else
                   700,500,400,600,300,100

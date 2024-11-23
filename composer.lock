@@ -161,16 +161,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.304.4",
+            "version": "3.305.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "20be41a5f1eef4c8a53a6ae7c0fc8b7346c0c386"
+                "reference": "6992342acf7dd4501163c6cddabe76c74f2020ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/20be41a5f1eef4c8a53a6ae7c0fc8b7346c0c386",
-                "reference": "20be41a5f1eef4c8a53a6ae7c0fc8b7346c0c386",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6992342acf7dd4501163c6cddabe76c74f2020ad",
+                "reference": "6992342acf7dd4501163c6cddabe76c74f2020ad",
                 "shasum": ""
             },
             "require": {
@@ -250,9 +250,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.304.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.305.0"
             },
-            "time": "2024-04-12T18:06:45+00:00"
+            "time": "2024-04-22T18:07:07+00:00"
         },
         {
             "name": "brick/math",
@@ -1273,16 +1273,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.343.0",
+            "version": "v0.345.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "8cb869e5c413b0e9d4aeada3d83df5e2ce388154"
+                "reference": "a975dae4c06d304b020eda3f53e7c3402b32132d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/8cb869e5c413b0e9d4aeada3d83df5e2ce388154",
-                "reference": "8cb869e5c413b0e9d4aeada3d83df5e2ce388154",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/a975dae4c06d304b020eda3f53e7c3402b32132d",
+                "reference": "a975dae4c06d304b020eda3f53e7c3402b32132d",
                 "shasum": ""
             },
             "require": {
@@ -1311,9 +1311,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.343.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.345.0"
             },
-            "time": "2024-04-06T00:58:16+00:00"
+            "time": "2024-04-21T01:02:15+00:00"
         },
         {
             "name": "google/auth",
@@ -5377,24 +5377,23 @@
         },
         {
             "name": "spatie/robots-txt",
-            "version": "2.0.3",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/robots-txt.git",
-                "reference": "dacba2ba159364987392aa1b0002e196c5923970"
+                "reference": "02722a0256731e7996bb9d0e544238a408e78bf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/robots-txt/zipball/dacba2ba159364987392aa1b0002e196c5923970",
-                "reference": "dacba2ba159364987392aa1b0002e196c5923970",
+                "url": "https://api.github.com/repos/spatie/robots-txt/zipball/02722a0256731e7996bb9d0e544238a408e78bf5",
+                "reference": "02722a0256731e7996bb9d0e544238a408e78bf5",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.0"
+                "php": "^8.1"
             },
             "require-dev": {
-                "larapack/dd": "^1.0",
-                "phpunit/phpunit": "^8.0 || ^9.0"
+                "phpunit/phpunit": "^9.0|^10.0"
             },
             "type": "library",
             "autoload": {
@@ -5422,7 +5421,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/robots-txt/issues",
-                "source": "https://github.com/spatie/robots-txt/tree/2.0.3"
+                "source": "https://github.com/spatie/robots-txt/tree/2.2.0"
             },
             "funding": [
                 {
@@ -5434,7 +5433,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-11-22T12:57:35+00:00"
+            "time": "2024-04-22T14:28:40+00:00"
         },
         {
             "name": "spatie/temporary-directory",

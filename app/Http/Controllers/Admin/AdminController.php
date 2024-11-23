@@ -8,11 +8,11 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Analytics;
 use App\Models\Apartamento;
 use App\Models\Newsletter;
 use App\Models\NewsletterCat;
 use Illuminate\Support\Facades\DB;
+use Analytics;
 use Spatie\Analytics\Period;
 
 class AdminController extends Controller
@@ -75,18 +75,17 @@ class AdminController extends Controller
 
         //Analitcs
         $visitasHoje = Analytics::fetchMostVisitedPages(Period::days(1));
-        $visitas365 = Analytics::fetchTotalVisitorsAndPageViews(Period::months(5));
-        $top_browser = Analytics::fetchTopBrowsers(Period::months(5));
-
         
-        $analyticsData = Analytics::performQuery(
-            Period::months(5),
-               'ga:sessions',
-               [
-                   'metrics' => 'ga:sessions, ga:visitors, ga:pageviews',
-                   'dimensions' => 'ga:yearMonth'
-               ]
-         );         
+        $visitas365 = Analytics::fetchTotalVisitorsAndPageViews(Period::months(5));
+        
+        $top_browser = Analytics::fetchTopBrowsers(Period::months(5), 10);
+
+        $analyticsData = Analytics::get(
+                Period::months(6), 
+                metrics: ['totalUsers', 'sessions', 'screenPageViews'], 
+                dimensions: ['month'],
+        );   
+        $sortedData = $analyticsData->sortBy('month');       
         
         return view('admin.dashboard',[
             //Newsletter
@@ -118,7 +117,7 @@ class AdminController extends Controller
             //Analytics
             'visitasHoje' => $visitasHoje,
             //'visitas365' => $visitas365,
-            'analyticsData' => $analyticsData,
+            'analyticsData' => $sortedData,
             'top_browser' => $top_browser
         ]);
     }
