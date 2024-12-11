@@ -359,7 +359,7 @@ $config1 = [
                                 <div class="col-12 col-md-6 col-lg-4"> 
                                     <div class="form-group">
                                         <label class="labelforms"><b>WhatsApp:</b></label>
-                                        <input type="text" class="form-control text-muted whatsappmask" placeholder="Número do Celuler com DDD" name="whatsapp" value="{{old('whatsapp') ?? $config->whatsapp}}">
+                                        <input type="text" class="form-control text-muted " placeholder="Número do Celuler com DDD" name="whatsapp" value="{{old('whatsapp') ?? $config->whatsapp}}">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-4"> 
