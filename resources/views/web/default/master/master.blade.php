@@ -201,7 +201,8 @@
                                                
                     <!-- Galeria /- -->
                     
-                        <div id="widbox" style="width: 100%; height: 100%;" data-widbox-widget-id="1IjpikLpqEXD1fKFtJAa"></div><script src="https://widbox.sfo3.cdn.digitaloceanspaces.com/scripts/widbox.min.js" defer></script>
+                        <div id="widbox" style="width: 100%; height: 100%;" data-widbox-widget-id="1IjpikLpqEXD1fKFtJAa"></div>
+                        <script src="https://widbox.sfo3.cdn.digitaloceanspaces.com/scripts/widbox.min.js" defer></script>
                     
                     </aside>
                     
@@ -287,11 +288,11 @@
     @endif   
     
     <script> 
-        $(function () {
-            setTimeout(function() {
-                $(".widbox-copyright-logo").hide();
-            }, 8000)
-        });
+        // $(function () {
+        //     setTimeout(function() {
+        //         $(".widbox-copyright-logo").hide();
+        //     }, 8000)
+        // });
     </script>
 
     <script async src='https://s3-sa-east-1.amazonaws.com/hbook-universal-js/js/64c7f03434483c2f17b5ae20.js'></script>
