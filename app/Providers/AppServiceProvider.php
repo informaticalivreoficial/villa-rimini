@@ -31,21 +31,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        URL::forceScheme('https');
-        Schema::defaultStringLength(191);
-        Blade::aliasComponent('admin.components.message', 'message');
+        // URL::forceScheme('https');
+        // Schema::defaultStringLength(191);
+        // Blade::aliasComponent('admin.components.message', 'message');
 
-        //Newsletter FORM
-        $newsletter = NewsletterCat::where('sistema', 1)->where('status', 1)->get();
-        View()->share('newsletterForm', $newsletter);
+        // //Newsletter FORM
+        // $newsletter = NewsletterCat::where('sistema', 1)->where('status', 1)->get();
+        // View()->share('newsletterForm', $newsletter);
 
-        //Páginas
-        $paginas = Post::where('tipo', 'pagina')->where('menu', 1)->postson()->get();
-        View()->share('viewPaginas', $paginas);
+        // //Páginas
+        // $paginas = Post::where('tipo', 'pagina')->where('menu', 1)->postson()->get();
+        // View()->share('viewPaginas', $paginas);
 
-        $configuracoes = \App\Models\Configuracoes::find(1); 
-        View()->share('configuracoes', $configuracoes);
+        // $configuracoes = \App\Models\Configuracoes::find(1); 
+        // View()->share('configuracoes', $configuracoes);
         
-        Paginator::useBootstrap();
+        // Paginator::useBootstrap();
     }
 }
