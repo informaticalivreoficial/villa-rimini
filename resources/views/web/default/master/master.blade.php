@@ -298,13 +298,23 @@
     <script async src='https://s3-sa-east-1.amazonaws.com/hbook-universal-js/js/64c7f03434483c2f17b5ae20.js'></script>
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{$configuracoes->tagmanager_id}}"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16987016797"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-    
-        gtag('config', '{{$configuracoes->tagmanager_id}}');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-16987016797');
     </script>
+
+    <!-- Event snippet for COMPRA conversion page -->
+    <script>
+        gtag('event', 'conversion', {
+            'send_to': 'AW-16987016797/RL7FCJT59bUaEN2chaQ_',
+            'transaction_id': ''
+        });
+    </script>
+
+    
 </body>
 </html>
