@@ -307,12 +307,24 @@
     gtag('config', 'AW-16987016797');
     </script>
 
-    <!-- Event snippet for COMPRA conversion page -->
+    <!-- Event snippet for Retorno conversion page
+    In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
     <script>
-        gtag('event', 'conversion', {
-            'send_to': 'AW-16987016797/RL7FCJT59bUaEN2chaQ_',
-            'transaction_id': ''
-        });
+        function gtag_report_conversion(url) {
+            var callback = function () {
+                if (typeof(url) != 'undefined') {
+                window.location = url;
+                }
+            };
+            gtag('event', 'conversion', {
+                'send_to': 'AW-16987016797/ICPeCL2f688aEN2chaQ_',
+                'value': 1.0,
+                'currency': 'BRL',
+                'transaction_id': '',
+                'event_callback': callback
+            });
+            return false;
+        }
     </script>
 
     
