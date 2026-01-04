@@ -56,21 +56,21 @@ class SendEmailController extends Controller
         }else{
             $data = [
                 'sitename' => $this->configService->getConfig()->nomedosite,
-                'siteemail' => $this->configService->getConfig()->email,
+                'siteemail' => env('MAIL_FROM_ADDRESS'),
                 'reply_name' => $request->nome,
                 'reply_email' => $request->email,
                 'mensagem' => $request->mensagem
             ];
 
-            $retorno = [
-                'sitename' => $this->configService->getConfig()->nomedosite,
-                'siteemail' => $this->configService->getConfig()->email,
-                'reply_name' => $request->nome,
-                'reply_email' => $request->email
-            ];
+            // $retorno = [
+            //     'sitename' => $this->configService->getConfig()->nomedosite,
+            //     'siteemail' => env('MAIL_FROM_ADDRESS'),
+            //     'reply_name' => $request->nome,
+            //     'reply_email' => $request->email
+            // ];
             
             Mail::send(new Atendimento($data));
-            Mail::send(new AtendimentoRetorno($retorno));
+            //Mail::send(new AtendimentoRetorno($retorno));
             
             $json = "Obrigado {$request->nome} sua mensagem foi enviada com sucesso!"; 
             return response()->json(['sucess' => $json]);

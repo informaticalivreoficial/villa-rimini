@@ -1,38 +1,84 @@
-@component('mail::layout')
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Atendimento</title>
+</head>
+<body style="margin:0; padding:0; background:#f0f2f5; font-family:Trebuchet MS, Arial, Helvetica, sans-serif;">
 
-{{-- Header --}}
-@slot('header')
-    @component('mail::header', ['url' => config('app.url')])
-        <!-- header here -->
-    @endcomponent
-@endslot
-{{-- Body --}}
-    <div style="width:100%; padding:10px;">        
-        <div style="background:#ffefa4; overflow:hidden; padding:15px;">                        
-            <div style="float:left; font:20px Trebuchet MS, Arial, Helvetica, sans-serif; color:#574802; font-weight:bold; text-align:right;">
-                #Atendimento pelo Site
-            </div>
-            <div style="float:right; font:16px Trebuchet MS, Arial, Helvetica, sans-serif; color:#574802; font-weight:bold;">
-                Enviada @php echo date('d/m/Y'); @endphp
-            </div>                        
-        </div>
-        <div style="background:#FFF; font:16px Trebuchet MS, Arial, Helvetica, sans-serif; color:#333; line-height:150%;">       
-            <h1 style="font-size:20px; color:#000; background:#F4F4F4; padding:10px;">Dados da Mensagem</h1>
-            <p style="padding-left:10px;">
-            <strong>Nome: </strong><strong style="color:#09F;">{{ $nome }}</strong>
-            <br />
-            <strong>E-mail: </strong><strong style="color:#09F;">{{ $email }}</strong>
-            <br />
-            <strong>Mensagem: </strong>            
-            </p>
-            <p style="padding-left:10px;font:20px Trebuchet MS, Arial, Helvetica, sans-serif; color:#09F;">@php echo nl2br($mensagem); @endphp</p>
-        </div> 
-    </div>
-{{-- Footer --}}
-@slot('footer')
-    @component('mail::footer')
-        <div style="width:100%; margin:20px 0; text-align:center; font-size:10px;"><pre>Sistema de consultas desenvolvido por {{env('DESENVOLVEDOR')}} <br> <a href="mailto:{{env('DESENVOLVEDOR_EMAIL')}}">{{env('DESENVOLVEDOR_EMAIL')}}</a></pre></div>
-    @endcomponent
-@endslot
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding:20px 0;">
+    <tr>
+        <td align="center">
 
-@endcomponent
+            <table cellpadding="0" cellspacing="0" width="650" style="background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+
+                <!-- HEADER -->
+                <tr>
+                    <td style="background:#1f8f63; color:#ffffff; padding:20px 25px; font-size:22px; font-weight:bold;">
+                        <table width="100%">
+                            <tr>
+                                <td style="color:#ffffff; font-size:22px; font-weight:bold;">
+                                    Atendimento — {{ $nome }}
+                                </td>
+                                <td align="right" style="color:#ffffff; font-size:16px;">
+                                    {{ date('d/m/Y H:i') }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <!-- TÍTULO SEÇÃO -->
+                <tr>
+                    <td style="background:#e6f4ef; padding:12px 20px; color:#1f8f63; font-size:18px; font-weight:bold; border-bottom:1px solid #d1e8df;">
+                        Detalhes da Mensagem
+                    </td>
+                </tr>
+
+                <!-- CONTEÚDO -->
+                <tr>
+                    <td style="padding:20px 25px; color:#333333; font-size:16px; line-height:1.6;">
+                        <p>
+                            <span style="font-weight:bold; color:#1f8f63;">Mensagem:</span><br>
+                            {!! nl2br(e($mensagem)) !!}
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- TÍTULO SEÇÃO -->
+                <tr>
+                    <td style="background:#e6f4ef; padding:12px 20px; color:#1f8f63; font-size:18px; font-weight:bold; border-bottom:1px solid #d1e8df;">
+                        Dados do Cliente
+                    </td>
+                </tr>
+
+                <!-- DADOS DO CLIENTE -->
+                <tr>
+                    <td style="padding:20px 25px; color:#333333; font-size:16px; line-height:1.6;">
+                        <p>
+                            <span style="font-weight:bold; color:#1f8f63;">Nome:</span> {{ $nome }}
+                        </p>
+                        <p>
+                            <span style="font-weight:bold; color:#1f8f63;">E-mail:</span> {{ $email }}
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- FOOTER -->
+                <tr>
+                    <td style="background:#f7f7f7; text-align:center; padding:15px; color:#777777; font-size:12px; border-top:1px solid #e0e0e0;">
+                        Sistema desenvolvido por {{ env('DESENVOLVEDOR') }}<br>
+                        <a href="mailto:{{ env('DESENVOLVEDOR_EMAIL') }}" style="color:#1f8f63; text-decoration:none;">
+                            {{ env('DESENVOLVEDOR_EMAIL') }}
+                        </a>
+                    </td>
+                </tr>
+
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
