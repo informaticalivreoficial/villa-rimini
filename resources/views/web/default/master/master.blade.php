@@ -51,6 +51,34 @@
     <!--[if lt IE 9]>
         <script src="{{url('frontend/assets/js/html5/respond.min.js')}}"></script>
     <![endif]-->
+
+    <style>
+        #HSystemSearchBoxInline, 
+        #HSystemSearchBox_Popup 
+        .HSystemSearchBox_Popup_Title, #HSystemSearchBox_Popup 
+        .HSystemSearchBox_Popup_Title:after, #HSystemSearchBox_Popup 
+        .HSystemSearchBox_Popup_Image, #HSystemSearchBox_Popup 
+        .HSystemSearchBox_Popup_Image img       
+        {
+            background: #fff !important;
+            fill: #fff !important;
+            color: #fff !important;
+        }
+        #HSystemSearchBoxInline,
+        #HSystemSearchBox_Popup .HSystemSearchBox_Popup_Title,
+        #HSystemSearchBox_Popup .HSystemSearchBox_Popup_Title:after,
+        #HSystemSearchBox_Popup .HSystemSearchBox_Popup_Image,
+        #HSystemSearchBox_Popup .HSystemSearchBox_Popup_Image img {
+            background: #fff !important;
+            fill: #fff !important;
+        }
+        .HSystemSearchBox_Popup_Image {
+            margin-left: 0px !important;
+        }
+        #HBotStruct {
+            display: none !important;
+        }
+    </style>
     
     @hasSection('css')
         @yield('css')
@@ -288,11 +316,11 @@
     @endif   
     
     <script> 
-        // $(function () {
-        //     setTimeout(function() {
-        //         $(".widbox-copyright-logo").hide();
-        //     }, 8000)
-        // });
+        $(function () {
+            setTimeout(function() {
+                $("#HBotStruct").hide();
+            }, 8000)
+        });
     </script>
 
     <script async src='https://s3-sa-east-1.amazonaws.com/hbook-universal-js/js/64c7f03434483c2f17b5ae20.js'></script>
