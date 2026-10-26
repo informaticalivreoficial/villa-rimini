@@ -112,6 +112,9 @@ Pontos de atenção:
   relativo fica em `configuracoes.sitemap`.
 - Miniaturas locais (`App\Support\Cropper`) só são geradas quando o arquivo
   existe em `storage/app/public`; com R2 o caminho original é retornado.
+- Verificações de existência de arquivo passam por `App\Support\Media::exists()`,
+  que guarda o resultado em cache por 6 h. Sem isso, cada `cover()` fazia um
+  `HeadObject` no R2 (~0,3 s) e a home levava ~4 s para responder.
 - Credenciais do Google Analytics ficam em `ANALYTICS_CREDENTIALS_BASE64` no
   `.env` (JSON em base64). O arquivo
   `storage/app/analytics/service-account-credentials.json` continua aceito como

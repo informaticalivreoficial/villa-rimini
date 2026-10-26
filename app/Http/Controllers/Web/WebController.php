@@ -23,6 +23,7 @@ use App\Models\{
 use App\Services\CidadeService;
 use App\Services\ConfigService;
 use App\Services\EstadoService;
+use App\Support\Media;
 use App\Support\Seo;
 use Carbon\Carbon;
 
@@ -427,7 +428,7 @@ class WebController extends Controller
     {
         $path = $this->configService->getConfig()->sitemap;
 
-        if (empty($path) || ! Storage::disk()->exists($path)) {
+        if (empty($path) || ! Media::exists($path)) {
             abort(404, 'Sitemap ainda não gerado.');
         }
 

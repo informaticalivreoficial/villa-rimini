@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
+use App\Support\Media;
 
 class Post extends Model
 {
@@ -94,7 +95,7 @@ class Post extends Model
             $cover = $images->first(['path']);
         }
 
-        if(empty($cover['path']) || !Storage::disk()->exists($cover['path'])) {
+        if(empty($cover['path']) || !Media::exists($cover['path'])) {
             return url(asset('backend/assets/images/image.jpg'));
         }
 
@@ -112,7 +113,7 @@ class Post extends Model
             $cover = $images->first(['path']);
         }
 
-        if(empty($cover['path']) || !Storage::disk()->exists($cover['path'])) {
+        if(empty($cover['path']) || !Media::exists($cover['path'])) {
             return url(asset('backend/assets/images/image.jpg'));
         }
 

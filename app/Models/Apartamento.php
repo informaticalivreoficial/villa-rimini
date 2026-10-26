@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Support\Media;
 
 class Apartamento extends Model
 {
@@ -100,7 +101,7 @@ class Apartamento extends Model
             $cover = $images->first(['path']);
         }
 
-        if(empty($cover['path']) || !Storage::disk()->exists($cover['path'])) {
+        if(empty($cover['path']) || !Media::exists($cover['path'])) {
             return url(asset('backend/assets/images/image.jpg'));
         }
 

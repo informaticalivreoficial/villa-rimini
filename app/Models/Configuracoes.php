@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Support\Cropper;
+use App\Support\Media;
 
 class Configuracoes extends Model
 {
@@ -78,7 +79,7 @@ class Configuracoes extends Model
     
     public function getmetaimg()
     {
-        if(empty($this->metaimg) || !Storage::disk()->exists($this->metaimg)) {
+        if(empty($this->metaimg) || !Media::exists($this->metaimg)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
         return Storage::url($this->metaimg);
@@ -86,7 +87,7 @@ class Configuracoes extends Model
     
     public function getlogomarca()
     {
-        if(empty($this->logomarca) || !Storage::disk()->exists($this->logomarca)) {
+        if(empty($this->logomarca) || !Media::exists($this->logomarca)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
         return Storage::url($this->logomarca);
@@ -94,7 +95,7 @@ class Configuracoes extends Model
     
     public function getlogoadmin()
     {
-        if(empty($this->logomarca_admin) || !Storage::disk()->exists($this->logomarca_admin)) {
+        if(empty($this->logomarca_admin) || !Media::exists($this->logomarca_admin)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
         return Storage::url($this->logomarca_admin);
@@ -102,7 +103,7 @@ class Configuracoes extends Model
     
     public function getfaveicon()
     {
-        if(empty($this->favicon) || !Storage::disk()->exists($this->favicon)) {
+        if(empty($this->favicon) || !Media::exists($this->favicon)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
         return Storage::url($this->favicon);
@@ -110,7 +111,7 @@ class Configuracoes extends Model
     
     public function getmarcadagua()
     {
-        if(empty($this->marcadagua) || !Storage::disk()->exists($this->marcadagua)) {
+        if(empty($this->marcadagua) || !Media::exists($this->marcadagua)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
         return Storage::url($this->marcadagua);
@@ -118,7 +119,7 @@ class Configuracoes extends Model
     
     public function gettopodosite()
     {
-        if(empty($this->imgheader) || !Storage::disk()->exists($this->imgheader)) {
+        if(empty($this->imgheader) || !Media::exists($this->imgheader)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
         return Storage::url($this->imgheader);

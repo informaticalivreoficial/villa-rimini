@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\Support\Media;
 
 class Template extends Model
 {
@@ -43,7 +44,7 @@ class Template extends Model
     */
     public function getimagem()
     {
-        if(empty($this->imagem) || !Storage::disk()->exists($this->imagem)) {
+        if(empty($this->imagem) || !Media::exists($this->imagem)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
         return Storage::url($this->imagem);

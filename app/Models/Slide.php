@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Support\Cropper;
+use App\Support\Media;
 
 class Slide extends Model
 {
@@ -49,7 +50,7 @@ class Slide extends Model
     public function getimagem()
     {
         //$image = $this->imagem;        
-        if(empty($this->imagem) || !Storage::disk()->exists($this->imagem)) {
+        if(empty($this->imagem) || !Media::exists($this->imagem)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
         //return Storage::url(Cropper::thumb($this->imagem, 1200, 420));

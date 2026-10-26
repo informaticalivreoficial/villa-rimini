@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Support\Cropper;
+use App\Support\Media;
 
 class Parceiro extends Model
 {
@@ -64,8 +65,8 @@ class Parceiro extends Model
             $cover = $images->first(['path']);
         }
 
-        if(empty($metaimg['path']) || !Storage::disk()->exists($metaimg['path'])) {
-            if(empty($this->logomarca) || !Storage::disk()->exists($this->logomarca)) {
+        if(empty($metaimg['path']) || !Media::exists($metaimg['path'])) {
+            if(empty($this->logomarca) || !Media::exists($this->logomarca)) {
                 return url(asset('backend/assets/images/image.jpg'));
             }
             return Storage::url($this->logomarca);
@@ -75,7 +76,7 @@ class Parceiro extends Model
 
     public function cover()
     {       
-        if(empty($this->logomarca) || !Storage::disk()->exists($this->logomarca)) {
+        if(empty($this->logomarca) || !Media::exists($this->logomarca)) {
             return url(asset('backend/assets/images/image.jpg'));
         }
         return Storage::url($this->logomarca);
@@ -83,7 +84,7 @@ class Parceiro extends Model
 
     public function nocover()
     {       
-        if(empty($this->logomarca) || !Storage::disk()->exists($this->logomarca)) {
+        if(empty($this->logomarca) || !Media::exists($this->logomarca)) {
             return url(asset('backend/assets/images/image.jpg'));
         }
         return Storage::url($this->logomarca);
