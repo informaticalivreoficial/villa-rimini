@@ -74,10 +74,39 @@ Use `Storage::fake()` nos testes que envolvem arquivos.
 - O `vendor/` estava com dono `root`; em 2026-10-26 foi corrigido para o UID
   1000 para permitir que `vendor/bin/sail composer` grave arquivos.
 - O `docker-compose.yml` usa o runtime Sail 8.3 (`sail-8.3/app`).
-- O deploy via Nixpacks fixa PHP 8.3.36 e usa `composer install
-  --ignore-platform-reqs`; o front-end compilado (`public/build`) é versionado.
+- O deploy é feito no **Coolify com build pack railpack** (imagem
+  `dunglas/frankenphp:php8.3.36-trixie`); o `nixpacks.toml` é legado e não é
+  usado. O front-end compilado (`public/build`) é versionado.
+- O build do railpack roda `php artisan config:cache` antes de existir rede com
+  o MySQL; por isso o `AppServiceProvider` tolera falha de conexão no boot.
 - O arquivo `.env` **não é versionado** e contém credenciais reais. Nunca
   copie o conteúdo para issues, logs ou documentação.
+
+### Deploy em produção (Coolify)
+
+| Item | Valor |
+| --- | --- |
+| Projeto / ambiente | Hotel Villa Di Rimini / production |
+| Aplicação | Site Villa Di Rimini (`thjv8szbulrsbkm41nocpkhf`) |
+| Repositório / branch | `informaticalivreoficial/villa-rimini` / `main` |
+| Build pack | railpack (FrankenPHP PHP 8.3.36) |
+| Porta exposta | `80` |
+| Comando pós-deploy | `php artisan storage:link --force` |
+| Domínios | `https://villadirimini.com.br`, `https://www.villadirimini.com.br` |
+
+O start script gerado pelo railpack executa, a cada boot:
+`php artisan migrate --force`, `php artisan storage:link`,
+`php artisan optimize:clear` e `php artisan optimize`. Portanto migrations e
+caches são aplicados em runtime, quando o MySQL interno já está acessível.
+
+O banco `villadirimin` fica no MySQL interno do Coolify
+(`DB_HOST=skrtstnx4ucyv2zrega2v32d`); o host não resolve durante o build, só
+na rede `coolify` em runtime.
+
+Pendência de infraestrutura: o domínio `villadirimini.com.br` está com status
+`inactive` no Registro.br (expiração em 2026-10-09). Os nameservers da
+Cloudflare ainda respondem, mas o DNS público não, e o proxy não consegue
+emitir o certificado HTTPS até a renovação.
 
 ### Cloudflare R2
 
@@ -368,9 +397,12 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
 ### P0 — próximo ciclo
 
 - [x] Revisar e commitar as mudanças desta sessão.
+- [ ] **Renovar o domínio `villadirimini.com.br`** (inativo no Registro.br
+      desde 2026-10-09; sem DNS público não há HTTPS).
 - [ ] **Rotacionar a chave da service account do Google Analytics** (arquivo
       esteve público no R2 e em `storage/app/public`).
-- [ ] Implementar ou remover as rotas de blog/notícias sem controller.
+- [x] Implementar as rotas de blog/notícias sem controller (restauradas no
+      `WebController`).
 - [ ] Completar o CRUD de reservas no painel.
 - [ ] Rotacionar credenciais expostas no `.env` local.
 - [ ] Definir plano de upgrade para Laravel 11/12/13 (com testes e branch).
@@ -464,6 +496,45 @@ caminhos no R2: 67/67
 **Pendências imediatas:** rotacionar a chave da service account do Google,
 testar upload real pelo painel e definir domínio próprio/controle de acesso ao
 bucket.
+
+### 2026-10-26 — Deploy no Coolify e correções de produção
+
+**Objetivo:** colocar o site no ar no Coolify e validar o ambiente.
+
+**Executado:**
+
+- App existente ajustado para `ports_exposes=80` e
+  `post_deployment_command=php artisan storage:link --force`.
+- `ext-exif` declarada no `composer.json` (exigida pelo `spatie/image`; o
+  build falhava no `composer install`).
+- `AppServiceProvider` passou a tolerar falha de banco no boot: o railpack roda
+  `config:cache` no build, quando o host interno do MySQL ainda não resolve.
+- Rotas de blog/notícias restauradas no `WebController`
+  (`artigos`, `artigo`, `categorias`, `noticias`, `noticia`, `searchBlog`),
+  que retornavam 500; slug inexistente agora responde 404.
+- Sitemap regenerado no R2 pelo próprio controller do painel.
+- `App\Support\Media::exists()` criado para cachear (6 h) as checagens de
+  existência no R2 usadas por `cover()`/`getMetaImg()`; a home caiu de ~4 s
+  para ~0,1 s de TTFB após o primeiro acesso. `ConfigService` também memoiza a
+  configuração por request.
+- Validação dos 68 caminhos de mídia do banco no R2: **0 faltando**.
+
+**Validação (produção, container FrankenPHP):**
+
+```text
+home: 200 (4,3 s no primeiro acesso com cache frio; ~0,1 s depois)
+/acomodacoes, /blog, /noticias, /blog/pesquisar, /reservar,
+/atendimento, /politica-de-privacidade, /sitemap, /feed, /login: 200
+sitemap: 11 URLs, application/xml
+imagens do R2: 200
+storage:link: ok
+migrations: todas aplicadas (inclui add_menu_to_posts)
+analytics: app('laravel-analytics') ok (property 370890796)
+```
+
+**Pendências imediatas:** renovar o domínio `villadirimini.com.br` (inativo
+desde 2026-10-09) para o DNS público e o HTTPS funcionarem, e rotacionar a
+chave da service account do Google.
 
 ---
 
