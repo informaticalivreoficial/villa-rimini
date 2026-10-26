@@ -270,8 +270,14 @@ class WebController extends Controller
 
     public function sitemap()
     {
-        $url = $this->configService->getConfig()->sitemap;
-        $data = file_get_contents($url);
-        return response($data, 200, ['Content-Type' => 'application/xml']);
+        $path = $this->configService->getConfig()->sitemap;
+
+        if (empty($path) || ! Storage::disk()->exists($path)) {
+            abort(404, 'Sitemap ainda não gerado.');
+        }
+
+        return response(Storage::disk()->get($path), 200, [
+            'Content-Type' => 'application/xml',
+        ]);
     }
 }

@@ -17,10 +17,13 @@ class ClienteController extends Controller
     public function passeios()
     {
         $Configuracoes = Configuracoes::where('id', '1')->first();
-        $head = $this->seo->render('Meus Passeios - ' . $Configuracoes->nomedosite ?? 'Informática Livre',
+        $metaImg = ! empty($Configuracoes?->metaimg)
+            ? Storage::url($Configuracoes->metaimg)
+            : 'https://informaticalivre.com/media/metaimg.jpg';
+        $head = $this->seo->render('Meus Passeios - ' . ($Configuracoes->nomedosite ?? 'Informática Livre'),
             $Configuracoes->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
             route('web.home'),
-            Storage::url($Configuracoes->metaimg ?? 'https://informaticalivre.com/media/metaimg.jpg')
+            $metaImg
         ); 
         return view('web.cliente.meus-passeios',[
             'head' => $head

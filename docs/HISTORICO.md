@@ -39,7 +39,7 @@ O idioma do projeto, dos nomes de domínio, das mensagens e dos testes é
 | Banco de testes | SQLite `:memory:` |
 | AdminLTE | `jeroennoten/laravel-adminlte` 3.16.0 |
 | Front-end legado | Blade + Bootstrap 4 + jQuery + Laravel Mix |
-| Storage de produção | AWS S3 / Cloudflare R2 (configurável) |
+| Storage de produção | Cloudflare R2 (`infolivre-public`, prefixo `villadirimini/`) |
 
 ### Subir o ambiente com Sail
 
@@ -65,8 +65,9 @@ vendor/bin/sail artisan test
 vendor/bin/sail test
 ```
 
-Os testes usam SQLite em memória (`phpunit.xml`) e `RefreshDatabase`, portanto
-**não tocam no banco de desenvolvimento**.
+Os testes usam SQLite em memória (`phpunit.xml`), `RefreshDatabase` e
+`FILESYSTEM_DISK=local`, portanto **não tocam no banco nem no R2 de produção**.
+Use `Storage::fake()` nos testes que envolvem arquivos.
 
 ### Observações de ambiente
 
@@ -77,6 +78,43 @@ Os testes usam SQLite em memória (`phpunit.xml`) e `RefreshDatabase`, portanto
   --ignore-platform-reqs`; o front-end compilado (`public/build`) é versionado.
 - O arquivo `.env` **não é versionado** e contém credenciais reais. Nunca
   copie o conteúdo para issues, logs ou documentação.
+
+### Cloudflare R2
+
+O disco padrão de uploads é definido por `FILESYSTEM_DISK`:
+
+- produção/homologação: `FILESYSTEM_DISK=r2`;
+- desenvolvimento local: `FILESYSTEM_DISK=public` ou `local`.
+
+Configuração do disco `r2` em `config/filesystems.php`:
+
+| Variável | Uso |
+| --- | --- |
+| `R2_ACCOUNT_ID` | monta o endpoint S3 `https://<id>.r2.cloudflarestorage.com` |
+| `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` | credenciais do token R2 |
+| `R2_BUCKET` | bucket (atual: `infolivre-public`) |
+| `R2_REGION` | `auto` |
+| `R2_URL` | domínio público do bucket, sem barra final |
+| `R2_ROOT` | prefixo do projeto dentro do bucket (atual: `villadirimini`) |
+| `R2_THROW` | `true` para lançar exceção em falha de upload |
+
+**Convenção de caminhos:** o banco guarda apenas o caminho relativo ao
+`R2_ROOT` (`slides/foto.jpg`, `apartamentos/2/foto.jpg`,
+`configuracoes/metaimg-....png`). O Laravel prefixa automaticamente com
+`R2_ROOT`, gerando chaves como `villadirimini/slides/foto.jpg` e URLs como
+`https://<R2_URL>/villadirimini/slides/foto.jpg`.
+
+Pontos de atenção:
+
+- O bucket é compartilhado com outros projetos (`imobiliaria-ubatuba`,
+  `superpasseios`, `ubatubatimes` etc.); nunca use `R2_ROOT` vazio.
+- O sitemap é gravado no disco padrão e servido por `/sitemap`; o caminho
+  relativo fica em `configuracoes.sitemap`.
+- Miniaturas locais (`App\Support\Cropper`) só são geradas quando o arquivo
+  existe em `storage/app/public`; com R2 o caminho original é retornado.
+- Credenciais do Google Analytics ficam em
+  `storage/app/analytics/service-account-credentials.json` (fora de
+  `storage/app/public` e fora do R2).
 
 ---
 
@@ -192,7 +230,7 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
 4. **Testes**
    - Suíte reescrita para Laravel/PHPUnit 10 e SQLite em memória.
    - `phpunit.xml` migrado para o schema 10.5.
-   - **40 testes / 117 asserções passando** em 2026-10-26.
+   - **46 testes / 129 asserções passando** em 2026-10-26.
    - Cobertura funcional: helpers globais, modelos, scopes, home, acomodações,
      detalhe da acomodação, pré-reserva, páginas institucionais, RSS,
      `fetchCity`, newsletter (novo e-mail, reativação, validação, honeypot),
@@ -201,6 +239,23 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
 5. **Limpeza**
    - Testes de exemplo removidos.
    - `.phpunit.cache` adicionado ao `.gitignore`.
+
+6. **Migração do storage para Cloudflare R2**
+   - Disco `r2` configurado em `config/filesystems.php` com endpoint,
+     domínio público, prefixo do projeto e `throw` habilitado.
+   - `FILESYSTEM_DISK` passa a ser a variável oficial (fallback para o antigo
+     `FILESYSTEM_DRIVER`).
+   - Removidos os resquícios de `AWS_PASTA` dos uploads; os caminhos agora são
+     relativos ao `R2_ROOT`.
+   - 67 caminhos de imagem do banco foram normalizados para caminhos relativos
+     (`villarimini/...` → `...`) e todos foram conferidos no R2.
+   - Views e `ConfigService` deixaram de checar `public_path()`/`File::exists()`
+     e passaram a usar `Storage`.
+   - Sitemap passou a ser gravado no disco padrão e servido por `/sitemap` a
+     partir do storage, sem `file_get_contents()` de URL externa.
+   - `Cropper` virou seguro para discos remotos (retorna o original).
+   - Credenciais do Google Analytics removidas da área pública e do bucket
+     (estavam acessíveis publicamente) e movidas para `storage/app/analytics`.
 
 ### Arquivos criados/alterados nesta sessão
 
@@ -213,7 +268,15 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
 - `tests/Unit/Models/UserTest.php`
 - `tests/Unit/Support/HelpersTest.php`
 - `tests/Feature/AdminAccessTest.php`, `ModelScopesTest.php`,
-  `NewsletterTest.php`, `PublicPagesTest.php`, `ReservationTest.php`
+  `NewsletterTest.php`, `PublicPagesTest.php`, `ReservationTest.php`,
+  `FilesystemTest.php`
+- `config/filesystems.php`, `.env.example`
+- `app/Services/ConfigService.php`, `app/Support/Cropper.php`
+- `app/Http/Controllers/Admin/SitemapController.php`,
+  `app/Http/Controllers/Web/{WebController,ClienteController}.php`
+- `app/Http/Controllers/Admin/{Apartamento,Parceiro,Post,Slide,Template,User,Config}Controller.php`
+- `resources/views/admin/configuracoes.blade.php`,
+  `resources/views/admin/users/{create,show,edit}.blade.php`
 - `.gitignore`
 - `.opencode/agents/villa-rimini.md` (agente local, ignorado pelo Git)
 - `docs/HISTORICO.md` (este arquivo)
@@ -232,8 +295,12 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
    MariaDB e sem risco de apagar dados locais.
 4. **Corrigir apenas o que impedia o ambiente limpo/testes.** As correções de
    schema e de modelos foram mínimas e compatíveis com o banco existente.
-5. **Não commitar automaticamente.** As mudanças ficaram na working tree para
-   revisão humana antes do commit.
+5. **Commits por assunto.** O trabalho foi separado em commits de dependências,
+   correções, testes, documentação e deploy; a integração com o R2 tem commit
+   próprio.
+6. **Caminhos relativos ao prefixo do projeto no R2.** O banco guarda
+   `slides/foto.jpg` e o disco prefixa com `R2_ROOT` (`villadirimini/`). Assim o
+   mesmo banco funciona com `public` local e com R2 em produção.
 
 ---
 
@@ -256,8 +323,16 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
 - **CRUD de reservas no painel incompleto.** `ReservaController` só possui
   `pendentes`, `finalizadas`, `create` e `edit`; as rotas de `update`, `delete`,
   `deleteon` e o fluxo de criação não têm implementação correspondente.
-- **Segredos no `.env` local** (SMTP, admin, AWS, GitHub). O arquivo é
-  ignorado pelo Git, mas as credenciais devem ser rotacionadas se já circularam.
+- **Credenciais do Google Analytics estavam públicas.** O arquivo
+  `service-account-credentials.json` estava em `storage/app/public/villarimini/`
+  e no bucket R2 com acesso público. Foi removido em 2026-10-26, mas a chave da
+  service account **deve ser rotacionada** no Google Cloud.
+- **Segredos no `.env` local** (SMTP, admin, R2, GitHub). O arquivo é ignorado
+  pelo Git, mas as credenciais devem ser rotacionadas se já circularam.
+- **Bucket R2 compartilhado e público.** `R2_URL` expõe todo o bucket
+  (`imobiliaria-ubatuba`, `superpasseios`, `ubatubatimes` etc.). Avaliar um
+  domínio próprio por projeto ou um Worker com controle de acesso. Nunca deixe
+  `R2_ROOT` vazio.
 - **`werneckbh/laravel-qr-code` está abandonado** (sem substituto sugerido).
   Avaliar remoção ou troca.
 
@@ -269,8 +344,6 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
 - `AppServiceProvider` ainda consulta o banco no boot para compartilhar dados
   com as views (agora com guarda). Considerar view composer com cache ou
   `View::share` somente quando necessário.
-- `WebController::sitemap()` faz `file_get_contents()` da URL configurada sem
-  tratamento de falha.
 - `coffeecode/optimizer` está fixado em `2.1.1` (versão exata). Avaliar caret
   quando houver atualização compatível.
 - Deploy: o workflow antigo rodava `route:cache` e depois `optimize:clear`
@@ -289,7 +362,9 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
 
 ### P0 — próximo ciclo
 
-- [ ] Revisar e commitar as mudanças desta sessão em branch dedicada.
+- [x] Revisar e commitar as mudanças desta sessão.
+- [ ] **Rotacionar a chave da service account do Google Analytics** (arquivo
+      esteve público no R2 e em `storage/app/public`).
 - [ ] Implementar ou remover as rotas de blog/notícias sem controller.
 - [ ] Completar o CRUD de reservas no painel.
 - [ ] Rotacionar credenciais expostas no `.env` local.
@@ -301,7 +376,10 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
 - [ ] Tratar falhas do Google Analytics no dashboard.
 - [ ] Substituir/remover `werneckbh/laravel-qr-code`.
 - [ ] Atualizar Sitemap/Crawler/Browsershot para eliminar advisories.
-- [ ] Adicionar testes para o painel (posts, usuários, configurações).
+- [ ] Adicionar testes para o painel (posts, usuários, configurações) incluindo
+      upload/exclusão de imagens no disco `local`.
+- [ ] Testar o ciclo completo de upload pelo painel contra o R2
+      (configurações, slide, apartamento, post e usuário).
 - [ ] Adicionar Pint e PHPStan em nível inicial.
 
 ### P2 — médio prazo
@@ -345,6 +423,40 @@ Laravel Framework 10.50.3
 
 **Pendências imediatas:** revisar diff, commitar em branch, planejar upgrade de
 série e corrigir as rotas de blog/notícias e o CRUD de reservas.
+
+### 2026-10-26 — Migração do storage para Cloudflare R2
+
+**Objetivo:** usar o R2 da Cloudflare para os uploads do site.
+
+**Executado:**
+
+- Conferência do bucket `infolivre-public`: os arquivos do hotel estavam no
+  prefixo `villadirimini/` (70 objetos).
+- `R2_ROOT` ajustado de `superpasseios` (prefixo de outro projeto) para
+  `villadirimini`.
+- 67 caminhos de imagem do banco normalizados para caminhos relativos.
+- Verificação de todos os 67 caminhos no R2: **0 faltando**.
+- Removidos os usos de `AWS_PASTA`; novos uploads gravam caminhos relativos.
+- Views e `ConfigService` migrados de `public_path()`/`File::exists()` para
+  `Storage`.
+- Sitemap gerado no R2 (`villadirimini/hotel-villa-di-rimini_sitemap.xml`) e
+  servido em `/sitemap` com HTTP 200.
+- `FilesystemTest` adicionado (disco padrão, URL do R2, upload, metaimg e
+  sitemap).
+- Credenciais do Google Analytics removidas do acesso público e do bucket.
+
+**Validação:**
+
+```text
+Tests: 46 passed (129 assertions)
+home: 200 (11 imagens servidas pelo R2)
+sitemap: 200 application/xml
+caminhos no R2: 67/67
+```
+
+**Pendências imediatas:** rotacionar a chave da service account do Google,
+testar upload real pelo painel e definir domínio próprio/controle de acesso ao
+bucket.
 
 ---
 

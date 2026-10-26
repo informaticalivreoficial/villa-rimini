@@ -50,7 +50,7 @@ class ApartamentoController extends Controller
             foreach ($request->allFiles()['files'] as $image) {
                 $apartamentoGb = new ApartamentoGb();
                 $apartamentoGb->apartamento = $criarApartamento->id;
-                $apartamentoGb->path = $image->storeAs(env('AWS_PASTA') . 'apartamentos/'. $criarApartamento->id, Str::slug($request->titulo) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
+                $apartamentoGb->path = $image->storeAs('apartamentos/'. $criarApartamento->id, Str::slug($request->titulo) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
                 $apartamentoGb->save();
                 unset($apartamentoGb);
             }
@@ -108,7 +108,7 @@ class ApartamentoController extends Controller
             foreach ($request->allFiles()['files'] as $image) {
                 $apartamentoGb = new ApartamentoGb();
                 $apartamentoGb->apartamento = $apartamento->id;
-                $apartamentoGb->path = $image->storeAs(env('AWS_PASTA') . 'apartamentos/'. $apartamento->id, Str::slug($request->titulo) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
+                $apartamentoGb->path = $image->storeAs('apartamentos/'. $apartamento->id, Str::slug($request->titulo) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
                 $apartamentoGb->save();
                 unset($apartamentoGb);
             }

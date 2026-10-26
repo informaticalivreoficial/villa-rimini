@@ -26,12 +26,16 @@ class SitemapController extends Controller
     public function gerarxml(Request $request)
     {
         $configupdate = $this->configService->getConfig();
+        $sitemapPath = Str::slug($configupdate->nomedosite) . '_sitemap.xml';
+
         $configupdate->sitemap_data = date('Y-m-d');
-        $configupdate->sitemap = Storage::url(Str::slug($configupdate->nomedosite) . '_sitemap.xml');
+        // Guardamos o caminho relativo ao disco padrão; a URL pública é gerada
+        // com Storage::url() (R2 em produção, public/local em desenvolvimento).
+        $configupdate->sitemap = $sitemapPath;
         $configupdate->save();
 
-        if(Storage::disk()->exists(Str::slug($configupdate->nomedosite) . '_sitemap.xml')){
-            Storage::delete(Str::slug($configupdate->nomedosite) . '_sitemap.xml');
+        if(Storage::disk()->exists($sitemapPath)){
+            Storage::delete($sitemapPath);
         }
 
         $sitemap = Sitemap::create();
@@ -56,7 +60,7 @@ class SitemapController extends Controller
         $sitemap->add('/acomodacoes');
         $sitemap->add('/reservar');
         $sitemap->add('/politica-de-privacidade');
-        $sitemap->writeToDisk('s3', Str::slug($configupdate->nomedosite) . '_sitemap.xml');        
+        $sitemap->writeToDisk(config('filesystems.default'), $sitemapPath);
         
         return response()->json(['success' => true]);
     }

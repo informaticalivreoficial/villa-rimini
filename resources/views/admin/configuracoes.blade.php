@@ -468,7 +468,13 @@ $config1 = [
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <h5><b>Sitemap</b></h5>  
-                                        <p>Caminho: <a target="_blank" href="{{$config->sitemap}}">{{url(asset(\Str::slug($config->nomedosite)))}}_sitemap.xml</a></p>                                          
+                                        <p>Caminho:
+                                            @if(!empty($config->sitemap))
+                                                <a target="_blank" href="{{ \Illuminate\Support\Facades\Storage::url($config->sitemap) }}">{{ \Illuminate\Support\Facades\Storage::url($config->sitemap) }}</a>
+                                            @else
+                                                <span>Sitemap ainda não gerado</span>
+                                            @endif
+                                        </p>
                                         <h5><b>Feed/RSS</b></h5>  
                                         <p>Caminho: <a target="_blank" href="{{route('web.feed')}}">{{route('web.feed')}}</a></p>                                          
                                     </div>

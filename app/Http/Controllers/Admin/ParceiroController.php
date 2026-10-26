@@ -62,7 +62,7 @@ class ParceiroController extends Controller
             foreach ($request->allFiles()['files'] as $image) {
                 $parceiroGb = new ParceiroGb();
                 $parceiroGb->parceiro_id = $parceiroCreate->id;
-                $parceiroGb->path = $image->storeAs(env('AWS_PASTA') . 'parceiros/' . $parceiroCreate->id, Str::slug($request->name) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
+                $parceiroGb->path = $image->storeAs('parceiros/' . $parceiroCreate->id, Str::slug($request->name) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
                 $parceiroGb->save();
                 unset($parceiroGb);
             }
@@ -120,7 +120,7 @@ class ParceiroController extends Controller
             foreach ($request->allFiles()['files'] as $image) {
                 $parceiroImage = new ParceiroGb();
                 $parceiroImage->parceiro_id = $parceiro->id;
-                $parceiroImage->path = $image->storeAs(env('AWS_PASTA') . 'parceiros/' . $parceiro->id, Str::slug($request->name) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
+                $parceiroImage->path = $image->storeAs('parceiros/' . $parceiro->id, Str::slug($request->name) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
                 $parceiroImage->save();
                 unset($parceiroImage);
             }

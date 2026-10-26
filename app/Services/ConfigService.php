@@ -3,9 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ConfigRepository;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use App\Support\Cropper;
 
 class ConfigService
 {
@@ -26,10 +24,13 @@ class ConfigService
     public function getMetaImg()
     {
         $config = $this->configRepository->getConfigById($this->idConfig);
-        $image = $config->metaimg;        
-        if(empty($config->metaimg) || !File::exists('../public/storage/' . $image)) {
+
+        // A imagem original já está publicada no disco padrão (R2 em produção),
+        // portanto não é necessário gerar miniatura local para a metatag.
+        if (empty($config?->metaimg) || ! Storage::disk()->exists($config->metaimg)) {
             return url(asset('backend/assets/images/image.jpg'));
-        } 
-        return Storage::url(Cropper::thumb($config->metaimg, env('METAIMG_WIDTH'), env('METAIMG_HEIGHT')));
+        }
+
+        return Storage::url($config->metaimg);
     }
 }
