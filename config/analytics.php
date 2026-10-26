@@ -1,5 +1,24 @@
 <?php
 
+/*
+ * As credenciais da service account podem vir de:
+ * 1. ANALYTICS_CREDENTIALS_BASE64: JSON codificado em base64 (recomendado no .env);
+ * 2. ANALYTICS_CREDENTIALS_JSON: JSON em uma linha;
+ * 3. arquivo storage/app/analytics/service-account-credentials.json.
+ */
+$analyticsCredentials = storage_path('app/analytics/service-account-credentials.json');
+
+$analyticsCredentialsBase64 = env('ANALYTICS_CREDENTIALS_BASE64');
+$analyticsCredentialsJson = env('ANALYTICS_CREDENTIALS_JSON');
+
+if (! empty($analyticsCredentialsBase64)) {
+    $decodedCredentials = json_decode(base64_decode($analyticsCredentialsBase64, true), true);
+    $analyticsCredentials = is_array($decodedCredentials) ? $decodedCredentials : $analyticsCredentials;
+} elseif (! empty($analyticsCredentialsJson)) {
+    $decodedCredentials = json_decode($analyticsCredentialsJson, true);
+    $analyticsCredentials = is_array($decodedCredentials) ? $decodedCredentials : $analyticsCredentials;
+}
+
 return [
 
     /*
@@ -8,11 +27,10 @@ return [
     'property_id' => env('ANALYTICS_PROPERTY_ID'),
 
     /*
-     * Path to the client secret json file. Take a look at the README of this package
-     * to learn how to get this file. You can also pass the credentials as an array
-     * instead of a file path.
+     * Path to the client secret json file or an array with the credentials.
+     * Veja o bloco acima para as formas de configuração aceitas.
      */
-    'service_account_credentials_json' =>  storage_path('app/analytics/service-account-credentials.json'),
+    'service_account_credentials_json' => $analyticsCredentials,
 
     /*
      * The amount of minutes the Google API responses will be cached.

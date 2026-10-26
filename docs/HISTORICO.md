@@ -112,9 +112,10 @@ Pontos de atenção:
   relativo fica em `configuracoes.sitemap`.
 - Miniaturas locais (`App\Support\Cropper`) só são geradas quando o arquivo
   existe em `storage/app/public`; com R2 o caminho original é retornado.
-- Credenciais do Google Analytics ficam em
-  `storage/app/analytics/service-account-credentials.json` (fora de
-  `storage/app/public` e fora do R2).
+- Credenciais do Google Analytics ficam em `ANALYTICS_CREDENTIALS_BASE64` no
+  `.env` (JSON em base64). O arquivo
+  `storage/app/analytics/service-account-credentials.json` continua aceito como
+  fallback, mas nunca deve ficar em `storage/app/public` nem no R2.
 
 ---
 
@@ -255,7 +256,8 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
      partir do storage, sem `file_get_contents()` de URL externa.
    - `Cropper` virou seguro para discos remotos (retorna o original).
    - Credenciais do Google Analytics removidas da área pública e do bucket
-     (estavam acessíveis publicamente) e movidas para `storage/app/analytics`.
+     (estavam acessíveis publicamente) e movidas para
+     `ANALYTICS_CREDENTIALS_BASE64` no `.env` (JSON em base64).
 
 ### Arquivos criados/alterados nesta sessão
 
@@ -270,7 +272,7 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
 - `tests/Feature/AdminAccessTest.php`, `ModelScopesTest.php`,
   `NewsletterTest.php`, `PublicPagesTest.php`, `ReservationTest.php`,
   `FilesystemTest.php`
-- `config/filesystems.php`, `.env.example`
+- `config/filesystems.php`, `config/analytics.php`, `.env.example`
 - `app/Services/ConfigService.php`, `app/Support/Cropper.php`
 - `app/Http/Controllers/Admin/SitemapController.php`,
   `app/Http/Controllers/Web/{WebController,ClienteController}.php`
@@ -443,7 +445,9 @@ série e corrigir as rotas de blog/notícias e o CRUD de reservas.
   servido em `/sitemap` com HTTP 200.
 - `FilesystemTest` adicionado (disco padrão, URL do R2, upload, metaimg e
   sitemap).
-- Credenciais do Google Analytics removidas do acesso público e do bucket.
+- Credenciais do Google Analytics removidas do acesso público e do bucket e
+  passadas para `ANALYTICS_CREDENTIALS_BASE64` no `.env` (config aceita base64,
+  JSON em linha ou arquivo de fallback).
 
 **Validação:**
 
