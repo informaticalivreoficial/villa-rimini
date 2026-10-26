@@ -32,27 +32,34 @@ class AppServiceProvider extends ServiceProvider
         //URL::forceScheme('https');
         Schema::defaultStringLength(191);
         Blade::aliasComponent('admin.components.message', 'message');
-
-        //Newsletter FORM
-        $newsletter = collect();
-        if (Schema::hasTable('newsletter_cat')) {
-            $newsletter = NewsletterCat::where('sistema', 1)->where('status', 1)->get();
-        }
-        View()->share('newsletterForm', $newsletter);
-
-        //Páginas
-        $paginas = collect();
-        if (Schema::hasTable('posts')) {
-            $paginas = Post::where('tipo', 'pagina')->where('menu', 1)->postson()->get();
-        }
-        View()->share('viewPaginas', $paginas);
-
-        $configuracoes = null;
-        if (Schema::hasTable('configuracoes')) {
-            $configuracoes = Configuracoes::find(1);
-        }
-        View()->share('configuracoes', $configuracoes);
-
         Paginator::useBootstrap();
+
+        $newsletter = collect();
+        $paginas = collect();
+        $configuracoes = null;
+
+        try {
+            //Newsletter FORM
+            if (Schema::hasTable('newsletter_cat')) {
+                $newsletter = NewsletterCat::where('sistema', 1)->where('status', 1)->get();
+            }
+
+            //Páginas
+            if (Schema::hasTable('posts')) {
+                $paginas = Post::where('tipo', 'pagina')->where('menu', 1)->postson()->get();
+            }
+
+            if (Schema::hasTable('configuracoes')) {
+                $configuracoes = Configuracoes::find(1);
+            }
+        } catch (\Throwable $e) {
+            // No build (railpack roda `php artisan config:cache` antes de existir rede
+            // com o banco) a conexão falha. Seguimos com as coleções vazias para não
+            // abortar o deploy; em runtime o banco está acessível e os dados carregam.
+        }
+
+        View()->share('newsletterForm', $newsletter);
+        View()->share('viewPaginas', $paginas);
+        View()->share('configuracoes', $configuracoes);
     }
 }
