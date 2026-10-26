@@ -9,6 +9,8 @@ class Estados extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'estado_id';
+
     protected $fillable = [
         'estado_nome',
         'estado_uf',

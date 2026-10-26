@@ -27,6 +27,7 @@ class Post extends Model
         'comentarios',
         'cat_pai',        
         'status',
+        'menu',
         'thumb_legenda',
         'publish_at'
     ];

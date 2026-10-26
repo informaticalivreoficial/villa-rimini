@@ -119,6 +119,14 @@ class Reservas extends Model
         return date('d/m/Y', strtotime($value));
     }
 
+    private function convertStringToDouble($param)
+    {
+        if (empty($param)) {
+            return null;
+        }
+        return str_replace(',', '.', str_replace('.', '', $param));
+    }
+
     private function convertStringToDate(?string $param)
     {
         if (empty($param)) {

@@ -9,6 +9,8 @@ class Cidades extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'cidade_id';
+
     protected $fillable = [
         'estado_id',
         'cidade_nome',
@@ -19,6 +21,6 @@ class Cidades extends Model
 
     public function estado()
     {
-        return $this->belongsTo(Estados::class,'cidade_id', 'estado_id');
+        return $this->belongsTo(Estados::class, 'estado_id', 'estado_id');
     }
 }
