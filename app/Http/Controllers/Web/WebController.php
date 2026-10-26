@@ -114,7 +114,162 @@ class WebController extends Controller
         ]);
     }
 
-    
+    public function artigos()
+    {
+        $posts = Post::orderBy('created_at', 'DESC')->where('tipo', 'artigo')->postson()->paginate(10);
+        $categorias = CatPost::orderBy('titulo', 'ASC')->where('tipo', 'artigo')->get();
+
+        $head = $this->seo->render('Blog - ' . $this->configService->getConfig()->nomedosite,
+            'Blog - ' . $this->configService->getConfig()->nomedosite,
+            route('web.blog.artigos'),
+            $this->configService->getConfig()->getMetaImg()
+        );
+
+        return view('web.'.$this->configService->getConfig()->template.'.blog.artigos', [
+            'head' => $head,
+            'posts' => $posts,
+            'categorias' => $categorias
+        ]);
+    }
+
+    public function artigo($slug)
+    {
+        $post = Post::where('slug', $slug)->where('tipo', 'artigo')->postson()->first();
+
+        if (!$post) {
+            abort(404);
+        }
+
+        $categorias = CatPost::orderBy('titulo', 'ASC')->where('tipo', 'artigo')->get();
+        $postsMais = Post::orderBy('views', 'DESC')
+            ->where('id', '!=', $post->id)
+            ->where('tipo', 'artigo')
+            ->limit(4)
+            ->postson()
+            ->get();
+
+        $post->views = $post->views + 1;
+        $post->save();
+
+        $head = $this->seo->render($post->titulo,
+            $post->titulo,
+            route('web.blog.artigo', ['slug' => $post->slug]),
+            $post->cover() ?? $this->configService->getConfig()->getMetaImg()
+        );
+
+        return view('web.'.$this->configService->getConfig()->template.'.blog.artigo', [
+            'head' => $head,
+            'post' => $post,
+            'postsMais' => $postsMais,
+            'categorias' => $categorias
+        ]);
+    }
+
+    public function noticias()
+    {
+        $posts = Post::orderBy('created_at', 'DESC')->where('tipo', 'noticia')->postson()->paginate(10);
+        $categorias = CatPost::orderBy('titulo', 'ASC')->where('tipo', 'noticia')->get();
+
+        $head = $this->seo->render('Notícias - ' . $this->configService->getConfig()->nomedosite,
+            'Notícias - ' . $this->configService->getConfig()->nomedosite,
+            route('web.noticias'),
+            $this->configService->getConfig()->getMetaImg()
+        );
+
+        return view('web.'.$this->configService->getConfig()->template.'.blog.artigos', [
+            'head' => $head,
+            'posts' => $posts,
+            'categorias' => $categorias
+        ]);
+    }
+
+    public function noticia($slug)
+    {
+        $post = Post::where('slug', $slug)->where('tipo', 'noticia')->postson()->first();
+
+        if (!$post) {
+            abort(404);
+        }
+
+        $parceiros = Parceiro::orderBy('views', 'DESC')->available()->limit(6)->get();
+        $postsMais = Post::orderBy('views', 'DESC')
+            ->where('id', '!=', $post->id)
+            ->where('tipo', 'noticia')
+            ->limit(6)
+            ->postson()
+            ->get();
+
+        $post->views = $post->views + 1;
+        $post->save();
+
+        $head = $this->seo->render($post->titulo,
+            $post->titulo,
+            route('web.noticia', ['slug' => $post->slug]),
+            $post->cover() ?? $this->configService->getConfig()->getMetaImg()
+        );
+
+        return view('web.'.$this->configService->getConfig()->template.'.blog.artigo', [
+            'head' => $head,
+            'post' => $post,
+            'parceiros' => $parceiros,
+            'postsMais' => $postsMais
+        ]);
+    }
+
+    public function categoria($slug)
+    {
+        $categoria = CatPost::where('slug', $slug)->first();
+
+        if (!$categoria) {
+            abort(404);
+        }
+
+        $posts = Post::orderBy('created_at', 'DESC')
+            ->where('categoria', $categoria->id)
+            ->postson()
+            ->paginate(10);
+
+        $type = ($categoria->tipo == 'noticia' ? 'Notícias' : 'Artigos');
+
+        $head = $this->seo->render($categoria->titulo . ' - ' . $type . ' - ' . $this->configService->getConfig()->nomedosite,
+            $categoria->titulo . ' - Blog - ' . $this->configService->getConfig()->nomedosite,
+            route('web.blog.categoria', ['slug' => $categoria->slug]),
+            $this->configService->getConfig()->getMetaImg()
+        );
+
+        return view('web.'.$this->configService->getConfig()->template.'.blog.categoria', [
+            'head' => $head,
+            'posts' => $posts,
+            'categoria' => $categoria,
+            'type' => $type
+        ]);
+    }
+
+    public function searchBlog(Request $request)
+    {
+        $search = $request->search;
+        $filters = ['search' => $search];
+
+        $posts = Post::where(function ($query) use ($search) {
+            $query->where('titulo', 'LIKE', "%{$search}%")
+                ->orWhere('content', 'LIKE', "%{$search}%");
+        })->whereIn('tipo', ['artigo', 'noticia'])->postson()->paginate(10);
+
+        $categorias = CatPost::orderBy('titulo', 'ASC')->whereIn('tipo', ['artigo', 'noticia'])->get();
+
+        $head = $this->seo->render('Pesquisa por ' . $search . ' - ' . $this->configService->getConfig()->nomedosite,
+            'Pesquisa - ' . $this->configService->getConfig()->nomedosite,
+            route('web.blog.searchBlog'),
+            $this->configService->getConfig()->getMetaImg()
+        );
+
+        return view('web.'.$this->configService->getConfig()->template.'.blog.artigos', [
+            'head' => $head,
+            'posts' => $posts,
+            'categorias' => $categorias,
+            'filters' => $filters
+        ]);
+    }
 
     public function pesquisa(Request $request)
     {

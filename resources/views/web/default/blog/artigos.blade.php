@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="pageContentArea archive-content">
         <header class="h">
-            <h2 style="color: #fff;">{{(!empty($posts) && $posts[0]->tipo == 'noticia' ? 'Notícias' : 'Blog')}}</h2>
+            <h2 style="color: #fff;">{{($posts->count() > 0 && $posts[0]->tipo == 'noticia' ? 'Notícias' : 'Blog')}}</h2>
         </header>  
         @if(!empty($posts) && $posts->count() > 0)
             <div class="row"> 
