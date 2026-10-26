@@ -7,6 +7,7 @@
 .env
 .env.backup
 .phpunit.result.cache
+.phpunit.cache
 docker-compose.override.yml
 Homestead.json
 Homestead.yaml
@@ -17,3 +18,10 @@ yarn-error.log
 /arquivos_locais
 /nbproject/private/
 /nbproject
+error_log
+/public/error_log
+/public/sitemap.xml
+opencode.json
+/.opencode
+AGENTS.md
+/postman
