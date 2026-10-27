@@ -24,7 +24,7 @@ class ReservationTest extends TestCase
         [$estado, $cidade] = $this->createEstadoCidade();
         $apartamento = $this->createApartment();
 
-        $response = $this->get(route('web.acomodacaoSend', [
+        $response = $this->post(route('web.acomodacaoSend', [
             'apart_id' => $apartamento->id,
             'nome' => 'Cliente de Teste',
             'email' => 'cliente@example.com',
@@ -64,7 +64,7 @@ class ReservationTest extends TestCase
         [$estado, $cidade] = $this->createEstadoCidade();
         $apartamento = $this->createApartment();
 
-        $response = $this->get(route('web.acomodacaoSend', [
+        $response = $this->post(route('web.acomodacaoSend', [
             'apart_id' => $apartamento->id,
             'email' => 'cliente@example.com',
             'uf' => $estado->estado_id,
@@ -88,7 +88,7 @@ class ReservationTest extends TestCase
         [$estado, $cidade] = $this->createEstadoCidade();
         $apartamento = $this->createApartment();
 
-        $response = $this->get(route('web.acomodacaoSend', [
+        $response = $this->post(route('web.acomodacaoSend', [
             'apart_id' => $apartamento->id,
             'nome' => 'Cliente de Teste',
             'email' => 'email-invalido',

@@ -17,7 +17,7 @@ class NewsletterTest extends TestCase
         $this->createConfig();
         $categoria = $this->createNewsletterCategory();
 
-        $response = $this->get(route('web.sendNewsletter', [
+        $response = $this->post(route('web.sendNewsletter', [
             'email' => 'novo@example.com',
             'nome' => 'Novo Visitante',
         ]));
@@ -44,7 +44,7 @@ class NewsletterTest extends TestCase
             'categoria' => $categoria->id,
         ]);
 
-        $response = $this->get(route('web.sendNewsletter', [
+        $response = $this->post(route('web.sendNewsletter', [
             'email' => 'antigo@example.com',
         ]));
 
@@ -59,7 +59,7 @@ class NewsletterTest extends TestCase
         $this->createConfig();
         $this->createNewsletterCategory();
 
-        $response = $this->get(route('web.sendNewsletter', [
+        $response = $this->post(route('web.sendNewsletter', [
             'email' => 'email-invalido',
         ]));
 
@@ -73,13 +73,14 @@ class NewsletterTest extends TestCase
         $this->createConfig();
         $this->createNewsletterCategory();
 
-        $response = $this->get(route('web.sendNewsletter', [
+        $response = $this->post(route('web.sendNewsletter', [
             'email' => 'spam@example.com',
             'bairro' => 'preenchido por robô',
         ]));
 
         $response->assertOk();
-        $response->assertJsonStructure(['error']);
+        // Honeypot responde com sucesso falso, para não revelar a checagem ao bot.
+        $response->assertJsonStructure(['sucess']);
         $this->assertDatabaseCount('newsletter', 0);
     }
 }
