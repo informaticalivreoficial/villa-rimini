@@ -3,6 +3,7 @@
 namespace App\Livewire\Web;
 
 use App\Mail\Web\Atendimento as AtendimentoMail;
+use App\Services\ConfigService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
@@ -20,20 +21,11 @@ class Atendimento extends Component
 
     public string $cidade = '';
 
-    public int $carregadoEm = 0;
-
     public bool $enviado = false;
 
     private const LIMITE_TENTATIVAS = 3;
 
     private const JANELA_SEGUNDOS = 600;
-
-    private const TEMPO_MINIMO_SEGUNDOS = 3;
-
-    public function mount(): void
-    {
-        $this->carregadoEm = now()->timestamp;
-    }
 
     protected function rules(): array
     {
@@ -61,7 +53,17 @@ class Atendimento extends Component
 
     public function submit(): void
     {
-        if ($this->ehSpam()) {
+        $this->validate();
+
+        if (trim($this->bairro) !== '' || trim($this->cidade) !== '') {
+            Log::warning('Atendimento: envio bloqueado pelo honeypot', [
+                'ip' => request()->ip(),
+                'campos' => array_keys(array_filter([
+                    'bairro' => trim($this->bairro),
+                    'cidade' => trim($this->cidade),
+                ])),
+            ]);
+
             $this->simularEnvio();
 
             return;
@@ -70,19 +72,24 @@ class Atendimento extends Component
         $chave = 'atendimento:' . request()->ip();
 
         if (RateLimiter::tooManyAttempts($chave, self::LIMITE_TENTATIVAS)) {
+            Log::warning('Atendimento: envio bloqueado por excesso de tentativas', [
+                'ip' => request()->ip(),
+            ]);
+
             $this->addError('form', 'Você fez muitas tentativas. Aguarde alguns minutos e tente novamente.');
 
             return;
         }
 
-        $this->validate();
-
         RateLimiter::hit($chave, self::JANELA_SEGUNDOS);
+
+        $destinatario = $this->destinatario();
 
         try {
             Mail::send(new AtendimentoMail([
                 'sitename' => config('mail.from.name'),
                 'siteemail' => config('mail.from.address'),
+                'contact_to' => $destinatario,
                 'reply_name' => $this->nome,
                 'reply_email' => $this->email,
                 'mensagem' => $this->mensagem,
@@ -98,6 +105,11 @@ class Atendimento extends Component
             return;
         }
 
+        Log::info('Atendimento: mensagem enviada', [
+            'ip' => request()->ip(),
+            'para' => $destinatario,
+        ]);
+
         $this->reset(['nome', 'email', 'mensagem']);
         $this->resetValidation();
         $this->enviado = true;
@@ -107,17 +119,7 @@ class Atendimento extends Component
     {
         $this->reset(['nome', 'email', 'mensagem', 'bairro', 'cidade']);
         $this->resetValidation();
-        $this->carregadoEm = now()->timestamp;
         $this->enviado = false;
-    }
-
-    private function ehSpam(): bool
-    {
-        if (trim($this->bairro) !== '' || trim($this->cidade) !== '') {
-            return true;
-        }
-
-        return now()->timestamp - $this->carregadoEm < self::TEMPO_MINIMO_SEGUNDOS;
     }
 
     private function simularEnvio(): void
@@ -125,6 +127,21 @@ class Atendimento extends Component
         $this->reset(['nome', 'email', 'mensagem', 'bairro', 'cidade']);
         $this->resetValidation();
         $this->enviado = true;
+    }
+
+    /**
+     * Destinatário do contato: MAIL_CONTACT_TO quando definido; senão o
+     * e-mail cadastrado nas configurações do site (ex.: reservas@...).
+     */
+    private function destinatario(): string
+    {
+        if (filled($contato = config('mail.contact_to'))) {
+            return $contato;
+        }
+
+        $configuracao = app(ConfigService::class)->getConfig();
+
+        return $configuracao->email ?: config('mail.from.address');
     }
 
     public function render()

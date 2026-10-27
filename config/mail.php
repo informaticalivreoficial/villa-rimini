@@ -107,7 +107,9 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
-    'contact_to' => env('MAIL_CONTACT_TO') ?: env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+    // Destinatário das mensagens do site. Se vazio, o formulário usa o e-mail
+    // cadastrado nas configurações do site (tabela configuracoes).
+    'contact_to' => env('MAIL_CONTACT_TO'),
 
     /*
     |--------------------------------------------------------------------------
