@@ -239,7 +239,7 @@
 			$.ajax({
 				url: "{{ route('web.avaliacaoSend') }}",
 				data: dataString,
-				type: 'GET',
+				type: 'POST',
 				dataType: 'JSON',
 				beforeSend: function(){
 					form.find("#js-contact-btn").attr("disabled", true);

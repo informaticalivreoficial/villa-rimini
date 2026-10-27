@@ -30,11 +30,10 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
 
     //**************************** Emails ********************************************/
     Route::match(['post', 'get'], '/avaliacao', [WebController::class, 'avaliacaoCliente'])->name('avaliacao');
-    Route::get('/avaliacaoSend', [SendEmailController::class, 'avaliacaoSend'])->name('avaliacaoSend');
+    Route::post('/avaliacaoSend', [SendEmailController::class, 'avaliacaoSend'])->name('avaliacaoSend');
     Route::get('/atendimento', [WebController::class, 'atendimento'])->name('atendimento');
-    Route::get('/sendEmail', [SendEmailController::class, 'sendEmail'])->name('sendEmail');
-    Route::get('/sendNewsletter', [SendEmailController::class, 'sendNewsletter'])->name('sendNewsletter');
-    Route::get('/acomodacaoSend', [SendEmailController::class, 'acomodacaoSend'])->name('acomodacaoSend');
+    Route::post('/sendNewsletter', [SendEmailController::class, 'sendNewsletter'])->name('sendNewsletter');
+    Route::post('/acomodacaoSend', [SendEmailController::class, 'acomodacaoSend'])->name('acomodacaoSend');
     
     //****************************** Blog ***********************************************/
     Route::get('/blog/artigo/{slug}', [WebController::class, 'artigo'])->name('blog.artigo');

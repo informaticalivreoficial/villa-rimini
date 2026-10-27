@@ -21,6 +21,8 @@
     {!! $head ?? '' !!}
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    @livewireStyles
     
     <!-- Standard Favicon -->
     <link rel="icon" type="image/x-icon" href="{{$configuracoes->getfaveicon()}}" />
@@ -277,7 +279,7 @@
                 $.ajax({
                     url: "{{ route('web.sendNewsletter') }}",
                     data: dataString,
-                    type: 'GET',
+                    type: 'POST',
                     dataType: 'JSON',
                     beforeSend: function(){
                         form.find("#js-subscribe-btn").attr("disabled", true);
@@ -355,6 +357,7 @@
         }
     </script>
 
+    @livewireScripts
     
 </body>
 </html>

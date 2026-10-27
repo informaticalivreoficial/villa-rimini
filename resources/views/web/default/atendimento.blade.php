@@ -18,27 +18,7 @@
 			<!-- Contact Content -->
 			<div class="col-md-7 col-sm-7 col-xs-12 contact-content">
 				<h4>Preencha o Formulário</h4>
-				<form method="post" action="" name="atendimento" class="contact-form j_formsubmit" autocomplete="off">
-                    @csrf
-                    <div id="js-contact-result"></div>
-                    <!-- HONEYPOT -->
-                    <input type="hidden" class="noclear" name="bairro" value="" />
-                    <input type="text" class="noclear" style="display: none;" name="cidade" value="" />
-                    <div class="form_hide">
-    					<div class="form-group">
-    						<input type="text" class="form-control" id="input_name" name="nome" placeholder="Seu Nome" value="" />
-    					</div>
-    					<div class="form-group">
-    						<input type="email" class="form-control" id="input_email" name="email" placeholder="E-mail" value="" />
-    					</div>
-    					<div class="form-group">
-    						<textarea id="textarea_message" class="form-control" rows="5" name="mensagem" placeholder="Digite sua mensagem"></textarea>
-    					</div>
-    					<div class="form-group">
-    						<input id="js-contact-btn" class="noclear" type="submit" value="Enviar Agora" />
-    					</div> 
-                    </div>
-				</form>
+				<livewire:web.atendimento />
 			</div>
 			<!-- Contact Content -->
 			<div class="col-md-5 col-sm-5 col-xs-12 contact-content">
@@ -122,57 +102,4 @@
 	<div class="section-padding"></div>
 </main>
 
-@endsection
-
-@section('js')
-<script>
-    $(function () {
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        // Seletor, Evento/efeitos, CallBack, Ação
-        $('.j_formsubmit').submit(function (){
-            var form = $(this);
-            var dataString = $(form).serialize();
-
-            $.ajax({
-                url: "{{ route('web.sendEmail') }}",
-                data: dataString,
-                type: 'GET',
-                dataType: 'JSON',
-                beforeSend: function(){
-                    form.find("#js-contact-btn").attr("disabled", true);
-                    form.find('#js-contact-btn').val("Carregando...");                
-                    form.find('.alert').fadeOut(500, function(){
-                        $(this).remove();
-                    });
-                },
-                success: function(resposta){
-                    $('html, body').animate({scrollTop:$('#js-contact-result').offset().top-100}, 'slow');
-                    if(resposta.error){
-                        form.find('#js-contact-result').html('<div class="alert alert-danger error-msg">'+ resposta.error +'</div>');
-                        form.find('.error-msg').fadeIn();                    
-                    }else{
-                        form.find('#js-contact-result').html('<div class="alert alert-success error-msg">'+ resposta.sucess +'</div>');
-                        form.find('.error-msg').fadeIn();                    
-                        form.find('input[class!="noclear"]').val('');
-                        form.find('textarea[class!="noclear"]').val('');
-                        form.find('.form_hide').fadeOut(500);
-                    }
-                },
-                complete: function(resposta){
-                    form.find("#js-contact-btn").attr("disabled", false);
-                    form.find('#js-contact-btn').val("Enviar Agora");                                
-                }
-            });
-
-            return false;
-        });
-
-    });
-</script>   
 @endsection
