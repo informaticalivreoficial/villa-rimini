@@ -35,7 +35,10 @@ class Atendimento extends Mailable
         return new Envelope(
             subject: '✅ Contato via site',
             from: new Address(config('mail.from.address'), config('mail.from.name')),
-            to: [new Address(config('mail.contact_to'), config('mail.from.name'))],
+            to: [new Address(
+                $this->data['contact_to'] ?? config('mail.contact_to') ?? config('mail.from.address'),
+                config('mail.from.name')
+            )],
             replyTo: [
                 new Address($this->data['reply_email'], $this->data['reply_name']),
             ],
@@ -49,6 +52,7 @@ class Atendimento extends Mailable
     {
         return new Content(
             markdown: 'emails.atendimento',
+            text: 'emails.atendimento-text',
             with:[
                 'nome' => $this->data['reply_name'],
                 'email' => $this->data['reply_email'],
