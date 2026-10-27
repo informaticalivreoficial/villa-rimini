@@ -78,6 +78,19 @@ class PublicPagesTest extends TestCase
         $this->get(route('web.pesquisa', ['search' => 'hotel']))->assertOk();
     }
 
+    public function test_urls_sao_geradas_com_https_atras_de_proxy(): void
+    {
+        $this->createConfig();
+        $this->refreshSharedViewData();
+
+        $response = $this->withServerVariables(['HTTP_X_FORWARDED_PROTO' => 'https'])
+            ->get(route('web.home'));
+
+        $response->assertOk();
+        $response->assertSee('https://', false);
+        $response->assertDontSee('http://localhost', false);
+    }
+
     public function test_feed_rss_responde_como_xml(): void
     {
         $this->createConfig();
