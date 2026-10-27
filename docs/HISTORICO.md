@@ -38,6 +38,7 @@ O idioma do projeto, dos nomes de domínio, das mensagens e dos testes é
 | Banco local | MariaDB 10 (container) |
 | Banco de testes | SQLite `:memory:` |
 | AdminLTE | `jeroennoten/laravel-adminlte` 3.16.0 |
+| Componentes interativos | Livewire 3.8.11 (formulário de atendimento) |
 | Front-end legado | Blade + Bootstrap 4 + jQuery + Laravel Mix |
 | Storage de produção | Cloudflare R2 (`infolivre-public`, prefixo `villadirimini/`) |
 
@@ -107,6 +108,19 @@ Pendência de infraestrutura: o domínio `villadirimini.com.br` está com status
 `inactive` no Registro.br (expiração em 2026-10-09). Os nameservers da
 Cloudflare ainda respondem, mas o DNS público não, e o proxy não consegue
 emitir o certificado HTTPS até a renovação.
+
+### E-mail transacional
+
+| Item | Valor |
+| --- | --- |
+| Mailer padrão | `mailtrap` (SMTP `live.smtp.mailtrap.io:587`, TLS) |
+| Remetente | `MAIL_FROM_ADDRESS` (domínio `villadirimini.com.br` verificado no Mailtrap) |
+| Destinatário do atendimento | `MAIL_CONTACT_TO` ou `configuracoes.email` (`reservas@villadirimini.com.br`) |
+| Credenciais | `MAILTRAP_USERNAME` (`api`), `MAILTRAP_PASSWORD`, `MAILTRAP_API_KEY` |
+| Timeout | `MAIL_TIMEOUT` (padrão 10 s) |
+
+O formulário de atendimento usa `config('mail.contact_to')` quando definido;
+sem essa variável, cai no e-mail cadastrado nas configurações do site.
 
 ### Cloudflare R2
 
@@ -217,6 +231,10 @@ telas seguem o padrão AdminLTE (`adminlte::page`).
 ---
 
 ## 4. Estado atual (2026-10-26)
+
+> Atualização de 2026-10-27: o formulário de atendimento passou a usar Livewire
+> com validação server-side, honeypot endurecido e e-mail em Markdown. Ver a
+> entrada correspondente no diário de bordo (seção 8).
 
 ### O que foi feito nesta sessão
 
@@ -497,6 +515,8 @@ caminhos no R2: 67/67
 testar upload real pelo painel e definir domínio próprio/controle de acesso ao
 bucket.
 
+---
+
 ### 2026-10-26 — Deploy no Coolify e correções de produção
 
 **Objetivo:** colocar o site no ar no Coolify e validar o ambiente.
@@ -535,6 +555,51 @@ analytics: app('laravel-analytics') ok (property 370890796)
 **Pendências imediatas:** renovar o domínio `villadirimini.com.br` (inativo
 desde 2026-10-09) para o DNS público e o HTTPS funcionarem, e rotacionar a
 chave da service account do Google.
+
+### 2026-10-27 — Formulário de atendimento: validação, anti-spam e e-mail
+
+**Objetivo:** corrigir o falso sucesso do formulário de atendimento, exibir as
+mensagens de validação e consertar o layout do e-mail recebido.
+
+**Executado:**
+
+- `validate()` passou a rodar **antes** de qualquer checagem anti-spam: submit
+  vazio ou inválido não retorna mais "Mensagem enviada".
+- Removida a checagem de tempo mínimo (`carregadoEm`), que tratava como spam
+  qualquer envio feito em menos de 3 s e era a origem do falso sucesso.
+- Honeypot do componente endurecido: campos com nomes neutros
+  (`hp_campo_a`/`hp_campo_b`), sem `<label>` de endereço e com
+  `data-lpignore`, `data-1p-ignore` e `data-bwignore`. O Chrome preenchia
+  `bairro`/`cidade` pelo autofill (ele ignora `autocomplete="off"` em campos de
+  endereço), disparando o honeypot: a tela mostrava sucesso e nenhum e-mail era
+  enviado.
+- Mensagens de erro com CSS próprio (`.contact-form .help-block.text-danger`):
+  no `lib.css` do tema, `.help-block` vem depois de `.text-danger` e deixava o
+  texto cinza. Campos inválidos ganharam borda vermelha e `aria-invalid`.
+- Destinatário do contato: `MAIL_CONTACT_TO` quando definido; caso contrário, o
+  e-mail do site em `configuracoes` (`reservas@villadirimini.com.br`).
+- E-mail de atendimento reescrito em Markdown (`<x-mail::message>`, painel e
+  botão "Responder"), com versão texto dedicada. A view anterior era um HTML
+  completo declarada como `markdown:`; o CSS do tema era injetado por cima e a
+  versão texto saía com as tags cruas.
+- Logs no componente: honeypot, excesso de tentativas e envio concluído.
+- Testes de newsletter/reserva atualizados para as rotas **POST** (a mudança de
+  GET para POST já estava no commit `3c75c3d`); o teste de honeypot passou a
+  esperar o sucesso falso (`sucess`), que é o comportamento intencional.
+
+**Validação:**
+
+```text
+php artisan test: 47 passed (132 assertions)
+submit vazio: 3 erros, enviado=false
+submit válido: enviado=true e e-mail aceito pelo Mailtrap
+honeypot: sucesso falso, sem e-mail
+rate limit: 4ª tentativa em 10 min bloqueada
+Mailtrap: delivered para reservas@villadirimini.com.br
+```
+
+**Pendências imediatas:** fazer o Redeploy no Coolify — a produção ainda rodava
+o commit `3c75c3d`, anterior a estas correções.
 
 ---
 
